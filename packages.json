@@ -1,0 +1,32 @@
+{
+	"name": "@candlefw/wax",
+	"version": "0.0.1",
+	"description": "CandleFW CLI System",
+	"main": "./build/library/wax.js",
+	"type": "module",
+	"types": "./build/types/wax.d.ts",
+	"bin": {
+		"cfw_test": "./bin/test_system.js"
+	},
+	"scripts": {
+		"test": "cfw_test  --watch ./test/test.js",
+		"build.watch": "tsc --watch"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/candlefw/test.git"
+	},
+	"author": "galactrax <anthonycweathersby@gmail.com>",
+	"license": "MIT",
+	"devDependencies": {
+		"chai": "^4.2.0"
+	},
+	"resolutions": {
+		"@candlefw/test": "portal:/mnt/c/Users/AnthonyWeathersby/work/workspace/packages/test"
+	},
+	"dependencies": {
+		"@candlefw/url": "^0.0.13",
+		"@candlefw/conflagrate": ">=0.0.1",
+		"@candlefw/js": ">=0.0.1"
+	}
+}
