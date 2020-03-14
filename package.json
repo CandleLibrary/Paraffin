@@ -18,6 +18,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@candlefw/url": "^0.0.13",
+		"@candlefw/whind": ">=0.0.1",
 		"@candlefw/conflagrate": ">=0.0.1"
 	}
 }
