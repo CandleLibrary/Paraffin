@@ -1,13 +1,14 @@
 {
 	"name": "@candlefw/wax",
 	"version": "0.0.1",
-	"description": "CandleFW CLI System",
+	"description": "Terminal Drawing Tools",
 	"type": "module",
 	"main": "./build/library/wax.js",
 	"types": "./build/types/wax.d.ts",
 	"scripts": {
 		"build.watch": "tsc --watch",
-		"build": "tsc"
+		"build": "tsc",
+		"prepublish": "tsc -p ./tsconfig.json"
 	},
 	"repository": {
 		"type": "git",
@@ -15,12 +16,8 @@
 	},
 	"author": "galactrax <anthonycweathersby@gmail.com>",
 	"license": "MIT",
-	"devDependencies": {
-		"chai": "^4.2.0"
-	},
 	"dependencies": {
 		"@candlefw/url": "^0.0.13",
-		"@candlefw/conflagrate": ">=0.0.1",
-		"@candlefw/js": ">=0.0.1"
+		"@candlefw/conflagrate": ">=0.0.1"
 	}
 }
