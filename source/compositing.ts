@@ -12,12 +12,13 @@ import {
 	xtRUnderline,
 	xtRBlink,
 	xtRInvert,
-	xtF
-} from "./wick.cli.color.js";
+	xtF,
+	color as tColor
+} from "./color.js";
 
 const
-	xtSELECTED_INPUT = xtF(xtColor("maroon", "gray50"), xtUnderline),
-	xtUNDERLINE_COLOR = xtF(xtColor("black", "gray85"), xtUnderline),
+	xtSELECTED_INPUT = xtF(xtColor(tColor.maroon, tColor.gray50), xtUnderline),
+	xtUNDERLINE_COLOR = xtF(xtColor(tColor.black, tColor.gray85), xtUnderline),
 	xtRESET_COLOR = xtF(xtReset);
 
 export default function color(wick, html) {
@@ -25,7 +26,7 @@ export default function color(wick, html) {
 		ele_prototype = html.HTMLNode.prototype,
 		txt_prototype = html.TextNode.prototype;
 
-	ele_prototype.handleCompositeSpecialization = function(
+	ele_prototype.handleCompositeSpecialization = function (
 		boxes = [],
 		x = 0,
 		y = 0,
@@ -60,7 +61,7 @@ export default function color(wick, html) {
 
 					box.type = "inline";
 
-					if(this.selected)
+					if (this.selected)
 						box.color = xtSELECTED_INPUT;
 
 					switch (this.getAttribute("type")) {
@@ -86,7 +87,7 @@ export default function color(wick, html) {
 								if (!val) {
 									val = this.getAttribute("placeholder") || "";
 								}
-								
+
 								val += (" ").repeat(Math.max(0, 20 - val.length));
 
 								if ((box.w + box.x) - box.cur_start < Math.max(20, val.length)) {
@@ -113,13 +114,13 @@ export default function color(wick, html) {
 					box.y++;
 					box.cur_start = box.x;
 				}
-				break
+				break;
 		}
 
 		return box;
-	}
+	};
 
-	ele_prototype.getCompositeBoxes = function(x = 0, y = 0, width = 0, height = 0, cursor = 0) {
+	ele_prototype.getCompositeBoxes = function (x = 0, y = 0, width = 0, height = 0, cursor = 0) {
 
 		const
 			boxes = [],
@@ -139,18 +140,18 @@ export default function color(wick, html) {
 		let box = null;
 
 		for (const child of this.children.reduce(
-				(r, e) => {
-					if (e instanceof html.TextNode) {
-						if (Array.isArray(r[r.length - 1]))
-							r[r.length - 1].push(e);
-						else
-							r.push([e]);
-					} else
-						r.push(e);
-					return r;
-				},
-				[]
-			)) {
+			(r, e) => {
+				if (e instanceof html.TextNode) {
+					if (Array.isArray(r[r.length - 1]))
+						r[r.length - 1].push(e);
+					else
+						r.push([e]);
+				} else
+					r.push(e);
+				return r;
+			},
+			[]
+		)) {
 
 			if (Array.isArray(child)) {
 				const
@@ -182,7 +183,7 @@ export default function color(wick, html) {
 		}
 
 		return this.handleCompositeSpecialization(boxes, origin_x, origin_y, max_width + p_lr, y + 1 - origin_y, padding.l, padding.t, max_width, max_height, cursor_start, cursor);
-	}
+	};
 
 	function createTextBox(text, x, y, width, height, cursor) {
 		//Split the text up along the bondaries of the container. Only split on spaces. 
@@ -206,13 +207,13 @@ export default function color(wick, html) {
 		while (curr_line < max_height && curr_base < text.length) {
 			curr_index = Math.min(text.length, i + cut_width);
 			cut_width = max_width;
-			i = curr_index
+			i = curr_index;
 
 			base = curr_base;
 
 			if (i < text.length)
 				//minimize cut width until a space boundary is found
-				while (text[i] !== " " && i-- > base) {};
+				while (text[i] !== " " && i-- > base) { };
 
 			value.push(text.slice(base, i + 1));
 

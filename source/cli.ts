@@ -1,3 +1,4 @@
+//@ts-nocheck
 /*
 	Converts Wick components into dynamic CommandLine UIs
 	
@@ -5,7 +6,7 @@
 */
 
 import tty from "tty";
-import spark from "@candlefw/spark"
+import spark from "@candlefw/spark";
 import integrateComposite from "./wick.cli.compositing.js";
 import integrateSelection from "./wick.cli.selection.js";
 import key from "./wick.cli.keyboard_codes.js";
@@ -24,7 +25,7 @@ export default async function integrate(wick, html) {
 	integrateComposite(wick, html);
 	integrateSelection(wick, html);
 
-	ele_prototype.renderCLI = function(width = 270, line = 0) {
+	ele_prototype.renderCLI = function (width = 270, line = 0) {
 		//Prepare wick to operate in NodeJS.
 		const columns = process.stdout.columns;
 		const rows = process.stdout.rows;
@@ -46,7 +47,7 @@ export default async function integrate(wick, html) {
 			writeLine(box, buffer, i, 0, columns);
 
 		stdout.write(str);
-	}
+	};
 
 	function writeLine(box, buffer, line = 0, col = 0, maxwidth = 0) {
 		//The first line is all ways a margin of padding. 
@@ -73,28 +74,28 @@ export default async function integrate(wick, html) {
 
 					const x = box.value[i].length;
 
-					buffer.write(box.value[i])
+					buffer.write(box.value[i]);
 
 					return col + x;
 				} else {
 
-					buffer.write(box.color)
+					buffer.write(box.color);
 
 					if (box.pl > 0) //padding
-						buffer.write((" ").repeat(box.pl))
+						buffer.write((" ").repeat(box.pl));
 
 					let x = col + box.pl;
 
 					if (Array.isArray(box.boxes))
 						for (const c_box of box.boxes) {
-							buffer.write(box.color)
-							x = writeLine(c_box, buffer, line, x, box.w)
+							buffer.write(box.color);
+							x = writeLine(c_box, buffer, line, x, box.w);
 						}
 
-					buffer.write(box.color)
+					buffer.write(box.color);
 
 					for (let i = x; i < box.cur_end; i++)
-						buffer.write(" ") //padding
+						buffer.write(" "); //padding
 
 					return box.cur_end;
 				}
@@ -105,25 +106,25 @@ export default async function integrate(wick, html) {
 		return col;
 	}
 
-	txt_prototype.bubbleUpdate = ele_prototype.bubbleUpdate = function() {
+	txt_prototype.bubbleUpdate = ele_prototype.bubbleUpdate = function () {
 		if (this.parent)
 			this.parent.bubbleUpdate();
-	}
+	};
 
-	wick.component_prototype.cli = async function(data = {}) {
+	wick.component_prototype.cli = async function (data = {}) {
 
 		const
 			ele = await html("<div></div>"),
 			comp = await this.mount(ele, data),
 			write = () => //stdout.cursorTo(0, 0, () => {
-				//stdout.clearScreenDown(() => {
-					{
+			//stdout.clearScreenDown(() => {
+			{
 
-					ele.renderCLI();
-					console.log(data)
-					}
-			//	})
-			// })
+				ele.renderCLI();
+				console.log(data);
+			};
+		//	})
+		// })
 
 		ele.bubbleUpdate = () => write();
 
@@ -152,8 +153,8 @@ export default async function integrate(wick, html) {
 
 							const str = data.toString();
 
-							console.log(ctrl, str)
-							console.log(key.END_OF_TXT)
+							console.log(ctrl, str);
+							console.log(key.END_OF_TXT);
 							if (ctrl == key.END_OF_TXT) // CTR-C ETX
 								return res();
 
@@ -169,17 +170,17 @@ export default async function integrate(wick, html) {
 							if (ctrl == key.RIGHT_ARROW) // RT Arrow
 							{ if (selected_ele) selected_ele = selected_ele.selectNextInput(); }
 
-							if (str && selected_ele) 
+							if (str && selected_ele)
 								selected_ele.update(ctrl, str);
 
-							if (selected_ele) 
+							if (selected_ele)
 								selected_ele.selected = true;
 
 							write();
 						}
 					}, 10);
-				})
+				});
 			}
-		}
-	}
+		};
+	};
 }

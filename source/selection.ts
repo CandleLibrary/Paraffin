@@ -1,34 +1,33 @@
-import kb from "./wick.cli.keyboard_codes.js";
-import key from "./wick.cli.keyboard_codes.js";
+import key from "./keyboard_codes.js";
 
-export default function(wick, html) {
+export default function (wick, html) {
 	const
 		ele_prototype = html.HTMLNode.prototype,
 		txt_prototype = html.TextNode.prototype;
-		
-	ele_prototype.update = function(code, str) {
+
+	ele_prototype.update = function (code, str) {
 		switch (this.getAttribute("type")) {
 			case "text":
 				if (code < 255) {
-					if(!this.value)
+					if (!this.value)
 						this.value = "";
-					if(code == key.DELETE)
-						this.value = this.value.slice(0,-1)
+					if (code == key.DELETE)
+						this.value = this.value.slice(0, -1);
 					else
 						this.value += str;
-					this.runEvent("input", {target:this})
+					this.runEvent("input", { target: this });
 				}
 				break;
 			case "checkbox":
 				if (code == key.SPACE) {
 					this.checked = !this.checked;
-					this.runEvent("input", {target:this})
+					this.runEvent("input", { target: this });
 				}
 				break;
 		}
-	}
+	};
 
-	ele_prototype.selectNextInput = function(start = this) {
+	ele_prototype.selectNextInput = function (start = this) {
 
 		if (start.par == this) {
 			if (start.next !== this.fch) {
@@ -56,9 +55,9 @@ export default function(wick, html) {
 			return this;
 
 		return null;
-	}
+	};
 
-	txt_prototype.selectNextInput = function(start) {
+	txt_prototype.selectNextInput = function (start) {
 		if (this.next !== this && this.next !== start && this.next !== this.par.fch) {
 			if (this.next.tag == "input") return this.next;
 			return this.next.selectNextInput(start);
@@ -69,9 +68,9 @@ export default function(wick, html) {
 			return this.par.selectNextInput(start);
 		}
 
-	}
+	};
 
-	ele_prototype.selectPrevInput = function(start = this) {
+	ele_prototype.selectPrevInput = function (start = this) {
 
 		if (start.par == this) {
 			if (start.previous !== this.fch) {
@@ -99,9 +98,9 @@ export default function(wick, html) {
 			return this;
 
 		return null;
-	}
+	};
 
-	txt_prototype.selectPrevInput = function(start) {
+	txt_prototype.selectPrevInput = function (start) {
 		if (this.previous !== this && this.previous !== start && this.previous !== this.par.fch) {
 			if (this.previous.tag == "input") return this.previous;
 			return this.previous.selectPrevInput(start);
@@ -112,5 +111,5 @@ export default function(wick, html) {
 			return this.par.selectPrevInput(start);
 		}
 
-	}
+	};
 }
