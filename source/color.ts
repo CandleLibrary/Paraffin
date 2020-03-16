@@ -1,6 +1,6 @@
-import { col_css } from "./color_css";
-import { col_pwg } from "./color_pwg";
-import { col_x11 } from "./color_x11";
+import { col_css } from "./color_css.js";
+import { col_pwg } from "./color_pwg.js";
+import { col_x11 } from "./color_x11.js";
 
 export { col_css };
 export { col_pwg };
@@ -11,8 +11,8 @@ export type color = col_css | col_pwg | col_x11;
 export function xtColor(text?: color, background?: color) {
 
 	let
-		text_color_code = col_css.white,
-		background_color_code = col_css.black,
+		text_color_code = col_css.White,
+		background_color_code = col_css.Black,
 		str = [];
 
 	if (text !== undefined) {

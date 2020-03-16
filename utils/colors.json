@@ -498,158 +498,106 @@
             "prefix": "x11",
             "name": "X11 Colors",
             "standard": "X11",
-            "source": "file:///usr/lib/X11/rgb.txt",
+            "source": "File:///usr/lib/X11/rgb.txt",
             "colors": [
                 {
-                    "name": "snow",
+                    "name": "Snow",
                     "hex": "#fffafa"
-                },
-                {
-                    "name": "ghostwhite",
-                    "hex": "#f8f8ff"
                 },
                 {
                     "name": "GhostWhite",
                     "hex": "#f8f8ff"
                 },
                 {
-                    "name": "whitesmoke",
-                    "hex": "#f5f5f5"
-                },
-                {
                     "name": "WhiteSmoke",
                     "hex": "#f5f5f5"
                 },
                 {
-                    "name": "gainsboro",
+                    "name": "Gainsboro",
                     "hex": "#dcdcdc"
-                },
-                {
-                    "name": "floralwhite",
-                    "hex": "#fffaf0"
                 },
                 {
                     "name": "FloralWhite",
                     "hex": "#fffaf0"
                 },
                 {
-                    "name": "oldlace",
-                    "hex": "#fdf5e6"
-                },
-                {
                     "name": "OldLace",
                     "hex": "#fdf5e6"
                 },
                 {
-                    "name": "linen",
+                    "name": "Linen",
                     "hex": "#faf0e6"
-                },
-                {
-                    "name": "antiquewhite",
-                    "hex": "#faebd7"
                 },
                 {
                     "name": "AntiqueWhite",
                     "hex": "#faebd7"
                 },
                 {
-                    "name": "papayawhip",
-                    "hex": "#ffefd5"
-                },
-                {
                     "name": "PapayaWhip",
                     "hex": "#ffefd5"
-                },
-                {
-                    "name": "blanchedalmond",
-                    "hex": "#ffebcd"
                 },
                 {
                     "name": "BlanchedAlmond",
                     "hex": "#ffebcd"
                 },
                 {
-                    "name": "bisque",
+                    "name": "Bisque",
                     "hex": "#ffe4c4"
-                },
-                {
-                    "name": "peachpuff",
-                    "hex": "#ffdab9"
                 },
                 {
                     "name": "PeachPuff",
                     "hex": "#ffdab9"
                 },
                 {
-                    "name": "navajowhite",
-                    "hex": "#ffdead"
-                },
-                {
                     "name": "NavajoWhite",
                     "hex": "#ffdead"
                 },
                 {
-                    "name": "moccasin",
+                    "name": "Moccasin",
                     "hex": "#ffe4b5"
                 },
                 {
-                    "name": "cornsilk",
+                    "name": "CornSilk",
                     "hex": "#fff8dc"
                 },
                 {
-                    "name": "ivory",
+                    "name": "Ivory",
                     "hex": "#fffff0"
-                },
-                {
-                    "name": "lemonchiffon",
-                    "hex": "#fffacd"
                 },
                 {
                     "name": "LemonChiffon",
                     "hex": "#fffacd"
                 },
                 {
-                    "name": "seashell",
+                    "name": "Seashell",
                     "hex": "#fff5ee"
                 },
                 {
-                    "name": "honeydew",
+                    "name": "Honeydew",
                     "hex": "#f0fff0"
-                },
-                {
-                    "name": "mintcream",
-                    "hex": "#f5fffa"
                 },
                 {
                     "name": "MintCream",
                     "hex": "#f5fffa"
                 },
                 {
-                    "name": "azure",
+                    "name": "Azure",
                     "hex": "#f0ffff"
-                },
-                {
-                    "name": "aliceblue",
-                    "hex": "#f0f8ff"
                 },
                 {
                     "name": "AliceBlue",
                     "hex": "#f0f8ff"
                 },
                 {
-                    "name": "lavender",
+                    "name": "Lavender",
                     "hex": "#e6e6fa"
-                },
-                {
-                    "name": "lavenderblush",
-                    "hex": "#fff0f5"
                 },
                 {
                     "name": "LavenderBlush",
                     "hex": "#fff0f5"
                 },
                 {
-                    "name": "mistyrose",
+                    "name": "MistyRose",
                     "hex": "#ffe4e1"
                 },
                 {
@@ -657,23 +605,15 @@
                     "hex": "#ffe4e1"
                 },
                 {
-                    "name": "white",
+                    "name": "White",
                     "hex": "#ffffff"
                 },
                 {
-                    "name": "black",
+                    "name": "Black",
                     "hex": "#000000"
                 },
                 {
-                    "name": "darkslategray",
-                    "hex": "#2f4f4f"
-                },
-                {
                     "name": "DarkSlateGray",
-                    "hex": "#2f4f4f"
-                },
-                {
-                    "name": "darkslategrey",
                     "hex": "#2f4f4f"
                 },
                 {
@@ -681,15 +621,7 @@
                     "hex": "#2f4f4f"
                 },
                 {
-                    "name": "dimgray",
-                    "hex": "#696969"
-                },
-                {
                     "name": "DimGray",
-                    "hex": "#696969"
-                },
-                {
-                    "name": "dimgrey",
                     "hex": "#696969"
                 },
                 {
@@ -697,15 +629,7 @@
                     "hex": "#696969"
                 },
                 {
-                    "name": "slategray",
-                    "hex": "#708090"
-                },
-                {
                     "name": "SlateGray",
-                    "hex": "#708090"
-                },
-                {
-                    "name": "slategrey",
                     "hex": "#708090"
                 },
                 {
@@ -713,15 +637,7 @@
                     "hex": "#708090"
                 },
                 {
-                    "name": "lightslategray",
-                    "hex": "#778899"
-                },
-                {
                     "name": "LightSlateGray",
-                    "hex": "#778899"
-                },
-                {
-                    "name": "lightslategrey",
                     "hex": "#778899"
                 },
                 {
@@ -729,23 +645,15 @@
                     "hex": "#778899"
                 },
                 {
-                    "name": "gray",
+                    "name": "Gray",
                     "hex": "#bebebe"
                 },
                 {
-                    "name": "grey",
+                    "name": "Grey",
                     "hex": "#bebebe"
-                },
-                {
-                    "name": "lightgrey",
-                    "hex": "#d3d3d3"
                 },
                 {
                     "name": "LightGrey",
-                    "hex": "#d3d3d3"
-                },
-                {
-                    "name": "lightgray",
                     "hex": "#d3d3d3"
                 },
                 {
@@ -753,19 +661,11 @@
                     "hex": "#d3d3d3"
                 },
                 {
-                    "name": "midnightblue",
-                    "hex": "#191970"
-                },
-                {
                     "name": "MidnightBlue",
                     "hex": "#191970"
                 },
                 {
-                    "name": "navy",
-                    "hex": "#000080"
-                },
-                {
-                    "name": "navyblue",
+                    "name": "Navy",
                     "hex": "#000080"
                 },
                 {
@@ -773,659 +673,403 @@
                     "hex": "#000080"
                 },
                 {
-                    "name": "cornflowerblue",
-                    "hex": "#6495ed"
-                },
-                {
                     "name": "CornflowerBlue",
                     "hex": "#6495ed"
-                },
-                {
-                    "name": "darkslateblue",
-                    "hex": "#483d8b"
                 },
                 {
                     "name": "DarkSlateBlue",
                     "hex": "#483d8b"
                 },
                 {
-                    "name": "slateblue",
-                    "hex": "#6a5acd"
-                },
-                {
                     "name": "SlateBlue",
                     "hex": "#6a5acd"
-                },
-                {
-                    "name": "mediumslateblue",
-                    "hex": "#7b68ee"
                 },
                 {
                     "name": "MediumSlateBlue",
                     "hex": "#7b68ee"
                 },
                 {
-                    "name": "lightslateblue",
-                    "hex": "#8470ff"
-                },
-                {
                     "name": "LightSlateBlue",
                     "hex": "#8470ff"
-                },
-                {
-                    "name": "mediumblue",
-                    "hex": "#0000cd"
                 },
                 {
                     "name": "MediumBlue",
                     "hex": "#0000cd"
                 },
                 {
-                    "name": "royalblue",
-                    "hex": "#4169e1"
-                },
-                {
                     "name": "RoyalBlue",
                     "hex": "#4169e1"
                 },
                 {
-                    "name": "blue",
+                    "name": "Blue",
                     "hex": "#0000ff"
-                },
-                {
-                    "name": "dodgerblue",
-                    "hex": "#1e90ff"
                 },
                 {
                     "name": "DodgerBlue",
                     "hex": "#1e90ff"
                 },
                 {
-                    "name": "deepskyblue",
-                    "hex": "#00bfff"
-                },
-                {
                     "name": "DeepSkyBlue",
                     "hex": "#00bfff"
-                },
-                {
-                    "name": "skyblue",
-                    "hex": "#87ceeb"
                 },
                 {
                     "name": "SkyBlue",
                     "hex": "#87ceeb"
                 },
                 {
-                    "name": "lightskyblue",
-                    "hex": "#87cefa"
-                },
-                {
                     "name": "LightSkyBlue",
                     "hex": "#87cefa"
-                },
-                {
-                    "name": "steelblue",
-                    "hex": "#4682b4"
                 },
                 {
                     "name": "SteelBlue",
                     "hex": "#4682b4"
                 },
                 {
-                    "name": "lightsteelblue",
-                    "hex": "#b0c4de"
-                },
-                {
                     "name": "LightSteelBlue",
                     "hex": "#b0c4de"
-                },
-                {
-                    "name": "lightblue",
-                    "hex": "#add8e6"
                 },
                 {
                     "name": "LightBlue",
                     "hex": "#add8e6"
                 },
                 {
-                    "name": "powderblue",
-                    "hex": "#b0e0e6"
-                },
-                {
                     "name": "PowderBlue",
                     "hex": "#b0e0e6"
-                },
-                {
-                    "name": "paleturquoise",
-                    "hex": "#afeeee"
                 },
                 {
                     "name": "PaleTurquoise",
                     "hex": "#afeeee"
                 },
                 {
-                    "name": "darkturquoise",
-                    "hex": "#00ced1"
-                },
-                {
                     "name": "DarkTurquoise",
                     "hex": "#00ced1"
-                },
-                {
-                    "name": "mediumturquoise",
-                    "hex": "#48d1cc"
                 },
                 {
                     "name": "MediumTurquoise",
                     "hex": "#48d1cc"
                 },
                 {
-                    "name": "turquoise",
+                    "name": "Turquoise",
                     "hex": "#40e0d0"
                 },
                 {
-                    "name": "cyan",
+                    "name": "Cyan",
                     "hex": "#00ffff"
-                },
-                {
-                    "name": "lightcyan",
-                    "hex": "#e0ffff"
                 },
                 {
                     "name": "LightCyan",
                     "hex": "#e0ffff"
                 },
                 {
-                    "name": "cadetblue",
-                    "hex": "#5f9ea0"
-                },
-                {
                     "name": "CadetBlue",
                     "hex": "#5f9ea0"
-                },
-                {
-                    "name": "mediumaquamarine",
-                    "hex": "#66cdaa"
                 },
                 {
                     "name": "MediumAquamarine",
                     "hex": "#66cdaa"
                 },
                 {
-                    "name": "aquamarine",
-                    "hex": "#7fffd4"
-                },
-                {
-                    "name": "darkgreen",
-                    "hex": "#006400"
-                },
-                {
                     "name": "DarkGreen",
                     "hex": "#006400"
-                },
-                {
-                    "name": "darkolivegreen",
-                    "hex": "#556b2f"
                 },
                 {
                     "name": "DarkOliveGreen",
                     "hex": "#556b2f"
                 },
                 {
-                    "name": "darkseagreen",
-                    "hex": "#8fbc8f"
-                },
-                {
                     "name": "DarkSeaGreen",
                     "hex": "#8fbc8f"
-                },
-                {
-                    "name": "seagreen",
-                    "hex": "#2e8b57"
                 },
                 {
                     "name": "SeaGreen",
                     "hex": "#2e8b57"
                 },
                 {
-                    "name": "mediumseagreen",
-                    "hex": "#3cb371"
-                },
-                {
                     "name": "MediumSeaGreen",
                     "hex": "#3cb371"
-                },
-                {
-                    "name": "lightseagreen",
-                    "hex": "#20b2aa"
                 },
                 {
                     "name": "LightSeaGreen",
                     "hex": "#20b2aa"
                 },
                 {
-                    "name": "palegreen",
-                    "hex": "#98fb98"
-                },
-                {
                     "name": "PaleGreen",
                     "hex": "#98fb98"
-                },
-                {
-                    "name": "springgreen",
-                    "hex": "#00ff7f"
                 },
                 {
                     "name": "SpringGreen",
                     "hex": "#00ff7f"
                 },
                 {
-                    "name": "lawngreen",
-                    "hex": "#7cfc00"
-                },
-                {
                     "name": "LawnGreen",
                     "hex": "#7cfc00"
                 },
                 {
-                    "name": "green",
+                    "name": "Green",
                     "hex": "#00ff00"
                 },
                 {
-                    "name": "chartreuse",
+                    "name": "Chartreuse",
                     "hex": "#7fff00"
-                },
-                {
-                    "name": "mediumspringgreen",
-                    "hex": "#00fa9a"
                 },
                 {
                     "name": "MediumSpringGreen",
                     "hex": "#00fa9a"
                 },
                 {
-                    "name": "greenyellow",
-                    "hex": "#adff2f"
-                },
-                {
                     "name": "GreenYellow",
                     "hex": "#adff2f"
-                },
-                {
-                    "name": "limegreen",
-                    "hex": "#32cd32"
                 },
                 {
                     "name": "LimeGreen",
                     "hex": "#32cd32"
                 },
                 {
-                    "name": "yellowgreen",
-                    "hex": "#9acd32"
-                },
-                {
                     "name": "YellowGreen",
                     "hex": "#9acd32"
-                },
-                {
-                    "name": "forestgreen",
-                    "hex": "#228b22"
                 },
                 {
                     "name": "ForestGreen",
                     "hex": "#228b22"
                 },
                 {
-                    "name": "olivedrab",
-                    "hex": "#6b8e23"
-                },
-                {
                     "name": "OliveDrab",
                     "hex": "#6b8e23"
-                },
-                {
-                    "name": "darkkhaki",
-                    "hex": "#bdb76b"
                 },
                 {
                     "name": "DarkKhaki",
                     "hex": "#bdb76b"
                 },
                 {
-                    "name": "khaki",
+                    "name": "Khaki",
                     "hex": "#f0e68c"
-                },
-                {
-                    "name": "palegoldenrod",
-                    "hex": "#eee8aa"
                 },
                 {
                     "name": "PaleGoldenrod",
                     "hex": "#eee8aa"
                 },
                 {
-                    "name": "lightgoldenrodyellow",
-                    "hex": "#fafad2"
-                },
-                {
                     "name": "LightGoldenrodYellow",
                     "hex": "#fafad2"
-                },
-                {
-                    "name": "lightyellow",
-                    "hex": "#ffffe0"
                 },
                 {
                     "name": "LightYellow",
                     "hex": "#ffffe0"
                 },
                 {
-                    "name": "yellow",
-                    "hex": "#ffff00"
-                },
-                {
-                    "name": "gold",
+                    "name": "Gold",
                     "hex": "#ffd700"
-                },
-                {
-                    "name": "lightgoldenrod",
-                    "hex": "#eedd82"
                 },
                 {
                     "name": "LightGoldenrod",
                     "hex": "#eedd82"
                 },
                 {
-                    "name": "goldenrod",
+                    "name": "Goldenrod",
                     "hex": "#daa520"
-                },
-                {
-                    "name": "darkgoldenrod",
-                    "hex": "#b8860b"
                 },
                 {
                     "name": "DarkGoldenrod",
                     "hex": "#b8860b"
                 },
                 {
-                    "name": "rosybrown",
-                    "hex": "#bc8f8f"
-                },
-                {
                     "name": "RosyBrown",
                     "hex": "#bc8f8f"
-                },
-                {
-                    "name": "indianred",
-                    "hex": "#cd5c5c"
                 },
                 {
                     "name": "IndianRed",
                     "hex": "#cd5c5c"
                 },
                 {
-                    "name": "saddlebrown",
-                    "hex": "#8b4513"
-                },
-                {
                     "name": "SaddleBrown",
                     "hex": "#8b4513"
                 },
                 {
-                    "name": "sienna",
+                    "name": "Sienna",
                     "hex": "#a0522d"
                 },
                 {
-                    "name": "peru",
+                    "name": "Peru",
                     "hex": "#cd853f"
                 },
                 {
-                    "name": "burlywood",
+                    "name": "Burlywood",
                     "hex": "#deb887"
                 },
                 {
-                    "name": "beige",
+                    "name": "Beige",
                     "hex": "#f5f5dc"
                 },
                 {
-                    "name": "wheat",
+                    "name": "Wheat",
                     "hex": "#f5deb3"
-                },
-                {
-                    "name": "sandybrown",
-                    "hex": "#f4a460"
                 },
                 {
                     "name": "SandyBrown",
                     "hex": "#f4a460"
                 },
                 {
-                    "name": "tan",
+                    "name": "Tan",
                     "hex": "#d2b48c"
                 },
                 {
-                    "name": "chocolate",
+                    "name": "Chocolate",
                     "hex": "#d2691e"
                 },
                 {
-                    "name": "firebrick",
+                    "name": "Firebrick",
                     "hex": "#b22222"
                 },
                 {
-                    "name": "brown",
+                    "name": "Brown",
                     "hex": "#a52a2a"
-                },
-                {
-                    "name": "darksalmon",
-                    "hex": "#e9967a"
                 },
                 {
                     "name": "DarkSalmon",
                     "hex": "#e9967a"
                 },
                 {
-                    "name": "salmon",
+                    "name": "Salmon",
                     "hex": "#fa8072"
-                },
-                {
-                    "name": "lightsalmon",
-                    "hex": "#ffa07a"
                 },
                 {
                     "name": "LightSalmon",
                     "hex": "#ffa07a"
                 },
                 {
-                    "name": "orange",
+                    "name": "Orange",
                     "hex": "#ffa500"
-                },
-                {
-                    "name": "darkorange",
-                    "hex": "#ff8c00"
                 },
                 {
                     "name": "DarkOrange",
                     "hex": "#ff8c00"
                 },
                 {
-                    "name": "coral",
+                    "name": "Coral",
                     "hex": "#ff7f50"
-                },
-                {
-                    "name": "lightcoral",
-                    "hex": "#f08080"
                 },
                 {
                     "name": "LightCoral",
                     "hex": "#f08080"
                 },
                 {
-                    "name": "tomato",
+                    "name": "Tomato",
                     "hex": "#ff6347"
-                },
-                {
-                    "name": "orangered",
-                    "hex": "#ff4500"
                 },
                 {
                     "name": "OrangeRed",
                     "hex": "#ff4500"
                 },
                 {
-                    "name": "red",
+                    "name": "Red",
                     "hex": "#ff0000"
-                },
-                {
-                    "name": "hotpink",
-                    "hex": "#ff69b4"
                 },
                 {
                     "name": "HotPink",
                     "hex": "#ff69b4"
                 },
                 {
-                    "name": "deeppink",
-                    "hex": "#ff1493"
-                },
-                {
                     "name": "DeepPink",
                     "hex": "#ff1493"
                 },
                 {
-                    "name": "pink",
+                    "name": "Pink",
                     "hex": "#ffc0cb"
-                },
-                {
-                    "name": "lightpink",
-                    "hex": "#ffb6c1"
                 },
                 {
                     "name": "LightPink",
                     "hex": "#ffb6c1"
                 },
                 {
-                    "name": "palevioletred",
-                    "hex": "#db7093"
-                },
-                {
                     "name": "PaleVioletRed",
                     "hex": "#db7093"
                 },
                 {
-                    "name": "maroon",
+                    "name": "Maroon",
                     "hex": "#b03060"
-                },
-                {
-                    "name": "mediumvioletred",
-                    "hex": "#c71585"
                 },
                 {
                     "name": "MediumVioletRed",
                     "hex": "#c71585"
                 },
                 {
-                    "name": "violetred",
-                    "hex": "#d02090"
-                },
-                {
                     "name": "VioletRed",
                     "hex": "#d02090"
                 },
                 {
-                    "name": "magenta",
+                    "name": "Magenta",
                     "hex": "#ff00ff"
                 },
                 {
-                    "name": "violet",
+                    "name": "Violet",
                     "hex": "#ee82ee"
                 },
                 {
-                    "name": "plum",
+                    "name": "Plum",
                     "hex": "#dda0dd"
                 },
                 {
-                    "name": "orchid",
+                    "name": "Orchid",
                     "hex": "#da70d6"
-                },
-                {
-                    "name": "mediumorchid",
-                    "hex": "#ba55d3"
                 },
                 {
                     "name": "MediumOrchid",
                     "hex": "#ba55d3"
                 },
                 {
-                    "name": "darkorchid",
-                    "hex": "#9932cc"
-                },
-                {
                     "name": "DarkOrchid",
                     "hex": "#9932cc"
-                },
-                {
-                    "name": "darkviolet",
-                    "hex": "#9400d3"
                 },
                 {
                     "name": "DarkViolet",
                     "hex": "#9400d3"
                 },
                 {
-                    "name": "blueviolet",
-                    "hex": "#8a2be2"
-                },
-                {
                     "name": "BlueViolet",
                     "hex": "#8a2be2"
                 },
                 {
-                    "name": "purple",
+                    "name": "Purple",
                     "hex": "#a020f0"
-                },
-                {
-                    "name": "mediumpurple",
-                    "hex": "#9370db"
                 },
                 {
                     "name": "MediumPurple",
                     "hex": "#9370db"
                 },
                 {
-                    "name": "thistle",
+                    "name": "Thistle",
                     "hex": "#d8bfd8"
                 },
                 {
-                    "name": "snow1",
+                    "name": "Snow1",
                     "hex": "#fffafa"
                 },
                 {
-                    "name": "snow2",
+                    "name": "Snow2",
                     "hex": "#eee9e9"
                 },
                 {
-                    "name": "snow3",
+                    "name": "Snow3",
                     "hex": "#cdc9c9"
                 },
                 {
-                    "name": "snow4",
+                    "name": "Snow4",
                     "hex": "#8b8989"
                 },
                 {
-                    "name": "seashell1",
+                    "name": "Seashell1",
                     "hex": "#fff5ee"
                 },
                 {
-                    "name": "seashell2",
+                    "name": "Seashell2",
                     "hex": "#eee5de"
                 },
                 {
-                    "name": "seashell3",
+                    "name": "Seashell3",
                     "hex": "#cdc5bf"
                 },
                 {
-                    "name": "seashell4",
+                    "name": "Seashell4",
                     "hex": "#8b8682"
                 },
                 {
@@ -1445,19 +1089,19 @@
                     "hex": "#8b8378"
                 },
                 {
-                    "name": "bisque1",
+                    "name": "Bisque1",
                     "hex": "#ffe4c4"
                 },
                 {
-                    "name": "bisque2",
+                    "name": "Bisque2",
                     "hex": "#eed5b7"
                 },
                 {
-                    "name": "bisque3",
+                    "name": "Bisque3",
                     "hex": "#cdb79e"
                 },
                 {
-                    "name": "bisque4",
+                    "name": "Bisque4",
                     "hex": "#8b7d6b"
                 },
                 {
@@ -1509,51 +1153,51 @@
                     "hex": "#8b8970"
                 },
                 {
-                    "name": "cornsilk1",
+                    "name": "Cornsilk1",
                     "hex": "#fff8dc"
                 },
                 {
-                    "name": "cornsilk2",
+                    "name": "Cornsilk2",
                     "hex": "#eee8cd"
                 },
                 {
-                    "name": "cornsilk3",
+                    "name": "Cornsilk3",
                     "hex": "#cdc8b1"
                 },
                 {
-                    "name": "cornsilk4",
+                    "name": "Cornsilk4",
                     "hex": "#8b8878"
                 },
                 {
-                    "name": "ivory1",
+                    "name": "Ivory1",
                     "hex": "#fffff0"
                 },
                 {
-                    "name": "ivory2",
+                    "name": "Ivory2",
                     "hex": "#eeeee0"
                 },
                 {
-                    "name": "ivory3",
+                    "name": "Ivory3",
                     "hex": "#cdcdc1"
                 },
                 {
-                    "name": "ivory4",
+                    "name": "Ivory4",
                     "hex": "#8b8b83"
                 },
                 {
-                    "name": "honeydew1",
+                    "name": "Honeydew1",
                     "hex": "#f0fff0"
                 },
                 {
-                    "name": "honeydew2",
+                    "name": "Honeydew2",
                     "hex": "#e0eee0"
                 },
                 {
-                    "name": "honeydew3",
+                    "name": "Honeydew3",
                     "hex": "#c1cdc1"
                 },
                 {
-                    "name": "honeydew4",
+                    "name": "Honeydew4",
                     "hex": "#838b83"
                 },
                 {
@@ -1589,19 +1233,19 @@
                     "hex": "#8b7d7b"
                 },
                 {
-                    "name": "azure1",
+                    "name": "Azure1",
                     "hex": "#f0ffff"
                 },
                 {
-                    "name": "azure2",
+                    "name": "Azure2",
                     "hex": "#e0eeee"
                 },
                 {
-                    "name": "azure3",
+                    "name": "Azure3",
                     "hex": "#c1cdcd"
                 },
                 {
-                    "name": "azure4",
+                    "name": "Azure4",
                     "hex": "#838b8b"
                 },
                 {
@@ -1637,19 +1281,19 @@
                     "hex": "#27408b"
                 },
                 {
-                    "name": "blue1",
+                    "name": "Blue1",
                     "hex": "#0000ff"
                 },
                 {
-                    "name": "blue2",
+                    "name": "Blue2",
                     "hex": "#0000ee"
                 },
                 {
-                    "name": "blue3",
+                    "name": "Blue3",
                     "hex": "#0000cd"
                 },
                 {
-                    "name": "blue4",
+                    "name": "Blue4",
                     "hex": "#00008b"
                 },
                 {
@@ -1829,35 +1473,35 @@
                     "hex": "#53868b"
                 },
                 {
-                    "name": "turquoise1",
+                    "name": "Turquoise1",
                     "hex": "#00f5ff"
                 },
                 {
-                    "name": "turquoise2",
+                    "name": "Turquoise2",
                     "hex": "#00e5ee"
                 },
                 {
-                    "name": "turquoise3",
+                    "name": "Turquoise3",
                     "hex": "#00c5cd"
                 },
                 {
-                    "name": "turquoise4",
+                    "name": "Turquoise4",
                     "hex": "#00868b"
                 },
                 {
-                    "name": "cyan1",
+                    "name": "Cyan1",
                     "hex": "#00ffff"
                 },
                 {
-                    "name": "cyan2",
+                    "name": "Cyan2",
                     "hex": "#00eeee"
                 },
                 {
-                    "name": "cyan3",
+                    "name": "Cyan3",
                     "hex": "#00cdcd"
                 },
                 {
-                    "name": "cyan4",
+                    "name": "Cyan4",
                     "hex": "#008b8b"
                 },
                 {
@@ -1877,19 +1521,19 @@
                     "hex": "#528b8b"
                 },
                 {
-                    "name": "aquamarine1",
+                    "name": "Aquamarine1",
                     "hex": "#7fffd4"
                 },
                 {
-                    "name": "aquamarine2",
+                    "name": "Aquamarine2",
                     "hex": "#76eec6"
                 },
                 {
-                    "name": "aquamarine3",
+                    "name": "Aquamarine3",
                     "hex": "#66cdaa"
                 },
                 {
-                    "name": "aquamarine4",
+                    "name": "Aquamarine4",
                     "hex": "#458b74"
                 },
                 {
@@ -1957,35 +1601,35 @@
                     "hex": "#008b45"
                 },
                 {
-                    "name": "green1",
+                    "name": "Green1",
                     "hex": "#00ff00"
                 },
                 {
-                    "name": "green2",
+                    "name": "Green2",
                     "hex": "#00ee00"
                 },
                 {
-                    "name": "green3",
+                    "name": "Green3",
                     "hex": "#00cd00"
                 },
                 {
-                    "name": "green4",
+                    "name": "Green4",
                     "hex": "#008b00"
                 },
                 {
-                    "name": "chartreuse1",
+                    "name": "Chartreuse1",
                     "hex": "#7fff00"
                 },
                 {
-                    "name": "chartreuse2",
+                    "name": "Chartreuse2",
                     "hex": "#76ee00"
                 },
                 {
-                    "name": "chartreuse3",
+                    "name": "Chartreuse3",
                     "hex": "#66cd00"
                 },
                 {
-                    "name": "chartreuse4",
+                    "name": "Chartreuse4",
                     "hex": "#458b00"
                 },
                 {
@@ -2021,19 +1665,19 @@
                     "hex": "#6e8b3d"
                 },
                 {
-                    "name": "khaki1",
+                    "name": "Khaki1",
                     "hex": "#fff68f"
                 },
                 {
-                    "name": "khaki2",
+                    "name": "Khaki2",
                     "hex": "#eee685"
                 },
                 {
-                    "name": "khaki3",
+                    "name": "Khaki3",
                     "hex": "#cdc673"
                 },
                 {
-                    "name": "khaki4",
+                    "name": "Khaki4",
                     "hex": "#8b864e"
                 },
                 {
@@ -2069,51 +1713,51 @@
                     "hex": "#8b8b7a"
                 },
                 {
-                    "name": "yellow1",
+                    "name": "Yellow1",
                     "hex": "#ffff00"
                 },
                 {
-                    "name": "yellow2",
+                    "name": "Yellow2",
                     "hex": "#eeee00"
                 },
                 {
-                    "name": "yellow3",
+                    "name": "Yellow3",
                     "hex": "#cdcd00"
                 },
                 {
-                    "name": "yellow4",
+                    "name": "Yellow4",
                     "hex": "#8b8b00"
                 },
                 {
-                    "name": "gold1",
+                    "name": "Gold1",
                     "hex": "#ffd700"
                 },
                 {
-                    "name": "gold2",
+                    "name": "Gold2",
                     "hex": "#eec900"
                 },
                 {
-                    "name": "gold3",
+                    "name": "Gold3",
                     "hex": "#cdad00"
                 },
                 {
-                    "name": "gold4",
+                    "name": "Gold4",
                     "hex": "#8b7500"
                 },
                 {
-                    "name": "goldenrod1",
+                    "name": "Goldenrod1",
                     "hex": "#ffc125"
                 },
                 {
-                    "name": "goldenrod2",
+                    "name": "Goldenrod2",
                     "hex": "#eeb422"
                 },
                 {
-                    "name": "goldenrod3",
+                    "name": "Goldenrod3",
                     "hex": "#cd9b1d"
                 },
                 {
-                    "name": "goldenrod4",
+                    "name": "Goldenrod4",
                     "hex": "#8b6914"
                 },
                 {
@@ -2165,131 +1809,131 @@
                     "hex": "#8b3a3a"
                 },
                 {
-                    "name": "sienna1",
+                    "name": "Sienna1",
                     "hex": "#ff8247"
                 },
                 {
-                    "name": "sienna2",
+                    "name": "Sienna2",
                     "hex": "#ee7942"
                 },
                 {
-                    "name": "sienna3",
+                    "name": "Sienna3",
                     "hex": "#cd6839"
                 },
                 {
-                    "name": "sienna4",
+                    "name": "Sienna4",
                     "hex": "#8b4726"
                 },
                 {
-                    "name": "burlywood1",
+                    "name": "Burlywood1",
                     "hex": "#ffd39b"
                 },
                 {
-                    "name": "burlywood2",
+                    "name": "Burlywood2",
                     "hex": "#eec591"
                 },
                 {
-                    "name": "burlywood3",
+                    "name": "Burlywood3",
                     "hex": "#cdaa7d"
                 },
                 {
-                    "name": "burlywood4",
+                    "name": "Burlywood4",
                     "hex": "#8b7355"
                 },
                 {
-                    "name": "wheat1",
+                    "name": "Wheat1",
                     "hex": "#ffe7ba"
                 },
                 {
-                    "name": "wheat2",
+                    "name": "Wheat2",
                     "hex": "#eed8ae"
                 },
                 {
-                    "name": "wheat3",
+                    "name": "Wheat3",
                     "hex": "#cdba96"
                 },
                 {
-                    "name": "wheat4",
+                    "name": "Wheat4",
                     "hex": "#8b7e66"
                 },
                 {
-                    "name": "tan1",
+                    "name": "Tan1",
                     "hex": "#ffa54f"
                 },
                 {
-                    "name": "tan2",
+                    "name": "Tan2",
                     "hex": "#ee9a49"
                 },
                 {
-                    "name": "tan3",
+                    "name": "Tan3",
                     "hex": "#cd853f"
                 },
                 {
-                    "name": "tan4",
+                    "name": "Tan4",
                     "hex": "#8b5a2b"
                 },
                 {
-                    "name": "chocolate1",
+                    "name": "Chocolate1",
                     "hex": "#ff7f24"
                 },
                 {
-                    "name": "chocolate2",
+                    "name": "Chocolate2",
                     "hex": "#ee7621"
                 },
                 {
-                    "name": "chocolate3",
+                    "name": "Chocolate3",
                     "hex": "#cd661d"
                 },
                 {
-                    "name": "chocolate4",
+                    "name": "Chocolate4",
                     "hex": "#8b4513"
                 },
                 {
-                    "name": "firebrick1",
+                    "name": "Firebrick1",
                     "hex": "#ff3030"
                 },
                 {
-                    "name": "firebrick2",
+                    "name": "Firebrick2",
                     "hex": "#ee2c2c"
                 },
                 {
-                    "name": "firebrick3",
+                    "name": "Firebrick3",
                     "hex": "#cd2626"
                 },
                 {
-                    "name": "firebrick4",
+                    "name": "Firebrick4",
                     "hex": "#8b1a1a"
                 },
                 {
-                    "name": "brown1",
+                    "name": "Brown1",
                     "hex": "#ff4040"
                 },
                 {
-                    "name": "brown2",
+                    "name": "Brown2",
                     "hex": "#ee3b3b"
                 },
                 {
-                    "name": "brown3",
+                    "name": "Brown3",
                     "hex": "#cd3333"
                 },
                 {
-                    "name": "brown4",
+                    "name": "Brown4",
                     "hex": "#8b2323"
                 },
                 {
-                    "name": "salmon1",
+                    "name": "Salmon1",
                     "hex": "#ff8c69"
                 },
                 {
-                    "name": "salmon2",
+                    "name": "Salmon2",
                     "hex": "#ee8262"
                 },
                 {
-                    "name": "salmon3",
+                    "name": "Salmon3",
                     "hex": "#cd7054"
                 },
                 {
-                    "name": "salmon4",
+                    "name": "Salmon4",
                     "hex": "#8b4c39"
                 },
                 {
@@ -2309,19 +1953,19 @@
                     "hex": "#8b5742"
                 },
                 {
-                    "name": "orange1",
+                    "name": "Orange1",
                     "hex": "#ffa500"
                 },
                 {
-                    "name": "orange2",
+                    "name": "Orange2",
                     "hex": "#ee9a00"
                 },
                 {
-                    "name": "orange3",
+                    "name": "Orange3",
                     "hex": "#cd8500"
                 },
                 {
-                    "name": "orange4",
+                    "name": "Orange4",
                     "hex": "#8b5a00"
                 },
                 {
@@ -2341,35 +1985,35 @@
                     "hex": "#8b4500"
                 },
                 {
-                    "name": "coral1",
+                    "name": "Coral1",
                     "hex": "#ff7256"
                 },
                 {
-                    "name": "coral2",
+                    "name": "Coral2",
                     "hex": "#ee6a50"
                 },
                 {
-                    "name": "coral3",
+                    "name": "Coral3",
                     "hex": "#cd5b45"
                 },
                 {
-                    "name": "coral4",
+                    "name": "Coral4",
                     "hex": "#8b3e2f"
                 },
                 {
-                    "name": "tomato1",
+                    "name": "Tomato1",
                     "hex": "#ff6347"
                 },
                 {
-                    "name": "tomato2",
+                    "name": "Tomato2",
                     "hex": "#ee5c42"
                 },
                 {
-                    "name": "tomato3",
+                    "name": "Tomato3",
                     "hex": "#cd4f39"
                 },
                 {
-                    "name": "tomato4",
+                    "name": "Tomato4",
                     "hex": "#8b3626"
                 },
                 {
@@ -2389,19 +2033,19 @@
                     "hex": "#8b2500"
                 },
                 {
-                    "name": "red1",
+                    "name": "Red1",
                     "hex": "#ff0000"
                 },
                 {
-                    "name": "red2",
+                    "name": "Red2",
                     "hex": "#ee0000"
                 },
                 {
-                    "name": "red3",
+                    "name": "Red3",
                     "hex": "#cd0000"
                 },
                 {
-                    "name": "red4",
+                    "name": "Red4",
                     "hex": "#8b0000"
                 },
                 {
@@ -2437,19 +2081,19 @@
                     "hex": "#8b3a62"
                 },
                 {
-                    "name": "pink1",
+                    "name": "Pink1",
                     "hex": "#ffb5c5"
                 },
                 {
-                    "name": "pink2",
+                    "name": "Pink2",
                     "hex": "#eea9b8"
                 },
                 {
-                    "name": "pink3",
+                    "name": "Pink3",
                     "hex": "#cd919e"
                 },
                 {
-                    "name": "pink4",
+                    "name": "Pink4",
                     "hex": "#8b636c"
                 },
                 {
@@ -2485,19 +2129,19 @@
                     "hex": "#8b475d"
                 },
                 {
-                    "name": "maroon1",
+                    "name": "Maroon1",
                     "hex": "#ff34b3"
                 },
                 {
-                    "name": "maroon2",
+                    "name": "Maroon2",
                     "hex": "#ee30a7"
                 },
                 {
-                    "name": "maroon3",
+                    "name": "Maroon3",
                     "hex": "#cd2990"
                 },
                 {
-                    "name": "maroon4",
+                    "name": "Maroon4",
                     "hex": "#8b1c62"
                 },
                 {
@@ -2517,51 +2161,51 @@
                     "hex": "#8b2252"
                 },
                 {
-                    "name": "magenta1",
+                    "name": "Magenta1",
                     "hex": "#ff00ff"
                 },
                 {
-                    "name": "magenta2",
+                    "name": "Magenta2",
                     "hex": "#ee00ee"
                 },
                 {
-                    "name": "magenta3",
+                    "name": "Magenta3",
                     "hex": "#cd00cd"
                 },
                 {
-                    "name": "magenta4",
+                    "name": "Magenta4",
                     "hex": "#8b008b"
                 },
                 {
-                    "name": "orchid1",
+                    "name": "Orchid1",
                     "hex": "#ff83fa"
                 },
                 {
-                    "name": "orchid2",
+                    "name": "Orchid2",
                     "hex": "#ee7ae9"
                 },
                 {
-                    "name": "orchid3",
+                    "name": "Orchid3",
                     "hex": "#cd69c9"
                 },
                 {
-                    "name": "orchid4",
+                    "name": "Orchid4",
                     "hex": "#8b4789"
                 },
                 {
-                    "name": "plum1",
+                    "name": "Plum1",
                     "hex": "#ffbbff"
                 },
                 {
-                    "name": "plum2",
+                    "name": "Plum2",
                     "hex": "#eeaeee"
                 },
                 {
-                    "name": "plum3",
+                    "name": "Plum3",
                     "hex": "#cd96cd"
                 },
                 {
-                    "name": "plum4",
+                    "name": "Plum4",
                     "hex": "#8b668b"
                 },
                 {
@@ -2597,19 +2241,19 @@
                     "hex": "#68228b"
                 },
                 {
-                    "name": "purple1",
+                    "name": "Purple1",
                     "hex": "#9b30ff"
                 },
                 {
-                    "name": "purple2",
+                    "name": "Purple2",
                     "hex": "#912cee"
                 },
                 {
-                    "name": "purple3",
+                    "name": "Purple3",
                     "hex": "#7d26cd"
                 },
                 {
-                    "name": "purple4",
+                    "name": "Purple4",
                     "hex": "#551a8b"
                 },
                 {
@@ -2629,831 +2273,831 @@
                     "hex": "#5d478b"
                 },
                 {
-                    "name": "thistle1",
+                    "name": "Thistle1",
                     "hex": "#ffe1ff"
                 },
                 {
-                    "name": "thistle2",
+                    "name": "Thistle2",
                     "hex": "#eed2ee"
                 },
                 {
-                    "name": "thistle3",
+                    "name": "Thistle3",
                     "hex": "#cdb5cd"
                 },
                 {
-                    "name": "thistle4",
+                    "name": "Thistle4",
                     "hex": "#8b7b8b"
                 },
                 {
-                    "name": "gray0",
+                    "name": "Gray0",
                     "hex": "#000000"
                 },
                 {
-                    "name": "grey0",
+                    "name": "Grey0",
                     "hex": "#000000"
                 },
                 {
-                    "name": "gray1",
+                    "name": "Gray1",
                     "hex": "#030303"
                 },
                 {
-                    "name": "grey1",
+                    "name": "Grey1",
                     "hex": "#030303"
                 },
                 {
-                    "name": "gray2",
+                    "name": "Gray2",
                     "hex": "#050505"
                 },
                 {
-                    "name": "grey2",
+                    "name": "Grey2",
                     "hex": "#050505"
                 },
                 {
-                    "name": "gray3",
+                    "name": "Gray3",
                     "hex": "#080808"
                 },
                 {
-                    "name": "grey3",
+                    "name": "Grey3",
                     "hex": "#080808"
                 },
                 {
-                    "name": "gray4",
+                    "name": "Gray4",
                     "hex": "#0a0a0a"
                 },
                 {
-                    "name": "grey4",
+                    "name": "Grey4",
                     "hex": "#0a0a0a"
                 },
                 {
-                    "name": "gray5",
+                    "name": "Gray5",
                     "hex": "#0d0d0d"
                 },
                 {
-                    "name": "grey5",
+                    "name": "Grey5",
                     "hex": "#0d0d0d"
                 },
                 {
-                    "name": "gray6",
+                    "name": "Gray6",
                     "hex": "#0f0f0f"
                 },
                 {
-                    "name": "grey6",
+                    "name": "Grey6",
                     "hex": "#0f0f0f"
                 },
                 {
-                    "name": "gray7",
+                    "name": "Gray7",
                     "hex": "#121212"
                 },
                 {
-                    "name": "grey7",
+                    "name": "Grey7",
                     "hex": "#121212"
                 },
                 {
-                    "name": "gray8",
+                    "name": "Gray8",
                     "hex": "#141414"
                 },
                 {
-                    "name": "grey8",
+                    "name": "Grey8",
                     "hex": "#141414"
                 },
                 {
-                    "name": "gray9",
+                    "name": "Gray9",
                     "hex": "#171717"
                 },
                 {
-                    "name": "grey9",
+                    "name": "Grey9",
                     "hex": "#171717"
                 },
                 {
-                    "name": "gray10",
+                    "name": "Gray10",
                     "hex": "#1a1a1a"
                 },
                 {
-                    "name": "grey10",
+                    "name": "Grey10",
                     "hex": "#1a1a1a"
                 },
                 {
-                    "name": "gray11",
+                    "name": "Gray11",
                     "hex": "#1c1c1c"
                 },
                 {
-                    "name": "grey11",
+                    "name": "Grey11",
                     "hex": "#1c1c1c"
                 },
                 {
-                    "name": "gray12",
+                    "name": "Gray12",
                     "hex": "#1f1f1f"
                 },
                 {
-                    "name": "grey12",
+                    "name": "Grey12",
                     "hex": "#1f1f1f"
                 },
                 {
-                    "name": "gray13",
+                    "name": "Gray13",
                     "hex": "#212121"
                 },
                 {
-                    "name": "grey13",
+                    "name": "Grey13",
                     "hex": "#212121"
                 },
                 {
-                    "name": "gray14",
+                    "name": "Gray14",
                     "hex": "#242424"
                 },
                 {
-                    "name": "grey14",
+                    "name": "Grey14",
                     "hex": "#242424"
                 },
                 {
-                    "name": "gray15",
+                    "name": "Gray15",
                     "hex": "#262626"
                 },
                 {
-                    "name": "grey15",
+                    "name": "Grey15",
                     "hex": "#262626"
                 },
                 {
-                    "name": "gray16",
+                    "name": "Gray16",
                     "hex": "#292929"
                 },
                 {
-                    "name": "grey16",
+                    "name": "Grey16",
                     "hex": "#292929"
                 },
                 {
-                    "name": "gray17",
+                    "name": "Gray17",
                     "hex": "#2b2b2b"
                 },
                 {
-                    "name": "grey17",
+                    "name": "Grey17",
                     "hex": "#2b2b2b"
                 },
                 {
-                    "name": "gray18",
+                    "name": "Gray18",
                     "hex": "#2e2e2e"
                 },
                 {
-                    "name": "grey18",
+                    "name": "Grey18",
                     "hex": "#2e2e2e"
                 },
                 {
-                    "name": "gray19",
+                    "name": "Gray19",
                     "hex": "#303030"
                 },
                 {
-                    "name": "grey19",
+                    "name": "Grey19",
                     "hex": "#303030"
                 },
                 {
-                    "name": "gray20",
+                    "name": "Gray20",
                     "hex": "#333333"
                 },
                 {
-                    "name": "grey20",
+                    "name": "Grey20",
                     "hex": "#333333"
                 },
                 {
-                    "name": "gray21",
+                    "name": "Gray21",
                     "hex": "#363636"
                 },
                 {
-                    "name": "grey21",
+                    "name": "Grey21",
                     "hex": "#363636"
                 },
                 {
-                    "name": "gray22",
+                    "name": "Gray22",
                     "hex": "#383838"
                 },
                 {
-                    "name": "grey22",
+                    "name": "Grey22",
                     "hex": "#383838"
                 },
                 {
-                    "name": "gray23",
+                    "name": "Gray23",
                     "hex": "#3b3b3b"
                 },
                 {
-                    "name": "grey23",
+                    "name": "Grey23",
                     "hex": "#3b3b3b"
                 },
                 {
-                    "name": "gray24",
+                    "name": "Gray24",
                     "hex": "#3d3d3d"
                 },
                 {
-                    "name": "grey24",
+                    "name": "Grey24",
                     "hex": "#3d3d3d"
                 },
                 {
-                    "name": "gray25",
+                    "name": "Gray25",
                     "hex": "#404040"
                 },
                 {
-                    "name": "grey25",
+                    "name": "Grey25",
                     "hex": "#404040"
                 },
                 {
-                    "name": "gray26",
+                    "name": "Gray26",
                     "hex": "#424242"
                 },
                 {
-                    "name": "grey26",
+                    "name": "Grey26",
                     "hex": "#424242"
                 },
                 {
-                    "name": "gray27",
+                    "name": "Gray27",
                     "hex": "#454545"
                 },
                 {
-                    "name": "grey27",
+                    "name": "Grey27",
                     "hex": "#454545"
                 },
                 {
-                    "name": "gray28",
+                    "name": "Gray28",
                     "hex": "#474747"
                 },
                 {
-                    "name": "grey28",
+                    "name": "Grey28",
                     "hex": "#474747"
                 },
                 {
-                    "name": "gray29",
+                    "name": "Gray29",
                     "hex": "#4a4a4a"
                 },
                 {
-                    "name": "grey29",
+                    "name": "Grey29",
                     "hex": "#4a4a4a"
                 },
                 {
-                    "name": "gray30",
+                    "name": "Gray30",
                     "hex": "#4d4d4d"
                 },
                 {
-                    "name": "grey30",
+                    "name": "Grey30",
                     "hex": "#4d4d4d"
                 },
                 {
-                    "name": "gray31",
+                    "name": "Gray31",
                     "hex": "#4f4f4f"
                 },
                 {
-                    "name": "grey31",
+                    "name": "Grey31",
                     "hex": "#4f4f4f"
                 },
                 {
-                    "name": "gray32",
+                    "name": "Gray32",
                     "hex": "#525252"
                 },
                 {
-                    "name": "grey32",
+                    "name": "Grey32",
                     "hex": "#525252"
                 },
                 {
-                    "name": "gray33",
+                    "name": "Gray33",
                     "hex": "#545454"
                 },
                 {
-                    "name": "grey33",
+                    "name": "Grey33",
                     "hex": "#545454"
                 },
                 {
-                    "name": "gray34",
+                    "name": "Gray34",
                     "hex": "#575757"
                 },
                 {
-                    "name": "grey34",
+                    "name": "Grey34",
                     "hex": "#575757"
                 },
                 {
-                    "name": "gray35",
+                    "name": "Gray35",
                     "hex": "#595959"
                 },
                 {
-                    "name": "grey35",
+                    "name": "Grey35",
                     "hex": "#595959"
                 },
                 {
-                    "name": "gray36",
+                    "name": "Gray36",
                     "hex": "#5c5c5c"
                 },
                 {
-                    "name": "grey36",
+                    "name": "Grey36",
                     "hex": "#5c5c5c"
                 },
                 {
-                    "name": "gray37",
+                    "name": "Gray37",
                     "hex": "#5e5e5e"
                 },
                 {
-                    "name": "grey37",
+                    "name": "Grey37",
                     "hex": "#5e5e5e"
                 },
                 {
-                    "name": "gray38",
+                    "name": "Gray38",
                     "hex": "#616161"
                 },
                 {
-                    "name": "grey38",
+                    "name": "Grey38",
                     "hex": "#616161"
                 },
                 {
-                    "name": "gray39",
+                    "name": "Gray39",
                     "hex": "#636363"
                 },
                 {
-                    "name": "grey39",
+                    "name": "Grey39",
                     "hex": "#636363"
                 },
                 {
-                    "name": "gray40",
+                    "name": "Gray40",
                     "hex": "#666666"
                 },
                 {
-                    "name": "grey40",
+                    "name": "Grey40",
                     "hex": "#666666"
                 },
                 {
-                    "name": "gray41",
+                    "name": "Gray41",
                     "hex": "#696969"
                 },
                 {
-                    "name": "grey41",
+                    "name": "Grey41",
                     "hex": "#696969"
                 },
                 {
-                    "name": "gray42",
+                    "name": "Gray42",
                     "hex": "#6b6b6b"
                 },
                 {
-                    "name": "grey42",
+                    "name": "Grey42",
                     "hex": "#6b6b6b"
                 },
                 {
-                    "name": "gray43",
+                    "name": "Gray43",
                     "hex": "#6e6e6e"
                 },
                 {
-                    "name": "grey43",
+                    "name": "Grey43",
                     "hex": "#6e6e6e"
                 },
                 {
-                    "name": "gray44",
+                    "name": "Gray44",
                     "hex": "#707070"
                 },
                 {
-                    "name": "grey44",
+                    "name": "Grey44",
                     "hex": "#707070"
                 },
                 {
-                    "name": "gray45",
+                    "name": "Gray45",
                     "hex": "#737373"
                 },
                 {
-                    "name": "grey45",
+                    "name": "Grey45",
                     "hex": "#737373"
                 },
                 {
-                    "name": "gray46",
+                    "name": "Gray46",
                     "hex": "#757575"
                 },
                 {
-                    "name": "grey46",
+                    "name": "Grey46",
                     "hex": "#757575"
                 },
                 {
-                    "name": "gray47",
+                    "name": "Gray47",
                     "hex": "#787878"
                 },
                 {
-                    "name": "grey47",
+                    "name": "Grey47",
                     "hex": "#787878"
                 },
                 {
-                    "name": "gray48",
+                    "name": "Gray48",
                     "hex": "#7a7a7a"
                 },
                 {
-                    "name": "grey48",
+                    "name": "Grey48",
                     "hex": "#7a7a7a"
                 },
                 {
-                    "name": "gray49",
+                    "name": "Gray49",
                     "hex": "#7d7d7d"
                 },
                 {
-                    "name": "grey49",
+                    "name": "Grey49",
                     "hex": "#7d7d7d"
                 },
                 {
-                    "name": "gray50",
+                    "name": "Gray50",
                     "hex": "#7f7f7f"
                 },
                 {
-                    "name": "grey50",
+                    "name": "Grey50",
                     "hex": "#7f7f7f"
                 },
                 {
-                    "name": "gray51",
+                    "name": "Gray51",
                     "hex": "#828282"
                 },
                 {
-                    "name": "grey51",
+                    "name": "Grey51",
                     "hex": "#828282"
                 },
                 {
-                    "name": "gray52",
+                    "name": "Gray52",
                     "hex": "#858585"
                 },
                 {
-                    "name": "grey52",
+                    "name": "Grey52",
                     "hex": "#858585"
                 },
                 {
-                    "name": "gray53",
+                    "name": "Gray53",
                     "hex": "#878787"
                 },
                 {
-                    "name": "grey53",
+                    "name": "Grey53",
                     "hex": "#878787"
                 },
                 {
-                    "name": "gray54",
+                    "name": "Gray54",
                     "hex": "#8a8a8a"
                 },
                 {
-                    "name": "grey54",
+                    "name": "Grey54",
                     "hex": "#8a8a8a"
                 },
                 {
-                    "name": "gray55",
+                    "name": "Gray55",
                     "hex": "#8c8c8c"
                 },
                 {
-                    "name": "grey55",
+                    "name": "Grey55",
                     "hex": "#8c8c8c"
                 },
                 {
-                    "name": "gray56",
+                    "name": "Gray56",
                     "hex": "#8f8f8f"
                 },
                 {
-                    "name": "grey56",
+                    "name": "Grey56",
                     "hex": "#8f8f8f"
                 },
                 {
-                    "name": "gray57",
+                    "name": "Gray57",
                     "hex": "#919191"
                 },
                 {
-                    "name": "grey57",
+                    "name": "Grey57",
                     "hex": "#919191"
                 },
                 {
-                    "name": "gray58",
+                    "name": "Gray58",
                     "hex": "#949494"
                 },
                 {
-                    "name": "grey58",
+                    "name": "Grey58",
                     "hex": "#949494"
                 },
                 {
-                    "name": "gray59",
+                    "name": "Gray59",
                     "hex": "#969696"
                 },
                 {
-                    "name": "grey59",
+                    "name": "Grey59",
                     "hex": "#969696"
                 },
                 {
-                    "name": "gray60",
+                    "name": "Gray60",
                     "hex": "#999999"
                 },
                 {
-                    "name": "grey60",
+                    "name": "Grey60",
                     "hex": "#999999"
                 },
                 {
-                    "name": "gray61",
+                    "name": "Gray61",
                     "hex": "#9c9c9c"
                 },
                 {
-                    "name": "grey61",
+                    "name": "Grey61",
                     "hex": "#9c9c9c"
                 },
                 {
-                    "name": "gray62",
+                    "name": "Gray62",
                     "hex": "#9e9e9e"
                 },
                 {
-                    "name": "grey62",
+                    "name": "Grey62",
                     "hex": "#9e9e9e"
                 },
                 {
-                    "name": "gray63",
+                    "name": "Gray63",
                     "hex": "#a1a1a1"
                 },
                 {
-                    "name": "grey63",
+                    "name": "Grey63",
                     "hex": "#a1a1a1"
                 },
                 {
-                    "name": "gray64",
+                    "name": "Gray64",
                     "hex": "#a3a3a3"
                 },
                 {
-                    "name": "grey64",
+                    "name": "Grey64",
                     "hex": "#a3a3a3"
                 },
                 {
-                    "name": "gray65",
+                    "name": "Gray65",
                     "hex": "#a6a6a6"
                 },
                 {
-                    "name": "grey65",
+                    "name": "Grey65",
                     "hex": "#a6a6a6"
                 },
                 {
-                    "name": "gray66",
+                    "name": "Gray66",
                     "hex": "#a8a8a8"
                 },
                 {
-                    "name": "grey66",
+                    "name": "Grey66",
                     "hex": "#a8a8a8"
                 },
                 {
-                    "name": "gray67",
+                    "name": "Gray67",
                     "hex": "#ababab"
                 },
                 {
-                    "name": "grey67",
+                    "name": "Grey67",
                     "hex": "#ababab"
                 },
                 {
-                    "name": "gray68",
+                    "name": "Gray68",
                     "hex": "#adadad"
                 },
                 {
-                    "name": "grey68",
+                    "name": "Grey68",
                     "hex": "#adadad"
                 },
                 {
-                    "name": "gray69",
+                    "name": "Gray69",
                     "hex": "#b0b0b0"
                 },
                 {
-                    "name": "grey69",
+                    "name": "Grey69",
                     "hex": "#b0b0b0"
                 },
                 {
-                    "name": "gray70",
+                    "name": "Gray70",
                     "hex": "#b3b3b3"
                 },
                 {
-                    "name": "grey70",
+                    "name": "Grey70",
                     "hex": "#b3b3b3"
                 },
                 {
-                    "name": "gray71",
+                    "name": "Gray71",
                     "hex": "#b5b5b5"
                 },
                 {
-                    "name": "grey71",
+                    "name": "Grey71",
                     "hex": "#b5b5b5"
                 },
                 {
-                    "name": "gray72",
+                    "name": "Gray72",
                     "hex": "#b8b8b8"
                 },
                 {
-                    "name": "grey72",
+                    "name": "Grey72",
                     "hex": "#b8b8b8"
                 },
                 {
-                    "name": "gray73",
+                    "name": "Gray73",
                     "hex": "#bababa"
                 },
                 {
-                    "name": "grey73",
+                    "name": "Grey73",
                     "hex": "#bababa"
                 },
                 {
-                    "name": "gray74",
+                    "name": "Gray74",
                     "hex": "#bdbdbd"
                 },
                 {
-                    "name": "grey74",
+                    "name": "Grey74",
                     "hex": "#bdbdbd"
                 },
                 {
-                    "name": "gray75",
+                    "name": "Gray75",
                     "hex": "#bfbfbf"
                 },
                 {
-                    "name": "grey75",
+                    "name": "Grey75",
                     "hex": "#bfbfbf"
                 },
                 {
-                    "name": "gray76",
+                    "name": "Gray76",
                     "hex": "#c2c2c2"
                 },
                 {
-                    "name": "grey76",
+                    "name": "Grey76",
                     "hex": "#c2c2c2"
                 },
                 {
-                    "name": "gray77",
+                    "name": "Gray77",
                     "hex": "#c4c4c4"
                 },
                 {
-                    "name": "grey77",
+                    "name": "Grey77",
                     "hex": "#c4c4c4"
                 },
                 {
-                    "name": "gray78",
+                    "name": "Gray78",
                     "hex": "#c7c7c7"
                 },
                 {
-                    "name": "grey78",
+                    "name": "Grey78",
                     "hex": "#c7c7c7"
                 },
                 {
-                    "name": "gray79",
+                    "name": "Gray79",
                     "hex": "#c9c9c9"
                 },
                 {
-                    "name": "grey79",
+                    "name": "Grey79",
                     "hex": "#c9c9c9"
                 },
                 {
-                    "name": "gray80",
+                    "name": "Gray80",
                     "hex": "#cccccc"
                 },
                 {
-                    "name": "grey80",
+                    "name": "Grey80",
                     "hex": "#cccccc"
                 },
                 {
-                    "name": "gray81",
+                    "name": "Gray81",
                     "hex": "#cfcfcf"
                 },
                 {
-                    "name": "grey81",
+                    "name": "Grey81",
                     "hex": "#cfcfcf"
                 },
                 {
-                    "name": "gray82",
+                    "name": "Gray82",
                     "hex": "#d1d1d1"
                 },
                 {
-                    "name": "grey82",
+                    "name": "Grey82",
                     "hex": "#d1d1d1"
                 },
                 {
-                    "name": "gray83",
+                    "name": "Gray83",
                     "hex": "#d4d4d4"
                 },
                 {
-                    "name": "grey83",
+                    "name": "Grey83",
                     "hex": "#d4d4d4"
                 },
                 {
-                    "name": "gray84",
+                    "name": "Gray84",
                     "hex": "#d6d6d6"
                 },
                 {
-                    "name": "grey84",
+                    "name": "Grey84",
                     "hex": "#d6d6d6"
                 },
                 {
-                    "name": "gray85",
+                    "name": "Gray85",
                     "hex": "#d9d9d9"
                 },
                 {
-                    "name": "grey85",
+                    "name": "Grey85",
                     "hex": "#d9d9d9"
                 },
                 {
-                    "name": "gray86",
+                    "name": "Gray86",
                     "hex": "#dbdbdb"
                 },
                 {
-                    "name": "grey86",
+                    "name": "Grey86",
                     "hex": "#dbdbdb"
                 },
                 {
-                    "name": "gray87",
+                    "name": "Gray87",
                     "hex": "#dedede"
                 },
                 {
-                    "name": "grey87",
+                    "name": "Grey87",
                     "hex": "#dedede"
                 },
                 {
-                    "name": "gray88",
+                    "name": "Gray88",
                     "hex": "#e0e0e0"
                 },
                 {
-                    "name": "grey88",
+                    "name": "Grey88",
                     "hex": "#e0e0e0"
                 },
                 {
-                    "name": "gray89",
+                    "name": "Gray89",
                     "hex": "#e3e3e3"
                 },
                 {
-                    "name": "grey89",
+                    "name": "Grey89",
                     "hex": "#e3e3e3"
                 },
                 {
-                    "name": "gray90",
+                    "name": "Gray90",
                     "hex": "#e5e5e5"
                 },
                 {
-                    "name": "grey90",
+                    "name": "Grey90",
                     "hex": "#e5e5e5"
                 },
                 {
-                    "name": "gray91",
+                    "name": "Gray91",
                     "hex": "#e8e8e8"
                 },
                 {
-                    "name": "grey91",
+                    "name": "Grey91",
                     "hex": "#e8e8e8"
                 },
                 {
-                    "name": "gray92",
+                    "name": "Gray92",
                     "hex": "#ebebeb"
                 },
                 {
-                    "name": "grey92",
+                    "name": "Grey92",
                     "hex": "#ebebeb"
                 },
                 {
-                    "name": "gray93",
+                    "name": "Gray93",
                     "hex": "#ededed"
                 },
                 {
-                    "name": "grey93",
+                    "name": "Grey93",
                     "hex": "#ededed"
                 },
                 {
-                    "name": "gray94",
+                    "name": "Gray94",
                     "hex": "#f0f0f0"
                 },
                 {
-                    "name": "grey94",
+                    "name": "Grey94",
                     "hex": "#f0f0f0"
                 },
                 {
-                    "name": "gray95",
+                    "name": "Gray95",
                     "hex": "#f2f2f2"
                 },
                 {
-                    "name": "grey95",
+                    "name": "Grey95",
                     "hex": "#f2f2f2"
                 },
                 {
-                    "name": "gray96",
+                    "name": "Gray96",
                     "hex": "#f5f5f5"
                 },
                 {
-                    "name": "grey96",
+                    "name": "Grey96",
                     "hex": "#f5f5f5"
                 },
                 {
-                    "name": "gray97",
+                    "name": "Gray97",
                     "hex": "#f7f7f7"
                 },
                 {
-                    "name": "grey97",
+                    "name": "Grey97",
                     "hex": "#f7f7f7"
                 },
                 {
-                    "name": "gray98",
+                    "name": "Gray98",
                     "hex": "#fafafa"
                 },
                 {
-                    "name": "grey98",
+                    "name": "Grey98",
                     "hex": "#fafafa"
                 },
                 {
-                    "name": "gray99",
+                    "name": "Gray99",
                     "hex": "#fcfcfc"
                 },
                 {
-                    "name": "grey99",
+                    "name": "Grey99",
                     "hex": "#fcfcfc"
                 },
                 {
-                    "name": "gray100",
+                    "name": "Gray100",
                     "hex": "#ffffff"
                 },
                 {
-                    "name": "grey100",
+                    "name": "Grey100",
                     "hex": "#ffffff"
                 },
                 {
-                    "name": "darkgrey",
+                    "name": "Darkgrey",
                     "hex": "#a9a9a9"
                 },
                 {
@@ -3461,7 +3105,7 @@
                     "hex": "#a9a9a9"
                 },
                 {
-                    "name": "darkgray",
+                    "name": "Darkgray",
                     "hex": "#a9a9a9"
                 },
                 {
@@ -3469,7 +3113,7 @@
                     "hex": "#a9a9a9"
                 },
                 {
-                    "name": "darkblue",
+                    "name": "Darkblue",
                     "hex": "#00008b"
                 },
                 {
@@ -3477,7 +3121,7 @@
                     "hex": "#00008b"
                 },
                 {
-                    "name": "darkcyan",
+                    "name": "Darkcyan",
                     "hex": "#008b8b"
                 },
                 {
@@ -3485,7 +3129,7 @@
                     "hex": "#008b8b"
                 },
                 {
-                    "name": "darkmagenta",
+                    "name": "Darkmagenta",
                     "hex": "#8b008b"
                 },
                 {
@@ -3493,7 +3137,7 @@
                     "hex": "#8b008b"
                 },
                 {
-                    "name": "darkred",
+                    "name": "Darkred",
                     "hex": "#8b0000"
                 },
                 {
@@ -3501,7 +3145,7 @@
                     "hex": "#8b0000"
                 },
                 {
-                    "name": "lightgreen",
+                    "name": "Lightgreen",
                     "hex": "#90ee90"
                 },
                 {
@@ -3509,15 +3153,7 @@
                     "hex": "#90ee90"
                 },
                 {
-                    "name": "sgigray0",
-                    "hex": "#000000"
-                },
-                {
                     "name": "SGIGray0",
-                    "hex": "#000000"
-                },
-                {
-                    "name": "sgigrey0",
                     "hex": "#000000"
                 },
                 {
@@ -3525,15 +3161,7 @@
                     "hex": "#000000"
                 },
                 {
-                    "name": "sgigray4",
-                    "hex": "#0a0a0a"
-                },
-                {
                     "name": "SGIGray4",
-                    "hex": "#0a0a0a"
-                },
-                {
-                    "name": "sgigrey4",
                     "hex": "#0a0a0a"
                 },
                 {
@@ -3541,15 +3169,7 @@
                     "hex": "#0a0a0a"
                 },
                 {
-                    "name": "sgigray8",
-                    "hex": "#141414"
-                },
-                {
                     "name": "SGIGray8",
-                    "hex": "#141414"
-                },
-                {
-                    "name": "sgigrey8",
                     "hex": "#141414"
                 },
                 {
@@ -3557,15 +3177,7 @@
                     "hex": "#141414"
                 },
                 {
-                    "name": "sgigray12",
-                    "hex": "#1e1e1e"
-                },
-                {
                     "name": "SGIGray12",
-                    "hex": "#1e1e1e"
-                },
-                {
-                    "name": "sgigrey12",
                     "hex": "#1e1e1e"
                 },
                 {
@@ -3573,15 +3185,7 @@
                     "hex": "#1e1e1e"
                 },
                 {
-                    "name": "sgigray16",
-                    "hex": "#282828"
-                },
-                {
                     "name": "SGIGray16",
-                    "hex": "#282828"
-                },
-                {
-                    "name": "sgigrey16",
                     "hex": "#282828"
                 },
                 {
@@ -3589,15 +3193,7 @@
                     "hex": "#282828"
                 },
                 {
-                    "name": "sgigray20",
-                    "hex": "#333333"
-                },
-                {
                     "name": "SGIGray20",
-                    "hex": "#333333"
-                },
-                {
-                    "name": "sgigrey20",
                     "hex": "#333333"
                 },
                 {
@@ -3605,15 +3201,7 @@
                     "hex": "#333333"
                 },
                 {
-                    "name": "sgigray24",
-                    "hex": "#3d3d3d"
-                },
-                {
                     "name": "SGIGray24",
-                    "hex": "#3d3d3d"
-                },
-                {
-                    "name": "sgigrey24",
                     "hex": "#3d3d3d"
                 },
                 {
@@ -3621,15 +3209,7 @@
                     "hex": "#3d3d3d"
                 },
                 {
-                    "name": "sgigray28",
-                    "hex": "#474747"
-                },
-                {
                     "name": "SGIGray28",
-                    "hex": "#474747"
-                },
-                {
-                    "name": "sgigrey28",
                     "hex": "#474747"
                 },
                 {
@@ -3637,15 +3217,7 @@
                     "hex": "#474747"
                 },
                 {
-                    "name": "sgigray32",
-                    "hex": "#515151"
-                },
-                {
                     "name": "SGIGray32",
-                    "hex": "#515151"
-                },
-                {
-                    "name": "sgigrey32",
                     "hex": "#515151"
                 },
                 {
@@ -3653,15 +3225,7 @@
                     "hex": "#515151"
                 },
                 {
-                    "name": "sgigray36",
-                    "hex": "#5b5b5b"
-                },
-                {
                     "name": "SGIGray36",
-                    "hex": "#5b5b5b"
-                },
-                {
-                    "name": "sgigrey36",
                     "hex": "#5b5b5b"
                 },
                 {
@@ -3669,15 +3233,7 @@
                     "hex": "#5b5b5b"
                 },
                 {
-                    "name": "sgigray40",
-                    "hex": "#666666"
-                },
-                {
                     "name": "SGIGray40",
-                    "hex": "#666666"
-                },
-                {
-                    "name": "sgigrey40",
                     "hex": "#666666"
                 },
                 {
@@ -3685,15 +3241,7 @@
                     "hex": "#666666"
                 },
                 {
-                    "name": "sgigray44",
-                    "hex": "#707070"
-                },
-                {
                     "name": "SGIGray44",
-                    "hex": "#707070"
-                },
-                {
-                    "name": "sgigrey44",
                     "hex": "#707070"
                 },
                 {
@@ -3701,15 +3249,7 @@
                     "hex": "#707070"
                 },
                 {
-                    "name": "sgigray48",
-                    "hex": "#7a7a7a"
-                },
-                {
                     "name": "SGIGray48",
-                    "hex": "#7a7a7a"
-                },
-                {
-                    "name": "sgigrey48",
                     "hex": "#7a7a7a"
                 },
                 {
@@ -3717,15 +3257,7 @@
                     "hex": "#7a7a7a"
                 },
                 {
-                    "name": "sgigray52",
-                    "hex": "#848484"
-                },
-                {
                     "name": "SGIGray52",
-                    "hex": "#848484"
-                },
-                {
-                    "name": "sgigrey52",
                     "hex": "#848484"
                 },
                 {
@@ -3733,15 +3265,7 @@
                     "hex": "#848484"
                 },
                 {
-                    "name": "sgigray56",
-                    "hex": "#8e8e8e"
-                },
-                {
                     "name": "SGIGray56",
-                    "hex": "#8e8e8e"
-                },
-                {
-                    "name": "sgigrey56",
                     "hex": "#8e8e8e"
                 },
                 {
@@ -3749,15 +3273,7 @@
                     "hex": "#8e8e8e"
                 },
                 {
-                    "name": "sgigray60",
-                    "hex": "#999999"
-                },
-                {
                     "name": "SGIGray60",
-                    "hex": "#999999"
-                },
-                {
-                    "name": "sgigrey60",
                     "hex": "#999999"
                 },
                 {
@@ -3765,15 +3281,7 @@
                     "hex": "#999999"
                 },
                 {
-                    "name": "sgigray64",
-                    "hex": "#a3a3a3"
-                },
-                {
                     "name": "SGIGray64",
-                    "hex": "#a3a3a3"
-                },
-                {
-                    "name": "sgigrey64",
                     "hex": "#a3a3a3"
                 },
                 {
@@ -3781,15 +3289,7 @@
                     "hex": "#a3a3a3"
                 },
                 {
-                    "name": "sgigray68",
-                    "hex": "#adadad"
-                },
-                {
                     "name": "SGIGray68",
-                    "hex": "#adadad"
-                },
-                {
-                    "name": "sgigrey68",
                     "hex": "#adadad"
                 },
                 {
@@ -3797,15 +3297,7 @@
                     "hex": "#adadad"
                 },
                 {
-                    "name": "sgigray72",
-                    "hex": "#b7b7b7"
-                },
-                {
                     "name": "SGIGray72",
-                    "hex": "#b7b7b7"
-                },
-                {
-                    "name": "sgigrey72",
                     "hex": "#b7b7b7"
                 },
                 {
@@ -3818,598 +3310,598 @@
             "prefix": "css",
             "name": "CSS Standardized Colors",
             "standard": "Cascading Style Sheets",
-            "source": "https://developer.mozilla.org/en-US/docs/Web/CSS/color_value",
+            "source": "Https://developer.mozilla.org/en-US/docs/Web/CSS/color_value",
             "colors": [
                 {
-                    "name": "black",
+                    "name": "Black",
                     "hex": "#000000"
                 },
                 {
-                    "name": "silver",
+                    "name": "Silver",
                     "hex": "#c0c0c0"
                 },
                 {
-                    "name": "gray",
+                    "name": "Gray",
                     "hex": "#808080"
                 },
                 {
-                    "name": "white",
+                    "name": "White",
                     "hex": "#ffffff"
                 },
                 {
-                    "name": "maroon",
+                    "name": "Maroon",
                     "hex": "#800000"
                 },
                 {
-                    "name": "red",
+                    "name": "Red",
                     "hex": "#ff0000"
                 },
                 {
-                    "name": "purple",
+                    "name": "Purple",
                     "hex": "#800080"
                 },
                 {
-                    "name": "fuchsia",
+                    "name": "Fuchsia",
                     "hex": "#ff00ff"
                 },
                 {
-                    "name": "green",
+                    "name": "Green",
                     "hex": "#008000"
                 },
                 {
-                    "name": "lime",
+                    "name": "Lime",
                     "hex": "#00ff00"
                 },
                 {
-                    "name": "olive",
+                    "name": "Olive",
                     "hex": "#808000"
                 },
                 {
-                    "name": "yellow",
+                    "name": "Yellow",
                     "hex": "#ffff00"
                 },
                 {
-                    "name": "navy",
+                    "name": "Navy",
                     "hex": "#000080"
                 },
                 {
-                    "name": "blue",
+                    "name": "Blue",
                     "hex": "#0000ff"
                 },
                 {
-                    "name": "teal",
+                    "name": "Teal",
                     "hex": "#008080"
                 },
                 {
-                    "name": "aqua",
+                    "name": "Aqua",
                     "hex": "#00ffff"
                 },
                 {
-                    "name": "orange",
+                    "name": "Orange",
                     "hex": "#ffa500"
                 },
                 {
-                    "name": "aliceBlue",
+                    "name": "AliceBlue",
                     "hex": "#f0f8ff"
                 },
                 {
-                    "name": "antiqueWhite",
+                    "name": "AntiqueWhite",
                     "hex": "#faebd7"
                 },
                 {
-                    "name": "aquamarine",
+                    "name": "Aquamarine",
                     "hex": "#7fffd4"
                 },
                 {
-                    "name": "azure",
+                    "name": "Azure",
                     "hex": "#f0ffff"
                 },
                 {
-                    "name": "beige",
+                    "name": "Beige",
                     "hex": "#f5f5dc"
                 },
                 {
-                    "name": "bisque",
+                    "name": "Bisque",
                     "hex": "#ffe4c4"
                 },
                 {
-                    "name": "blanchedAlmond",
+                    "name": "BlanchedAlmond",
                     "hex": "#ffebcd"
                 },
                 {
-                    "name": "blueViolet",
+                    "name": "BlueViolet",
                     "hex": "#8a2be2"
                 },
                 {
-                    "name": "brown",
+                    "name": "Brown",
                     "hex": "#a52a2a"
                 },
                 {
-                    "name": "burlyWood",
+                    "name": "BurlyWood",
                     "hex": "#deb887"
                 },
                 {
-                    "name": "cadetBlue",
+                    "name": "CadetBlue",
                     "hex": "#5f9ea0"
                 },
                 {
-                    "name": "chartreuse",
+                    "name": "Chartreuse",
                     "hex": "#7fff00"
                 },
                 {
-                    "name": "chocolate",
+                    "name": "Chocolate",
                     "hex": "#d2691e"
                 },
                 {
-                    "name": "coral",
+                    "name": "Coral",
                     "hex": "#ff7f50"
                 },
                 {
-                    "name": "cornflowerBlue",
+                    "name": "CornflowerBlue",
                     "hex": "#6495ed"
                 },
                 {
-                    "name": "cornsilk",
+                    "name": "Cornsilk",
                     "hex": "#fff8dc"
                 },
                 {
-                    "name": "crimson",
+                    "name": "Crimson",
                     "hex": "#dc143c"
                 },
                 {
-                    "name": "cyan",
+                    "name": "Cyan",
                     "hex": "#00ffff"
                 },
                 {
-                    "name": "darkBlue",
+                    "name": "DarkBlue",
                     "hex": "#00008b"
                 },
                 {
-                    "name": "darkByan",
+                    "name": "DarkByan",
                     "hex": "#008b8b"
                 },
                 {
-                    "name": "darkGoldenrod",
+                    "name": "DarkGoldenrod",
                     "hex": "#b8860b"
                 },
                 {
-                    "name": "darkGray",
+                    "name": "DarkGray",
                     "hex": "#a9a9a9"
                 },
                 {
-                    "name": "darkGreen",
+                    "name": "DarkGreen",
                     "hex": "#006400"
                 },
                 {
-                    "name": "darkGrey",
+                    "name": "DarkGrey",
                     "hex": "#a9a9a9"
                 },
                 {
-                    "name": "darkKhaki",
+                    "name": "DarkKhaki",
                     "hex": "#bdb76b"
                 },
                 {
-                    "name": "darkMagenta",
+                    "name": "DarkMagenta",
                     "hex": "#8b008b"
                 },
                 {
-                    "name": "darkOlivegreen",
+                    "name": "DarkOlivegreen",
                     "hex": "#556b2f"
                 },
                 {
-                    "name": "darkOrange",
+                    "name": "DarkOrange",
                     "hex": "#ff8c00"
                 },
                 {
-                    "name": "darkOrchid",
+                    "name": "DarkOrchid",
                     "hex": "#9932cc"
                 },
                 {
-                    "name": "darkRed",
+                    "name": "DarkRed",
                     "hex": "#8b0000"
                 },
                 {
-                    "name": "darkSalmon",
+                    "name": "DarkSalmon",
                     "hex": "#e9967a"
                 },
                 {
-                    "name": "darkSeagreen",
+                    "name": "DarkSeagreen",
                     "hex": "#8fbc8f"
                 },
                 {
-                    "name": "darkSlateblue",
+                    "name": "DarkSlateblue",
                     "hex": "#483d8b"
                 },
                 {
-                    "name": "darkSlategray",
+                    "name": "DarkSlategray",
                     "hex": "#2f4f4f"
                 },
                 {
-                    "name": "darkSlategrey",
+                    "name": "DarkSlategrey",
                     "hex": "#2f4f4f"
                 },
                 {
-                    "name": "darkTurquoise",
+                    "name": "DarkTurquoise",
                     "hex": "#00ced1"
                 },
                 {
-                    "name": "darkViolet",
+                    "name": "DarkViolet",
                     "hex": "#9400d3"
                 },
                 {
-                    "name": "deepPink",
+                    "name": "DeepPink",
                     "hex": "#ff1493"
                 },
                 {
-                    "name": "deepSkyblue",
+                    "name": "DeepSkyBblue",
                     "hex": "#00bfff"
                 },
                 {
-                    "name": "dimGray",
+                    "name": "DimGray",
                     "hex": "#696969"
                 },
                 {
-                    "name": "dimGrey",
+                    "name": "DimGrey",
                     "hex": "#696969"
                 },
                 {
-                    "name": "dodgerBlue",
+                    "name": "DodgerBlue",
                     "hex": "#1e90ff"
                 },
                 {
-                    "name": "firebrick",
+                    "name": "Firebrick",
                     "hex": "#b22222"
                 },
                 {
-                    "name": "floralWhite",
+                    "name": "FloralWhite",
                     "hex": "#fffaf0"
                 },
                 {
-                    "name": "forestGreen",
+                    "name": "ForestGreen",
                     "hex": "#228b22"
                 },
                 {
-                    "name": "gainsboro",
+                    "name": "Gainsboro",
                     "hex": "#dcdcdc"
                 },
                 {
-                    "name": "ghostWhite",
+                    "name": "GhostWhite",
                     "hex": "#f8f8ff"
                 },
                 {
-                    "name": "gold",
+                    "name": "Gold",
                     "hex": "#ffd700"
                 },
                 {
-                    "name": "goldenrod",
+                    "name": "Goldenrod",
                     "hex": "#daa520"
                 },
                 {
-                    "name": "greenYellow",
+                    "name": "GreenYellow",
                     "hex": "#adff2f"
                 },
                 {
-                    "name": "grey",
+                    "name": "Grey",
                     "hex": "#808080"
                 },
                 {
-                    "name": "honeydew",
+                    "name": "Honeydew",
                     "hex": "#f0fff0"
                 },
                 {
-                    "name": "hotPink",
+                    "name": "HotPink",
                     "hex": "#ff69b4"
                 },
                 {
-                    "name": "indianRed",
+                    "name": "IndianRed",
                     "hex": "#cd5c5c"
                 },
                 {
-                    "name": "indigo",
+                    "name": "Indigo",
                     "hex": "#4b0082"
                 },
                 {
-                    "name": "ivory",
+                    "name": "Ivory",
                     "hex": "#fffff0"
                 },
                 {
-                    "name": "khaki",
+                    "name": "Khaki",
                     "hex": "#f0e68c"
                 },
                 {
-                    "name": "lavender",
+                    "name": "Lavender",
                     "hex": "#e6e6fa"
                 },
                 {
-                    "name": "lavenderBlush",
+                    "name": "LavenderBlush",
                     "hex": "#fff0f5"
                 },
                 {
-                    "name": "lawnGreen",
+                    "name": "LawnGreen",
                     "hex": "#7cfc00"
                 },
                 {
-                    "name": "lemonChiffon",
+                    "name": "LemonChiffon",
                     "hex": "#fffacd"
                 },
                 {
-                    "name": "lightBlue",
+                    "name": "LightBlue",
                     "hex": "#add8e6"
                 },
                 {
-                    "name": "lightCoral",
+                    "name": "LightCoral",
                     "hex": "#f08080"
                 },
                 {
-                    "name": "lightCyan",
+                    "name": "LightCyan",
                     "hex": "#e0ffff"
                 },
                 {
-                    "name": "lightGoldenrodyellow",
+                    "name": "LightGoldenrodyellow",
                     "hex": "#fafad2"
                 },
                 {
-                    "name": "lightGray",
+                    "name": "LightGray",
                     "hex": "#d3d3d3"
                 },
                 {
-                    "name": "lightGreen",
+                    "name": "LightGreen",
                     "hex": "#90ee90"
                 },
                 {
-                    "name": "lightGrey",
+                    "name": "LightGrey",
                     "hex": "#d3d3d3"
                 },
                 {
-                    "name": "lightPink",
+                    "name": "LightPink",
                     "hex": "#ffb6c1"
                 },
                 {
-                    "name": "lightSalmon",
+                    "name": "LightSalmon",
                     "hex": "#ffa07a"
                 },
                 {
-                    "name": "lightSeagreen",
+                    "name": "LightSeagreen",
                     "hex": "#20b2aa"
                 },
                 {
-                    "name": "lightSkyblue",
+                    "name": "LightSkyblue",
                     "hex": "#87cefa"
                 },
                 {
-                    "name": "lightSlategray",
+                    "name": "LightSlategray",
                     "hex": "#778899"
                 },
                 {
-                    "name": "lightSlategrey",
+                    "name": "LightSlategrey",
                     "hex": "#778899"
                 },
                 {
-                    "name": "lightSteelblue",
+                    "name": "LightSteelblue",
                     "hex": "#b0c4de"
                 },
                 {
-                    "name": "lightYellow",
+                    "name": "LightYellow",
                     "hex": "#ffffe0"
                 },
                 {
-                    "name": "limeGreen",
+                    "name": "LimeGreen",
                     "hex": "#32cd32"
                 },
                 {
-                    "name": "linen",
+                    "name": "Linen",
                     "hex": "#faf0e6"
                 },
                 {
-                    "name": "magenta",
+                    "name": "Magenta",
                     "hex": "#ff00ff"
                 },
                 {
-                    "name": "mediumAquamarine",
+                    "name": "MediumAquamarine",
                     "hex": "#66cdaa"
                 },
                 {
-                    "name": "mediumBlue",
+                    "name": "MediumBlue",
                     "hex": "#0000cd"
                 },
                 {
-                    "name": "mediumOrchid",
+                    "name": "MediumOrchid",
                     "hex": "#ba55d3"
                 },
                 {
-                    "name": "mediumPurple",
+                    "name": "MediumPurple",
                     "hex": "#9370db"
                 },
                 {
-                    "name": "mediumSeagreen",
+                    "name": "MediumSeaGreen",
                     "hex": "#3cb371"
                 },
                 {
-                    "name": "mediumSlateblue",
+                    "name": "MediumSlateblue",
                     "hex": "#7b68ee"
                 },
                 {
-                    "name": "mediumSpringgreen",
+                    "name": "MediumSpringGreen",
                     "hex": "#00fa9a"
                 },
                 {
-                    "name": "mediumTurquoise",
+                    "name": "MediumTurquoise",
                     "hex": "#48d1cc"
                 },
                 {
-                    "name": "mediumVioletred",
+                    "name": "MediumVioletred",
                     "hex": "#c71585"
                 },
                 {
-                    "name": "midnightBlue",
+                    "name": "MidnightBlue",
                     "hex": "#191970"
                 },
                 {
-                    "name": "mintCream",
+                    "name": "MintCream",
                     "hex": "#f5fffa"
                 },
                 {
-                    "name": "mistyRose",
+                    "name": "MistyRose",
                     "hex": "#ffe4e1"
                 },
                 {
-                    "name": "moccasin",
+                    "name": "Moccasin",
                     "hex": "#ffe4b5"
                 },
                 {
-                    "name": "navajoWhite",
+                    "name": "NavajoWhite",
                     "hex": "#ffdead"
                 },
                 {
-                    "name": "oldLace",
+                    "name": "OldLace",
                     "hex": "#fdf5e6"
                 },
                 {
-                    "name": "oliveDrab",
+                    "name": "OliveDrab",
                     "hex": "#6b8e23"
                 },
                 {
-                    "name": "orangeRed",
+                    "name": "OrangeRed",
                     "hex": "#ff4500"
                 },
                 {
-                    "name": "orchid",
+                    "name": "Orchid",
                     "hex": "#da70d6"
                 },
                 {
-                    "name": "paleGoldenrod",
+                    "name": "PaleGoldenrod",
                     "hex": "#eee8aa"
                 },
                 {
-                    "name": "paleGreen",
+                    "name": "PaleGreen",
                     "hex": "#98fb98"
                 },
                 {
-                    "name": "paleTurquoise",
+                    "name": "PaleTurquoise",
                     "hex": "#afeeee"
                 },
                 {
-                    "name": "paleVioletred",
+                    "name": "PaleVioletred",
                     "hex": "#db7093"
                 },
                 {
-                    "name": "papayawhip",
+                    "name": "Papayawhip",
                     "hex": "#ffefd5"
                 },
                 {
-                    "name": "peachpuff",
+                    "name": "Peachpuff",
                     "hex": "#ffdab9"
                 },
                 {
-                    "name": "peru",
+                    "name": "Peru",
                     "hex": "#cd853f"
                 },
                 {
-                    "name": "pink",
+                    "name": "Pink",
                     "hex": "#ffc0cb"
                 },
                 {
-                    "name": "plum",
+                    "name": "Plum",
                     "hex": "#dda0dd"
                 },
                 {
-                    "name": "powderBlue",
+                    "name": "PowderBlue",
                     "hex": "#b0e0e6"
                 },
                 {
-                    "name": "rosyBrown",
+                    "name": "RosyBrown",
                     "hex": "#bc8f8f"
                 },
                 {
-                    "name": "royalBlue",
+                    "name": "RoyalBlue",
                     "hex": "#4169e1"
                 },
                 {
-                    "name": "saddleBrown",
+                    "name": "SaddleBrown",
                     "hex": "#8b4513"
                 },
                 {
-                    "name": "salmon",
+                    "name": "Salmon",
                     "hex": "#fa8072"
                 },
                 {
-                    "name": "sandyBrown",
+                    "name": "SandyBrown",
                     "hex": "#f4a460"
                 },
                 {
-                    "name": "seaGreen",
+                    "name": "SeaGreen",
                     "hex": "#2e8b57"
                 },
                 {
-                    "name": "seashell",
+                    "name": "Seashell",
                     "hex": "#fff5ee"
                 },
                 {
-                    "name": "sienna",
+                    "name": "Sienna",
                     "hex": "#a0522d"
                 },
                 {
-                    "name": "skyblue",
+                    "name": "Skyblue",
                     "hex": "#87ceeb"
                 },
                 {
-                    "name": "slateBlue",
+                    "name": "SlateBlue",
                     "hex": "#6a5acd"
                 },
                 {
-                    "name": "slateGray",
+                    "name": "SlateGray",
                     "hex": "#708090"
                 },
                 {
-                    "name": "slateGrey",
+                    "name": "SlateGrey",
                     "hex": "#708090"
                 },
                 {
-                    "name": "snow",
+                    "name": "Snow",
                     "hex": "#fffafa"
                 },
                 {
-                    "name": "springGreen",
+                    "name": "SpringGreen",
                     "hex": "#00ff7f"
                 },
                 {
-                    "name": "steelBlue",
+                    "name": "SteelBlue",
                     "hex": "#4682b4"
                 },
                 {
-                    "name": "tan",
+                    "name": "Tan",
                     "hex": "#d2b48c"
                 },
                 {
-                    "name": "thistle",
+                    "name": "Thistle",
                     "hex": "#d8bfd8"
                 },
                 {
-                    "name": "tomato",
+                    "name": "Tomato",
                     "hex": "#ff6347"
                 },
                 {
-                    "name": "turquoise",
+                    "name": "Turquoise",
                     "hex": "#40e0d0"
                 },
                 {
-                    "name": "violet",
+                    "name": "Violet",
                     "hex": "#ee82ee"
                 },
                 {
-                    "name": "wheat",
+                    "name": "Wheat",
                     "hex": "#f5deb3"
                 },
                 {
-                    "name": "whiteSmoke",
+                    "name": "WhiteSmoke",
                     "hex": "#f5f5f5"
                 },
                 {
-                    "name": "yellowGreen",
+                    "name": "YellowGreen",
                     "hex": "#9acd32"
                 },
                 {
-                    "name": "rebeccaPurple",
+                    "name": "RebeccaPurple",
                     "hex": "#663399"
                 }
             ]

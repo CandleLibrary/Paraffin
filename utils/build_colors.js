@@ -170,9 +170,9 @@ async function start() {
         string.push(`export enum col_${prefix} {`)
         //build a file
         for (const [key, { i, hex, original, a }] of out_colors.entries()) {
-            const capital_name = (key[0].toUpperCase() + key.slice(1)).replace(/[A-Z]/g, a => {
-                return " " + a;
-            }).trim();
+            const capital_name = (key[0].toUpperCase() + key.slice(1))
+                .replace(/[A-Z]/g, a => " " + a)
+                .replace(/\d+/g, d => " " + d).trim();
 
             let r, g, b, h, s, v;
 
