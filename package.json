@@ -8,7 +8,8 @@
 	"scripts": {
 		"build.watch": "tsc --watch",
 		"build": "tsc",
-		"prepublish": "tsc -p ./tsconfig.json"
+		"prepublish": "tsc -p ./tsconfig.json",
+		"build-colors": "./utils/build_colors.js"
 	},
 	"repository": {
 		"type": "git",
@@ -17,8 +18,12 @@
 	"author": "galactrax <anthonycweathersby@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
+		"@candlefw/conflagrate": ">=0.0.1",
 		"@candlefw/url": "^0.0.13",
-		"@candlefw/whind": ">=0.0.1",
-		"@candlefw/conflagrate": ">=0.0.1"
+		"@candlefw/whind": ">=0.0.1"
+	},
+	"devDependencies": {
+		"jimp": "^0.9.5",
+		"pngjs": "^3.4.0"
 	}
 }
