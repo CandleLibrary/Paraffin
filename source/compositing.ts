@@ -13,12 +13,12 @@ import {
 	xtRBlink,
 	xtRInvert,
 	xtF,
-	color as tColor
+	col_x11
 } from "./color.js";
 
 const
-	xtSELECTED_INPUT = xtF(xtColor(tColor.maroon, tColor.gray50), xtUnderline),
-	xtUNDERLINE_COLOR = xtF(xtColor(tColor.black, tColor.gray85), xtUnderline),
+	xtSELECTED_INPUT = xtF(xtColor(col_x11.maroon, col_x11.gray50), xtUnderline),
+	xtUNDERLINE_COLOR = xtF(xtColor(col_x11.black, col_x11.gray85), xtUnderline),
 	xtRESET_COLOR = xtF(xtReset);
 
 export default function color(wick, html) {
