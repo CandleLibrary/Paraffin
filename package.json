@@ -18,9 +18,9 @@
 	"author": "galactrax <anthonycweathersby@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
-		"@candlefw/conflagrate": ">=0.0.1",
-		"@candlefw/url": "^0.0.13",
-		"@candlefw/whind": ">=0.0.1"
+		"@candlefw/conflagrate": "latest",
+		"@candlefw/url": "^0.1.0",
+		"@candlefw/wind": "latest"
 	},
 	"devDependencies": {
 		"jimp": "^0.9.5"
