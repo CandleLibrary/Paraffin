@@ -14,7 +14,9 @@ import {
     xtRBlink,
     xtRInvert,
     xtF,
-    color
+    col_x11,
+    col_css,
+    col_pwg
 } from "./color.js";
 
 export {
@@ -33,5 +35,7 @@ export {
     xtRBlink,
     xtRInvert,
     xtF,
-    color
+    col_x11,
+    col_css,
+    col_pwg
 };
