@@ -2,6 +2,7 @@ source/
 tests/
 doc/
 docs/
+utils/
 workspaces/
 .git/
 

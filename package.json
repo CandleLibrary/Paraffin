@@ -23,7 +23,6 @@
 		"@candlefw/whind": ">=0.0.1"
 	},
 	"devDependencies": {
-		"jimp": "^0.9.5",
-		"pngjs": "^3.4.0"
+		"jimp": "^0.9.5"
 	}
 }
