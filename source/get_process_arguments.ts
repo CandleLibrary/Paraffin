@@ -2,16 +2,16 @@ type Flag = {
     /**
      * Name of the flag.
      */
-    name: string
+    name: string;
     /**
      * Number of hyphens preceding the name.
      */
     hyphens: number;
     /**
-     * Value of the flag, if flag is followed by a hyphenless value.
+     * Value of the flag, if flag is followed by a un-hyphenated value.
      */
-    value: string
-}
+    value: string;
+};
 
 /** 
  *	Returns an object housing key:value pairs from the values of process.argv. 
@@ -28,54 +28,63 @@ type Flag = {
  *	and an __array__ prop that contains the the key:value pairs ordered left to right based on the 
  *	original argv index location. 
  */
-function getProcessArgs(): { __array__: Flag[] } & { [key: string]: Flag } {
+function getProcessArgs(values: any): { __array__: Flag[]; } & { [key: string]: Flag; } {
+
     let array = [];
+
     return process
         .argv
         .slice(2) // Fist two values, Node dir and Working Dir, can be ignored
         .reduce(
-            (r, i, j, a) => (
-                (i[0] == "-"
-                    && i[1] != "-"
-                    // -abc.. single char flags 
-                    ? (Array.from(i.slice(1)).forEach((n, a) => r.push(
-                        {
-                            name: n
-                            ,
-                            hyphens: 1
-                            ,
-                            value: ""
-                        })), true)
-                    : (r.push(
-                        {
+            (r, str, j, a) => {
+                let name = "", value = "", skip = false;
+                ((str[0] == "-"
+                    && (str[1] != "-"
+                        // -abc.. single char flags 
+                        ? (Array.from(str.slice(1)).forEach((n, a) => r.push(
+                            {
+                                name: n
+                                ,
+                                hyphens: 1
+                                ,
+                                value: ""
+                            })), true)
+                        : (r.push(
+
+                            {
+                                name: name =
+                                    str.replace(/\-/g, " ")
+                                        .trim()
+                                        .replace(/ /g, "_")
+                                ,
+                                hyphens: str.length - str.replace(/\-/g, " ")
+                                    .trim()
+                                    .replace(/ /g, "_").length
+                                ,
+                                value: (values && name.toLocaleLowerCase() in values)
+                                    ? (a[j + 1] && a[j + 1][0] !== "-")
+                                        ? (skip = true, value = a[j + 1], values[name] = this, value)
+                                        : ""
+                                    : ""
+                            }
+                        ), true)))
+                    || ((!skip || (skip = false)) && ((a[j - 1] && a[j - 1][1] !== "-") || !a[j - 1])
+                        && r.push({
                             name:
-                                i.replace(/\-/g, " ")
+                                str.replace(/\-/g, " ")
                                     .trim()
                                     .replace(/ /g, "_")
                             ,
-                            hyphens: i.length - i.replace(/\-/g, " ")
-                                .trim()
-                                .replace(/ /g, "_").length
+                            hyphens: 0
                             ,
-                            value:
-                                (a[j + 1] && a[j + 1][0] !== "-")
-                                    ? a[j + 1]
-                                    : ""
-                        }
-                    )), true)
-                || ((i[j - 1] && i[j - 1][0] !== "-") || !i[j - 1]) && r.push({
-                    name:
-                        i.replace(/\-/g, " ")
-                            .trim()
-                            .replace(/ /g, "_")
-                    ,
-                    hyphens: 0
-                    ,
-                    value: ""
-                }),
-                r),
+                            value: ""
+                        })
+                    )
+                );
+                return r;
+            },
             array)
-        .reduce((r, i) => (r[i.name] = i, r), { __array__: array })
+        .reduce((r, i) => (r[i.name] = i, r), { __array__: array, values });
 }
 
 export default getProcessArgs;
