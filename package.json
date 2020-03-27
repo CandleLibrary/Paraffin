@@ -1,6 +1,6 @@
 {
 	"name": "@candlefw/wax",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Terminal Drawing Tools",
 	"type": "module",
 	"main": "./build/library/wax.js",
@@ -18,11 +18,11 @@
 	"author": "galactrax <anthonycweathersby@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
-		"@candlefw/conflagrate": "latest",
-		"@candlefw/url": "^0.1.0",
-		"@candlefw/wind": "latest"
+		"@candlefw/conflagrate": "0.0.5-alpha",
+		"@candlefw/url": "^0.1.1",
+		"@candlefw/wind": "0.4.1-dev"
 	},
 	"devDependencies": {
-		"jimp": "^0.9.5"
+		"jimp": "^0.9.6"
 	}
 }
