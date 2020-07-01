@@ -121,7 +121,6 @@ export default async function integrate(wick, html) {
 			{
 
 				ele.renderCLI();
-				console.log(data);
 			};
 		//	})
 		// })
@@ -148,13 +147,10 @@ export default async function integrate(wick, html) {
 						const data = stdin.read("utf8");
 
 						if (data) {
-							console.log(data);
 							const ctrl = data[0] << 0 | data[1] << 8 | data[2] << 16 | data[3] << 24 | data[4] << 32 | data[5] << 40 | data[6] << 48 | data[7] << 54;
 
 							const str = data.toString();
 
-							console.log(ctrl, str);
-							console.log(key.END_OF_TXT);
 							if (ctrl == key.END_OF_TXT) // CTR-C ETX
 								return res();
 
