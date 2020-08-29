@@ -1,4 +1,8 @@
 import getProcessArgs from "./get_process_arguments.js";
+
+/** [README;API]:api
+ * 
+ */
 import {
     xtColor,
     xtReset,
@@ -39,3 +43,6 @@ export {
     col_css,
     col_pwg
 };
+
+
+

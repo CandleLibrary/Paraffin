@@ -18,6 +18,7 @@
 	"author": "galactrax <anthonycweathersby@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
+		"@candlefw/hydrocarbon": "latest",
 		"@candlefw/conflagrate": "0.0.5-alpha",
 		"@candlefw/url": "^0.1.1",
 		"@candlefw/wind": "0.4.1-dev"

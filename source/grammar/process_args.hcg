@@ -1,0 +1,37 @@
+@IMPORT default-productions as def
+
+@SYMBOL -- 
+
+@IGNORE θws
+
+<> start > args
+
+<> args > ( ( arg(*) ) f:r{ $sym1.flatMap(v=>v).map(({key,val})=>[key, val]) } )
+
+										f:r{ 
+											  Object.assign(
+													Object.fromEntries(
+														$$sym1.map( ([key, val], i)=>[key, {index:i, val: val || true}]))
+													,{__array__ : $sym1}
+												) 
+											 
+										}
+
+<> arg > arg_initials 
+	| arg_key_val
+	| naked_arg
+
+<> arg_initials > \- def::js_identifier val? 
+										f:r{ $sym2.split("").map((v,i,r)=>( i==r.length-1 ? _[2] ? { key:v, val:_[2] || 1 } : { key:v } : { key:v })) }
+
+<> arg_key_val > \-- key val? 			f:r{ { key:$sym2, val:$$sym3 } }
+
+<> naked_arg > val 						f:r{ { key:$sym1, val:null } }
+
+<> key > def::js_identifier
+
+<> val > def::string
+	| def::string_value
+
++> def::js_id_symbols > \- 				
+	| def::js_id_symbols \- 			f:r{ $sym1 + $sym2 }
