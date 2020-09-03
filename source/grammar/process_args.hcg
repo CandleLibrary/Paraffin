@@ -1,12 +1,23 @@
+# Grammar for processing argument variables from a CLI
+
+# Each argument can either be a raw identifier, a string, or a labeled 
+# identifier with an optional value.
+#
+# labeled identifiers start with either a -- or - followed by an js_identifier
+# optionally followed by a = and a non spaced character sequence or string.
+#
+# labeled identifiers proceeded by a - are split into single characters identifiers
+# with the last symbol serving as the key of any following value.
+
 @IMPORT default-productions as def
 
-@SYMBOL -- 
+@SYMBOL --
 
 @IGNORE θws
 
 <> start > args
 
-<> args > ( ( arg(*) ) f:r{ $sym1.flatMap(v=>v).map(({key,val})=>[key, val]) } )
+<> args > ( ( arg(*) ) f:r{ $sym1.flat().map(({key,val})=>[key, val]) } )
 
 										f:r{ 
 											  Object.assign(
@@ -21,17 +32,36 @@
 	| arg_key_val
 	| naked_arg
 
-<> arg_initials > \- def::js_identifier val? 
-										f:r{ $sym2.split("").map((v,i,r)=>( i==r.length-1 ? _[2] ? { key:v, val:_[2] || 1 } : { key:v } : { key:v })) }
+<> arg_initials > \- def::js_identifier (=? val f:r{ {e:!!$$sym1, v:$sym2} } )?
 
-<> arg_key_val > \-- key val? 			f:r{ { key:$sym2, val:$$sym3 } }
+										f:r{ 	(env,
+												$sym2
+													.split("")
+													.flatMap((v,i,r)=>( (i==r.length-1)
+																		? (_[2]) 
+																			? ($.data[v] || (_[2].e))
+																				? { key:v, val:  _[2].v } 
+																				: [{key:v}, {key:_[2].v }]
+																			: { key:v } 
+																		: { key:v } 
+																)
+														))
+											}
 
-<> naked_arg > val 						f:r{ { key:$sym1, val:null } }
+<> arg_key_val > \-- key (=? val f:r{ {e:!!$$sym1, v:$sym2} } )? 			
+
+											f:r{ ($$sym3) 
+													? (env.data[$$sym2] || $$sym3.e)
+														? {key:$$sym2, val:$sym3.v} 
+														: [{key:$$sym2}, {key:$$sym3.v}]
+													: {key:$sym2}
+
+											}
+
+<> naked_arg >  val g:ws?	 		f:r{ { key:$sym1 + $sym2, val:null } }
+
 
 <> key > def::js_identifier
 
 <> val > def::string
-	| def::string_value
-
-+> def::js_id_symbols > \- 				
-	| def::js_id_symbols \- 			f:r{ $sym1 + $sym2 }
+	| def::string_value g:ws? f:r{ $sym1  } 

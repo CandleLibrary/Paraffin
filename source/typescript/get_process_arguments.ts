@@ -1,5 +1,6 @@
-import { lrParse, ParserData } from "@candlefw/hydrocarbon";
+import { lrParse, ParserData, ParserEnvironment } from "@candlefw/hydrocarbon";
 import parse_data from "./parser/process_args.js";
+import { type } from "os";
 
 type Flag = {
     /**
@@ -16,7 +17,7 @@ type Flag = {
     value: string;
 };
 
-/** 
+/**[API]
  *	Returns an object housing key:value pairs from the values of process.argv. 
  *	
  *	Maps argv that begin with [-] to keys, and following argv values that 
@@ -31,12 +32,49 @@ type Flag = {
  *	and an array prop that contains the the key:value pairs ordered left to right based on the 
  *	original argv index location. 
  */
-function getProcessArgs(): { key: string, val?: string; }[] {
+function getProcessArgs(
+    /** An object whose keys represent expected argument keys
+     *  and key~values which can either be `true`, `false` or a string
+     * 
+     * 1. If the value is `true` then the any argument with -- or -
+     * proceeding it will have capture the next naked argument
+     * 
+     * 2. If this value is `false` then no value will be assigned to the
+     * argv unless it the argv key is followed by an = character
+     * 
+     * 2. If the value is a `string` then the it will act like case 1.
+     * and, in addition, the value will be remapped to an output property
+     * with a key that matches to the `string` value. 
+     * > This will overwrite any existing property with the same name.
+     */
+    arg_candidates: any = {}
 
-    const { value, error } = lrParse<any[]>(process.argv.slice(2).join(" "), <ParserData><any>parse_data);
+): { key: string, val?: string; }[] {
 
-    if (error)
-        console.warn(error);
+
+    const env: ParserEnvironment = <ParserEnvironment>{
+        options: {},
+        functions: {},
+        data: arg_candidates
+    };
+    const { value, error } = lrParse<any[]>(process.argv.slice(2).join(" "), <ParserData><any>parse_data, env);
+
+    // for each arg candidate,
+    // if the arg candidate value is a string, then replace the output value entry 
+    // with the value of this argument.
+
+    if (error) {
+        console.error(error);
+    }
+
+    for (const name in arg_candidates) {
+        if (typeof arg_candidates[name] == "string") {
+            if (value[name])
+                value[arg_candidates[name]] = value[name];
+        }
+    }
+
+    if (error) console.warn(error);
 
     return value;
 }
