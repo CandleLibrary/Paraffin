@@ -3,11 +3,11 @@
  * Test for argument parsing. 
  * 
  * NodeJS process.argv is an array of strings, so
- * that structure is recreated in this test by munging
- * the argv structure to make sure we're dealing with 
- * authentic argv test data. The first to args are the 
- * process name and cwd, so these will be empty strings
- * in the test data.
+ * that structure is recreated in this test by replacing
+ * the argv structure to with authentic like argv test data. 
+ * The first two argv entries are normally the process name 
+ * and CWD, which are ignored in getProcessArgs,
+ * these will be replaced with empty strings in the test data.
  * 
  * Input:
  * `{empty-string} {empty-string} --test "test value" --value uncaptured -abt timeout --data=./data/dir"`
