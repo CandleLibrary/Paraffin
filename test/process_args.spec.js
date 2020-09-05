@@ -11,14 +11,14 @@
  * 
  * Input:
  * `{empty-string} {empty-string} --test "test value" --value uncaptured -abt timeout --data=./data/dir"`
- * 
  * Reference:
+ * 
  * https://nodejs.org/docs/latest/api/process.html#process_process_argv
  */
 
 import { getProcessArgs } from "@candlefw/wax";
-
 import assert from "assert";
+
 
 process.argv.length = 0;
 process.argv.push("", "", "--test", `"test value"`, "--value", "uncaptured  ", "-abt", "timeout", "--data", "=./data/dir");

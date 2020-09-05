@@ -23,7 +23,10 @@ import {
     col_pwg
 } from "./color.js";
 
+import { getPackageJsonObject } from "./get_package_json.js";
+
 export {
+    getPackageJsonObject,
     getProcessArgs,
     xtColor,
     xtReset,

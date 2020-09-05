@@ -17,6 +17,8 @@ type Flag = {
     value: string;
 };
 
+type Output<T> = { [i in keyof T]?: { index: number, val: string | boolean; }; } & { __array__: [string, string][]; };
+
 /**[API]
  *	Returns an object housing key:value pairs from the values of process.argv. 
  *	
@@ -32,7 +34,7 @@ type Flag = {
  *	and an array prop that contains the the key:value pairs ordered left to right based on the 
  *	original argv index location. 
  */
-function getProcessArgs(
+function getProcessArgs<T>(
     /** An object whose keys represent expected argument keys
      *  and key~values which can either be `true`, `false` or a string
      * 
@@ -47,9 +49,9 @@ function getProcessArgs(
      * with a key that matches to the `string` value. 
      * > This will overwrite any existing property with the same name.
      */
-    arg_candidates: any = {}
+    arg_candidates: T = <T>{}
 
-): { key: string, val?: string; }[] {
+): Output<typeof arg_candidates> {
 
 
     const env: ParserEnvironment = <ParserEnvironment>{
@@ -57,20 +59,20 @@ function getProcessArgs(
         functions: {},
         data: arg_candidates
     };
-    const { value, error } = lrParse<any[]>(process.argv.slice(2).join(" "), <ParserData><any>parse_data, env);
+    const { value, error } = lrParse<Output<typeof arg_candidates>>(process.argv.slice(2).join(" "), <ParserData><any>parse_data, env);
 
     // for each arg candidate,
     // if the arg candidate value is a string, then replace the output value entry 
     // with the value of this argument.
 
-    if (error) {
+    if (error)
         console.error(error);
-    }
 
     for (const name in arg_candidates) {
-        if (typeof arg_candidates[name] == "string") {
+        const val = arg_candidates[name];
+        if (typeof val == "string") {
             if (value[name])
-                value[arg_candidates[name]] = value[name];
+                value[<string>val] = value[name];
         }
     }
 
