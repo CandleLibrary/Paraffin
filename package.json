@@ -1,6 +1,6 @@
 {
 	"name": "@candlefw/wax",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Terminal Drawing Tools",
 	"type": "module",
 	"main": "./build/library/wax.js",
