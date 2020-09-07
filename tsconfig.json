@@ -19,5 +19,6 @@
         "declarationDir": "./build/types",
         "declaration": true,
         "moduleResolution": "node",
+        "skipLibCheck": true
     }
 }
