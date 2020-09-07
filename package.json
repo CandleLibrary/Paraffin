@@ -8,8 +8,11 @@
 	"scripts": {
 		"build.watch": "tsc --watch",
 		"build": "tsc",
-		"prepublish": "tsc -p ./tsconfig.json",
-		"build-colors": "./utils/build_colors.js"
+		"prepublishOnly": "tsc -p ./tsconfig.json && yarn test",
+		"build-colors": "./utils/build_colors.js",
+		"test": "cfw.test -i ./test/...",
+		"compile": "hydrocarbon compile -o ./source/typescript/parser --parser glalr --type module ./source/grammar/process_args.hcg",
+		"compile.test": "hydrocarbon compile -d -m --parser glalr --type module ./source/grammar/process_args.hcg"
 	},
 	"repository": {
 		"type": "git",
@@ -18,12 +21,13 @@
 	"author": "galactrax <anthonycweathersby@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
-		"@candlefw/hydrocarbon": "latest",
-		"@candlefw/conflagrate": "0.0.5-alpha",
-		"@candlefw/url": "^0.1.1",
-		"@candlefw/wind": "0.4.1-dev"
+		"@candlefw/hydrocarbon": "*",
+		"@candlefw/conflagrate": "*",
+		"@candlefw/url": "*",
+		"@candlefw/wind": "*"
 	},
 	"devDependencies": {
+		"@candlefw/test": "*",
 		"jimp": "^0.9.6"
 	}
 }

@@ -15,6 +15,8 @@ export async function getPackageJsonObject(cwd: string = URL.getCWDURL() + "")
         pkg: PackageJSONData = null,
         FOUND = false;
 
+
+
     while (i-- >= 0) {
 
         try {
@@ -23,13 +25,10 @@ export async function getPackageJsonObject(cwd: string = URL.getCWDURL() + "")
                 FOUND = true;
                 break;
             }
-
-            pkg_file_path = URL.resolveRelative("../package.json", pkg_file_path);
-
-
         } catch (e) {
             //Suppress errors - Don't really care if there is no file found. That can be handled by the consumer.
         }
+        pkg_file_path = URL.resolveRelative("../package.json", pkg_file_path);
     }
 
     return { package: <PackageJSONData>pkg, package_dir: FOUND ? pkg_file_path.dir : "", FOUND };
