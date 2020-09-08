@@ -1,6 +1,6 @@
 {
 	"name": "@candlefw/wax",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "Terminal Drawing Tools",
 	"type": "module",
 	"main": "./build/library/wax.js",
@@ -10,7 +10,7 @@
 		"build": "tsc",
 		"prepublishOnly": "tsc -p ./tsconfig.json && yarn test",
 		"build-colors": "./utils/build_colors.js",
-		"test": "cfw.test -i ./test/...",
+		"test": "cfw.test ./test/**",
 		"compile": "hydrocarbon compile -o ./source/typescript/parser --parser glalr --type module ./source/grammar/process_args.hcg",
 		"compile.test": "hydrocarbon compile -d -m --parser glalr --type module ./source/grammar/process_args.hcg"
 	},

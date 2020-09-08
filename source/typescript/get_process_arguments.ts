@@ -1,6 +1,6 @@
 import { lrParse, ParserData, ParserEnvironment } from "@candlefw/hydrocarbon";
 import parse_data from "./parser/process_args.js";
-import { type } from "os";
+
 
 type Flag = {
     /**
@@ -17,7 +17,18 @@ type Flag = {
     value: string;
 };
 
-type Output<T> = { [i in keyof T]?: { index: number, val: string | boolean; }; } & { __array__: [string, string][]; };
+
+type Output<T> = { [i in keyof T]?: { index: number, val: string | boolean; }; } &
+{
+    /**
+     * All argument [key, val] pairs ordered first to last
+     */
+    __array__: [string, string][];
+    /**
+     * The trailing set of arguments without a value member
+     */
+    trailing_arguments: string[];
+};
 
 /**[API]
  *	Returns an object housing key:value pairs from the values of process.argv. 
@@ -49,7 +60,15 @@ function getProcessArgs<T>(
      * with a key that matches to the `string` value. 
      * > This will overwrite any existing property with the same name.
      */
-    arg_candidates: T = <T>{}
+    arg_candidates: T = <T>{},
+
+    /**
+     * An optional error message to log to the console in the 
+     * event arguments could not be parsed
+     * 
+     * Defaults to ""
+     */
+    error_message: string = "Unable to process arguments"
 
 ): Output<typeof arg_candidates> {
 
@@ -65,18 +84,33 @@ function getProcessArgs<T>(
     // if the arg candidate value is a string, then replace the output value entry 
     // with the value of this argument.
 
-    if (error)
-        console.error(error);
+    if (error) {
+        if (error.message == "Unexpected end of input") {
+            //suppress empty argument error
+        } else
+            console.log(error_message, error.message);
 
-    for (const name in arg_candidates) {
-        const val = arg_candidates[name];
-        if (typeof val == "string") {
-            if (value[name])
-                value[<string>val] = value[name];
+        return <Output<typeof arg_candidates>>{ __array__: [] };
+    } else {
+
+
+        for (const name in arg_candidates) {
+            const val = arg_candidates[name];
+            if (typeof val == "string") {
+                if (value[name])
+                    value[<string>val] = value[name];
+            }
         }
-    }
 
-    if (error) console.warn(error);
+        value.trailing_arguments = [];
+
+        for (const [key, val] of value.__array__.reverse()) {
+            if (val) break;
+            value.trailing_arguments.push(key);
+        }
+
+        value.trailing_arguments = value.trailing_arguments.reverse();
+    }
 
     return value;
 }

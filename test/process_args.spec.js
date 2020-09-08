@@ -21,7 +21,7 @@ import assert from "assert";
 
 
 process.argv.length = 0;
-process.argv.push("", "", "--test", `"test value"`, "--value", "uncaptured  ", "-abt", "timeout", "--data", "=./data/dir");
+process.argv.push("", "", "--test", `"test value"`, "--value", "uncaptured  ", "-abt", "timeout", "./dir", "--data", "=./data/dir", "../file/path", "./another/file/path/**/*.js");
 
 /**[ADDENDUM]
  * The passed data is a list of anticipated arguments
@@ -46,4 +46,9 @@ assert(typeof args.timeout == "undefined");
 assert(args.value.val == true);
 assert(args.test.val == "timeout");
 assert(args.data.val == "./data/dir");
+
+assert(
+    "All trailing arguments should be present in args.trailing_arguments",
+    args.trailing_arguments == ["../file/path", "./another/file/path/**/*.js"]
+);
 

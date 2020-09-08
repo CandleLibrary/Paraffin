@@ -39,9 +39,9 @@
 													.split("")
 													.flatMap((v,i,r)=>( (i==r.length-1)
 																		? (_[2]) 
-																			? ($.data[v] || (_[2].e))
+																			? ( !!( typeof $.data[v] == "string" ? $.data[$.data[v]] :  $.data[v] ) || (_[2].e))
 																				? { key:v, val:  _[2].v } 
-																				: [{key:v}, {key:_[2].v }]
+																				: [{key:v, val:true }, {key:_[2].v }]
 																			: { key:v } 
 																		: { key:v } 
 																)
@@ -51,9 +51,9 @@
 <> arg_key_val > \-- key (=? val f:r{ {e:!!$$sym1, v:$sym2} } )? 			
 
 											f:r{ ($$sym3) 
-													? (env.data[$$sym2] || $$sym3.e)
+													? ( !!( typeof env.data[$$sym2] == "string" ? env.data[env.data[$$sym2]] :  env.data[$$sym2] ) || $$sym3.e)
 														? {key:$$sym2, val:$sym3.v} 
-														: [{key:$$sym2}, {key:$$sym3.v}]
+														: [{key:$$sym2, val:true}, {key:$$sym3.v}]
 													: {key:$sym2}
 
 											}
