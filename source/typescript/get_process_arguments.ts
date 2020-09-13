@@ -88,7 +88,7 @@ function getProcessArgs<T>(
         if (error.message == "Unexpected end of input") {
             //suppress empty argument error
         } else
-            console.log(error_message, error.message);
+            console.error(error_message, error.message);
 
         return <Output<typeof arg_candidates>>{ __array__: [] };
     } else {

@@ -9,6 +9,8 @@ import { PackageJSONData } from "./types/package";
 export async function getPackageJsonObject(cwd: string = URL.getCWDURL() + "")
     : Promise<{ package: PackageJSONData, package_dir: string; FOUND: boolean; }> {
 
+    await URL.server();
+
     let
         pkg_file_path: URL = URL.resolveRelative("./package.json", cwd),
         i = pkg_file_path.path.split("/").filter(s => s !== "..").length,
