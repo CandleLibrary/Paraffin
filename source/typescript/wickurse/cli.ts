@@ -11,6 +11,16 @@ import integrateComposite from "./wick.cli.compositing.js";
 import integrateSelection from "./wick.cli.selection.js";
 import key from "./wick.cli.keyboard_codes.js";
 
+/**
+ * Converts wick templates into CLI interfaces, 
+ * providing ways to descibe cursor based display and 
+ * inputs using HTML and CSS syntaxees, and user interaction 
+ * with JS scripting syntaxes.  
+ * 
+ * @param wick 
+ * @param html 
+ */
+
 export default async function integrate(wick, html) {
 
 	global.Node = html.HTMLNode;

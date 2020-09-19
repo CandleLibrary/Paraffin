@@ -14,7 +14,7 @@ import {
 	xtRInvert,
 	xtF,
 	col_x11
-} from "./color.js";
+} from "../color/color.js";
 
 const
 	xtSELECTED_INPUT = xtF(xtColor(col_x11.Maroon, col_x11.Gray50), xtUnderline),

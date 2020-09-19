@@ -1,4 +1,4 @@
-import key from "./keyboard_codes.js";
+import key from "../utils/keyboard_codes.js";
 
 export default function (wick, html) {
 	const

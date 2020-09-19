@@ -1,6 +1,6 @@
 import URL from "@candlefw/url";
 
-import { PackageJSONData } from "./types/package";
+import { PackageJSONData } from "../types/package";
 
 /**
  * Locates the nearest package.json file. Searches up the directory structure until one is found.

@@ -8,6 +8,7 @@
 	"scripts": {
 		"build.watch": "tsc --watch",
 		"build": "tsc",
+		"test-wickurse": "node ./test/composite.practical.js",
 		"prepublishOnly": "tsc -p ./tsconfig.json && yarn test",
 		"build-colors": "./utils/build_colors.js",
 		"test": "cfw.test ./test/**",

@@ -1,4 +1,4 @@
-import getProcessArgs from "./get_process_arguments.js";
+import getProcessArgs from "./utils/get_process_arguments.js";
 
 /** [README;API]:api
  * 
@@ -21,9 +21,9 @@ import {
     col_x11,
     col_css,
     col_pwg
-} from "./color.js";
+} from "./color/color.js";
 
-import { getPackageJsonObject } from "./get_package_json.js";
+import { getPackageJsonObject } from "./utils/get_package_json.js";
 
 export {
     getPackageJsonObject,
@@ -46,6 +46,10 @@ export {
     col_css,
     col_pwg
 };
+
+import wickurse from "./wickurse/cli.js";
+export { wickurse };
+
 
 
 
