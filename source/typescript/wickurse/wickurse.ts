@@ -183,8 +183,6 @@ export default async function integrate(wick: WickLibrary): Wickurse {
 
 							const str = data.toString();
 
-							console.log(ctrl, ctrl == key.END_OF_TXT)
-
 							if (ctrl == key.END_OF_TXT) // CTR-C ETX
 							{
 								clearInterval(id);
