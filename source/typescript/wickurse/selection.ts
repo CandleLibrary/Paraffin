@@ -28,50 +28,35 @@ export default function (wick, html) {
 		}
 	};
 
-	ele_prototype.selectNextInput = function (start = this) {
+	ele_prototype.selectNextInput = function (start = this, prev = null) {
+		//We try to traverse depth first
 
-		if (start.par == this) {
-			if (start.next !== this.fch) {
-				if (start.next.tag == "input") return start.next;
-				return start.next.selectNextInput(start);
-			}
-		} else {
-			if (this.fch && this.fch !== start) {
-				if (this.fch.tag == "input") return this.fch;
-				return this.fch.selectNextInput(start);
-			}
-		}
+		if (this.fch && !this.fch !== start && this.fch !== prev)
+			return setNext(this.fch, start)
 
-		if (this.next && this.par.fch !== this.next && this.next !== start) {
-			if (this.next.tag == "input") return this.next;
-			else return this.next.selectNextInput();
-		}
+		if (this.next && this.next !== this.par.fch && this.next !== start)
+			return setNext(this.next, start);
 
-		if (this.par && this.par !== start) {
-			if (this.par.tag == "input") return this.par;
-
-			if (this.par.next)
-				return this.par.selectNextInput(start);
-		}
-
-		//if (this.tag == "input")
-		//	return this;
+		if (this.par && this.par !== start)
+			return setNext(this.par, start, this.next);
 
 		return null;
 	};
 
+	function setNext(node, start, prev = null) {
+		if (node.tag == "input") return node;
+		return node.selectNextInput(start, prev);
+	}
+
 	txt_prototype.selectNextInput = function (start) {
-		if (this.next !== this && this.next !== start && this.next !== this.par.fch) {
-			if (this.next.tag == "input") return this.next;
-			return this.next.selectNextInput(start);
-		}
+		if (this.fch && !this.fch !== start)
+			return setNext(this.fch, start)
 
-		if (this.par && this.par !== start) {
-			if (this.par.tag == "input") return this.par;
+		if (this.next && this.next !== this.par.fch && this.next !== start)
+			return setNext(this.next, start);
 
-			if (this.par.next)
-				return this.par.next.selectNextInput(start);
-		}
+		if (this.par && this.par !== start)
+			return setNext(this.par, start, this.next);
 
 		return null;
 	};
