@@ -167,18 +167,23 @@ export default function color(wick, html) {
 		)) {
 
 			if (Array.isArray(child)) {
+
 				const
-					STARTS_WITH_SPACE = ("\n \t").includes(child[0].data[0]),
-					ENDS_WITH_SPACE = ("\n \t").includes(child.slice(-1)[0].data.slice(-1));
+					STARTS_WITH_SPACE = ("\n \t").includes(child[0].data.toString()[0]),
+					ENDS_WITH_SPACE = ("\n \t").includes(child.slice(-1)[0].data.toString().slice(-1));
 
 				let text = child.map(c => (c.data + "").trim().replace(/[\t\n]/g, " ")).join(" ").trim();
 
 				if (text && STARTS_WITH_SPACE)
 					text = " " + text;
+
 				if (text && ENDS_WITH_SPACE)
 					text = text + " ";
+
 				box = createTextBox(text, x, y, Math.max(max_width, 0), Math.max(max_height - y, 0), cursor);
+
 			} else
+
 				box = child.getCompositeBoxes(x, y, Math.max(max_width, 0), Math.max(max_height - y, 0), cursor);
 
 			if (box) {
