@@ -1,9 +1,10 @@
 import key from "../utils/keyboard_codes.js";
+import html, { HTMLNode, TextNode } from "@candlefw/html";
 
 export default function (wick, html) {
 	const
-		ele_prototype = html.HTMLNode.prototype,
-		txt_prototype = html.TextNode.prototype;
+		ele_prototype = HTMLNode.prototype,
+		txt_prototype = TextNode.prototype;
 
 	ele_prototype.update = function (code, str) {
 		switch (this.getAttribute("type")) {
@@ -48,11 +49,13 @@ export default function (wick, html) {
 
 		if (this.par && this.par !== start) {
 			if (this.par.tag == "input") return this.par;
-			return this.par.selectNextInput(start);
+
+			if (this.par.next)
+				return this.par.selectNextInput(start);
 		}
 
-		if (this.tag == "input")
-			return this;
+		//if (this.tag == "input")
+		//	return this;
 
 		return null;
 	};
@@ -65,9 +68,12 @@ export default function (wick, html) {
 
 		if (this.par && this.par !== start) {
 			if (this.par.tag == "input") return this.par;
-			return this.par.selectNextInput(start);
+
+			if (this.par.next)
+				return this.par.next.selectNextInput(start);
 		}
 
+		return null;
 	};
 
 	ele_prototype.selectPrevInput = function (start = this) {

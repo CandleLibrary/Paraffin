@@ -2,4 +2,6 @@ import { wickurse } from "@candlefw/wax";
 import wick from "@candlefw/wick";
 import html from "@candlefw/html";
 
-wickurse
+const d = await wickurse(wick, html);
+
+assert(d == "")

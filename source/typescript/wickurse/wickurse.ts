@@ -7,9 +7,27 @@
 
 import tty from "tty";
 import spark from "@candlefw/spark";
-import integrateComposite from "./wick.cli.compositing.js";
-import integrateSelection from "./wick.cli.selection.js";
-import key from "./wick.cli.keyboard_codes.js";
+import integrateComposite from "./compositing.js";
+import integrateSelection from "./selection.js";
+import key from "../utils/keyboard_codes.js";
+import { WickLibrary } from "@candlefw/wick";
+import html, { HTMLNode, TextNode } from "@candlefw/html";
+import URL from "@candlefw/url";
+
+interface Wickurse extends WickLibrary {
+	/**
+	 * Creates a CLI from a wick template and optional model.
+	 * @param template 
+	 * @param model 
+	 */
+	cli(template: string | URL, model: any): Promise<{
+		/**
+		 * Runs the CLI until until an `EXIT` event
+		 * is received.
+		 */
+		start(): Promise<void>;
+	}>
+}
 
 /**
  * Converts wick templates into CLI interfaces, 
@@ -20,19 +38,23 @@ import key from "./wick.cli.keyboard_codes.js";
  * @param wick 
  * @param html 
  */
+export default async function integrate(wick: WickLibrary): Wickurse {
 
-export default async function integrate(wick, html) {
+	await wick.server();
+	await html.server();
 
 	global.Node = html.HTMLNode;
 
 	const
-		ele_prototype = html.HTMLNode.prototype,
-		txt_prototype = html.TextNode.prototype,
+		ele_prototype = HTMLNode.prototype,
+		txt_prototype = TextNode.prototype,
 		stdout = process.stdout,
 		stdin = process.stdin;
 
 	stdin.setRawMode(true);
+
 	integrateComposite(wick, html);
+
 	integrateSelection(wick, html);
 
 	ele_prototype.renderCLI = function (width = 270, line = 0) {
@@ -121,11 +143,12 @@ export default async function integrate(wick, html) {
 			this.parent.bubbleUpdate();
 	};
 
-	wick.component_prototype.cli = async function (data = {}) {
+	wick.cli = async function (template_or_url, model = {}) {
 
 		const
-			ele = await html("<div></div>"),
-			comp = await this.mount(ele, data),
+			comp_data = await wick(template_or_url),
+			ele = html("<div></div>"),
+			comp = (new comp_data.class(model)).appendToDOM(ele),
 			write = () => //stdout.cursorTo(0, 0, () => {
 			//stdout.clearScreenDown(() => {
 			{
@@ -142,10 +165,9 @@ export default async function integrate(wick, html) {
 		return {
 			start: () => {
 				return new Promise(res => {
-
 					write();
 
-					let data = "";
+					let cli_input_string = "";
 
 					let selected_ele = ele.selectNextInput();
 
@@ -161,8 +183,13 @@ export default async function integrate(wick, html) {
 
 							const str = data.toString();
 
+							console.log(ctrl, ctrl == key.END_OF_TXT)
+
 							if (ctrl == key.END_OF_TXT) // CTR-C ETX
+							{
+								clearInterval(id);
 								return res();
+							}
 
 							if (selected_ele)
 								selected_ele.selected = false;
@@ -189,4 +216,6 @@ export default async function integrate(wick, html) {
 			}
 		};
 	};
+
+	return <Wickurse>wick
 }

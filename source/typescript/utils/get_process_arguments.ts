@@ -1,5 +1,5 @@
 import { lrParse, ParserData, ParserEnvironment } from "@candlefw/hydrocarbon";
-import parse_data from "./parser/process_args.js";
+import parse_data from "../parser/process_args.js";
 
 
 type Flag = {

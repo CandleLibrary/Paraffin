@@ -47,7 +47,7 @@ export {
     col_pwg
 };
 
-import wickurse from "./wickurse/cli.js";
+import wickurse from "./wickurse/wickurse.js";
 export { wickurse };
 
 

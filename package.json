@@ -8,7 +8,7 @@
 	"scripts": {
 		"build.watch": "tsc --watch",
 		"build": "tsc",
-		"test-wickurse": "node ./test/composite.practical.js",
+		"test-wickurse": "node ./test/composite.practical.spec.js",
 		"prepublishOnly": "tsc -p ./tsconfig.json && yarn test",
 		"build-colors": "./utils/build_colors.js",
 		"test": "cfw.test ./test/**",
@@ -22,9 +22,11 @@
 	"author": "galactrax <anthonycweathersby@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
-		"@candlefw/hydrocarbon": "*",
 		"@candlefw/conflagrate": "*",
+		"@candlefw/html": "*",
+		"@candlefw/hydrocarbon": "*",
 		"@candlefw/url": "*",
+		"@candlefw/wick": "*",
 		"@candlefw/wind": "*"
 	},
 	"devDependencies": {

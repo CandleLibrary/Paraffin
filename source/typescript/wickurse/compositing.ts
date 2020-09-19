@@ -21,12 +21,18 @@ const
 	xtUNDERLINE_COLOR = xtF(xtColor(col_x11.Black, col_x11.Gray85), xtUnderline),
 	xtRESET_COLOR = xtF(xtReset);
 
+import html, { HTMLNode, TextNode } from "@candlefw/html";
+import { ExtendedHTMLElement } from "../types/extended_HTML_element.js";
+import { DrawBox } from "../types/draw_box";
+
 export default function color(wick, html) {
 	const
-		ele_prototype = html.HTMLNode.prototype,
-		txt_prototype = html.TextNode.prototype;
+		ele_prototype: ExtendedHTMLElement = (<any>HTMLNode).prototype,
+		txt_prototype = TextNode.prototype; +41
+
 
 	ele_prototype.handleCompositeSpecialization = function (
+		this: ExtendedHTMLElement,
 		boxes = [],
 		x = 0,
 		y = 0,
@@ -39,7 +45,9 @@ export default function color(wick, html) {
 		cursor_start = 0,
 		cursor_end = 0
 	) {
-		const box = {
+
+
+		const box: DrawBox = {
 			//ele: this,
 			tag: this.tag,
 			cur_start: cursor_start,
@@ -61,21 +69,19 @@ export default function color(wick, html) {
 
 					box.type = "inline";
 
-					if (this.selected)
+					if (this.SELECTED)
 						box.color = xtSELECTED_INPUT;
 
 					switch (this.getAttribute("type")) {
 						case "checkbox":
 							{
-
-								const checked = !!this.checked;
+								const checked = !!this.CHECKED;
 								//min width 1, height is also 1
 								const text = (createTextBox(checked ? "✓" : "✗", x, y, w, h, cursor_start));
 								boxes.push(text);
 								box.cur_start = text.cur_start;
 								box.cur_end = text.cur_end;
 								box.h = text.h;
-
 							}
 							break;
 						case "text":
@@ -120,7 +126,14 @@ export default function color(wick, html) {
 		return box;
 	};
 
-	ele_prototype.getCompositeBoxes = function (x = 0, y = 0, width = 0, height = 0, cursor = 0) {
+	ele_prototype.getCompositeBoxes = function (
+		this: ExtendedHTMLElement,
+		x = 0,
+		y = 0,
+		width = 0,
+		height = 0,
+		cursor = 0
+	) {
 
 		const
 			boxes = [],
@@ -141,7 +154,7 @@ export default function color(wick, html) {
 
 		for (const child of this.children.reduce(
 			(r, e) => {
-				if (e instanceof html.TextNode) {
+				if (e instanceof TextNode) {
 					if (Array.isArray(r[r.length - 1]))
 						r[r.length - 1].push(e);
 					else
@@ -155,10 +168,10 @@ export default function color(wick, html) {
 
 			if (Array.isArray(child)) {
 				const
-					STARTS_WITH_SPACE = ("\n \t").includes(child[0].txt[0]),
-					ENDS_WITH_SPACE = ("\n \t").includes(child.slice(-1)[0].txt.slice(-1));
+					STARTS_WITH_SPACE = ("\n \t").includes(child[0].data[0]),
+					ENDS_WITH_SPACE = ("\n \t").includes(child.slice(-1)[0].data.slice(-1));
 
-				let text = child.map(c => (c.txt + "").trim().replace(/[\t\n]/g, " ")).join(" ").trim();
+				let text = child.map(c => (c.data + "").trim().replace(/[\t\n]/g, " ")).join(" ").trim();
 
 				if (text && STARTS_WITH_SPACE)
 					text = " " + text;
@@ -185,7 +198,7 @@ export default function color(wick, html) {
 		return this.handleCompositeSpecialization(boxes, origin_x, origin_y, max_width + p_lr, y + 1 - origin_y, padding.l, padding.t, max_width, max_height, cursor_start, cursor);
 	};
 
-	function createTextBox(text, x, y, width, height, cursor) {
+	function createTextBox(text, x, y, width, height, cursor): DrawBox {
 		//Split the text up along the bondaries of the container. Only split on spaces. 
 		if (!text)
 			return null;
