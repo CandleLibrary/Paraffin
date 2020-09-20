@@ -13,6 +13,7 @@ import key from "../utils/keyboard_codes.js";
 import { WickLibrary } from "@candlefw/wick";
 import html, { HTMLNode, TextNode } from "@candlefw/html";
 import URL from "@candlefw/url";
+import { DrawBox } from "../types/draw_box.js";
 
 interface Wickurse extends WickLibrary {
 	/**
@@ -57,7 +58,7 @@ export default async function integrate(wick: WickLibrary): Wickurse {
 
 	integrateSelection(wick, html);
 
-	ele_prototype.renderCLI = function (width = 270, line = 0) {
+	ele_prototype.renderCLI = function () {
 		//Prepare wick to operate in NodeJS.
 		const columns = process.stdout.columns;
 		const rows = process.stdout.rows;
@@ -81,7 +82,7 @@ export default async function integrate(wick: WickLibrary): Wickurse {
 		stdout.write(str);
 	};
 
-	function writeLine(box, buffer, line = 0, col = 0, maxwidth = 0) {
+	function writeLine(box: DrawBox, buffer, line = 0, col = 0, maxwidth = 0) {
 		//The first line is all ways a margin of padding. 
 		//Should this bell
 
@@ -139,6 +140,7 @@ export default async function integrate(wick: WickLibrary): Wickurse {
 	}
 
 	txt_prototype.bubbleUpdate = ele_prototype.bubbleUpdate = function () {
+
 		if (this.parent)
 			this.parent.bubbleUpdate();
 	};
@@ -206,6 +208,8 @@ export default async function integrate(wick: WickLibrary): Wickurse {
 
 							if (selected_ele)
 								selected_ele.selected = true;
+
+							console.log("-->", selected_ele.tag)
 
 							write();
 						}

@@ -4,11 +4,15 @@ export class ExtendedHTMLElement extends HTMLNode {
 
     public SELECTED?: boolean;
 
-    public CHECKED?: boolean;
+    public checked?: boolean;
 
     public value?: string;
 
     children: ExtendedHTMLElement[];
+
+    update: (code: number, str: string) => void;
+
+    selectNextInput: (start: ExtendedHTMLElement, prev: ExtendedHTMLElement) => ExtendedHTMLElement;
 
     handleCompositeSpecialization: (
         boxes: DrawBox[],

@@ -75,9 +75,9 @@ export default function color(wick, html) {
 					switch (this.getAttribute("type")) {
 						case "checkbox":
 							{
-								const checked = !!this.CHECKED;
+								const checked = !!this.checked;
 								//min width 1, height is also 1
-								const text = (createTextBox(checked ? "✓" : "✗", x, y, w, h, cursor_start));
+								const text = (createTextBox(checked ? "☑" : "☐", x, y, w, h, cursor_start));
 								boxes.push(text);
 								box.cur_start = text.cur_start;
 								box.cur_end = text.cur_end;

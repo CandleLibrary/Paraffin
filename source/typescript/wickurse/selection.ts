@@ -1,12 +1,13 @@
 import key from "../utils/keyboard_codes.js";
 import html, { HTMLNode, TextNode } from "@candlefw/html";
+import { ExtendedHTMLElement } from "../types/extended_HTML_element.js";
 
 export default function (wick, html) {
 	const
-		ele_prototype = HTMLNode.prototype,
+		ele_prototype: ExtendedHTMLElement = (<any>HTMLNode).prototype,
 		txt_prototype = TextNode.prototype;
 
-	ele_prototype.update = function (code, str) {
+	ele_prototype.update = function (this: ExtendedHTMLElement, code, str) {
 		switch (this.getAttribute("type")) {
 			case "text":
 				if (code < 255) {
@@ -21,6 +22,7 @@ export default function (wick, html) {
 				break;
 			case "checkbox":
 				if (code == key.SPACE) {
+					console.log("AAAAAAAAAAAAAAAAA")
 					this.checked = !this.checked;
 					this.runEvent("input", { target: this });
 				}
@@ -30,7 +32,6 @@ export default function (wick, html) {
 
 	ele_prototype.selectNextInput = function (start = this, prev = null) {
 		//We try to traverse depth first
-
 		if (this.fch && !this.fch !== start && this.fch !== prev)
 			return setNext(this.fch, start)
 
@@ -40,7 +41,7 @@ export default function (wick, html) {
 		if (this.par && this.par !== start)
 			return setNext(this.par, start, this.next);
 
-		return null;
+		return this;
 	};
 
 	function setNext(node, start, prev = null) {
