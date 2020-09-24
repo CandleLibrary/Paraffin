@@ -13,7 +13,8 @@ import {
 	xtRBlink,
 	xtRInvert,
 	xtF,
-	col_x11
+	col_x11,
+	col_css
 } from "../color/color.js";
 
 const
@@ -24,237 +25,314 @@ const
 import html, { HTMLNode, TextNode } from "@candlefw/html";
 import { ExtendedHTMLElement } from "../types/extended_HTML_element.js";
 import { DrawBox } from "../types/draw_box";
+import { CSSNode, getArrayOfMatchedRules, CSS_Color } from "@candlefw/css";
+import { setPadding, setPaddingBottom, setPaddingRight, setPaddingLeft, setPaddingTop } from "./set_padding.js";
 
-export default function color(wick, html) {
-	const
-		ele_prototype: ExtendedHTMLElement = (<any>HTMLNode).prototype,
-		txt_prototype = TextNode.prototype; +41
-
-
-	ele_prototype.handleCompositeSpecialization = function (
-		this: ExtendedHTMLElement,
-		boxes = [],
-		x = 0,
-		y = 0,
-		w = 0,
-		h = 0,
-		pl = 0,
-		pt = 0,
-		max_width = 0,
-		max_height = 0,
-		cursor_start = 0,
-		cursor_end = 0
-	) {
-
-
-		const box: DrawBox = {
-			//ele: this,
-			tag: this.tag,
-			cur_start: cursor_start,
-			cur_end: cursor_end,
-			x,
-			y,
-			w,
-			h,
-			pl,
-			pt,
-			type: "block",
-			boxes,
-			color: xtRESET_COLOR
-		};
-
-		switch (this.tag) {
-			case "input":
-				{
-
-					box.type = "inline";
-
-					if (this.SELECTED)
-						box.color = xtSELECTED_INPUT;
-
-					switch (this.getAttribute("type")) {
-						case "checkbox":
-							{
-								const checked = !!this.checked;
-								//min width 1, height is also 1
-								const text = (createTextBox(checked ? "☑" : "☐", x, y, w, h, cursor_start));
-								boxes.push(text);
-								box.cur_start = text.cur_start;
-								box.cur_end = text.cur_end;
-								box.h = text.h;
-							}
-							break;
-						case "text":
-						default: //Text
-							{
-								let val = this.value || "";
-								// if the text field is too long to fit into the current line, 
-								// drop to next line
-								if (!val) {
-									val = this.getAttribute("placeholder") || "";
-								}
-
-								val += (" ").repeat(Math.max(0, 20 - val.length));
-
-								if ((box.w + box.x) - box.cur_start < Math.max(20, val.length)) {
-									box.cur_start = box.x;
-									box.y++;
-								}
-
-								const node = createTextBox(val, box.x, box.y, w, h, box.cur_start);
-
-								box.boxes.push(node);
-								box.cur_end = node.cur_end;
-								box.h = node.h;
-
-								if (box.color == xtRESET_COLOR)
-									box.color = xtUNDERLINE_COLOR;
-							}
-							break;
-					}
-				}
-				break;
-			default:
-				box.cur_end = x + w;
-				if (box.cur_start !== 0) {
-					box.y++;
-					box.cur_start = box.x;
-				}
-				break;
-		}
-
-		return box;
+export default function color() {
+	CSS_Color.parse = function (lex) {
+		return <any>col_css[lex.tx] || col_css.black;
 	};
+}
 
-	ele_prototype.getCompositeBoxes = function (
-		this: ExtendedHTMLElement,
-		x = 0,
-		y = 0,
-		width = 0,
-		height = 0,
-		cursor = 0
-	) {
 
-		const
-			boxes = [],
-			padding = { t: 0, b: 0, l: 0, r: 0 },
-			p_lr = padding.l + padding.r,
-			p_tb = padding.t + padding.b,
-			len = this.children.length,
-			max_height = height - p_tb,
-			max_width = width - p_lr,
-			cursor_start = cursor,
-			origin_x = x,
-			origin_y = y;
+export function handleCompositeSpecialization(
+	obj: ExtendedHTMLElement,
+	box: DrawBox,
+	css: CSSNode,
+	x: number,
+	y: number,
+	max_width: number,
+	max_height: number,
+	cursor_x: number,
+	cursor_y: number
+) {
 
-		x += padding.l; //Padding
-		y += padding.t;
+	switch (obj.tag) {
+		case "input":
+			{
+				switch (obj.getAttribute("type")) {
+					case "checkbox":
+						{
+							const checked = !!obj.checked;
+							//min width 1, height is also 1
+							// /box.left = cursor_x;
+							box.width = 3;
 
-		let box = null;
+							const { box: text, cursor_x: x } = (createTextBox(checked ? " ☑ " : " ☐ ", 0, 0, 3, 1, 0, 0));
+							cursor_x = x;
+							box.boxes.push(text);
+							box.height = text.height;
+							text.value[0].off = 0;
+						}
+						break;
+					case "text":
+					default: //Text
+						{
+							let val = obj.value || "";
+							// if the text field is too long to fit into the current line, 
+							// drop to next line
+							if (!val) {
+								val = obj.getAttribute("placeholder") || "";
+							}
 
-		for (const child of this.children.reduce(
-			(r, e) => {
-				if (e instanceof TextNode) {
-					if (Array.isArray(r[r.length - 1]))
-						r[r.length - 1].push(e);
-					else
-						r.push([e]);
-				} else
-					r.push(e);
-				return r;
-			},
-			[]
-		)) {
+							val += (" ").repeat(Math.max(0, 20 - val.length));
 
-			if (Array.isArray(child)) {
+							if ((box.width + box.left) < Math.max(20, val.length))
+								box.top++;
 
-				const
-					STARTS_WITH_SPACE = ("\n \t").includes(child[0].data.toString()[0]),
-					ENDS_WITH_SPACE = ("\n \t").includes(child.slice(-1)[0].data.toString().slice(-1));
-
-				let text = child.map(c => (c.data + "").trim().replace(/[\t\n]/g, " ")).join(" ").trim();
-
-				if (text && STARTS_WITH_SPACE)
-					text = " " + text;
-
-				if (text && ENDS_WITH_SPACE)
-					text = text + " ";
-
-				box = createTextBox(text, x, y, Math.max(max_width, 0), Math.max(max_height - y, 0), cursor);
-
-			} else
-
-				box = child.getCompositeBoxes(x, y, Math.max(max_width, 0), Math.max(max_height - y, 0), cursor);
-
-			if (box) {
-				x = box.x;
-				y = box.y;
-				cursor = box.cur_end;
-				if (box.type == "inline" || box.type == "text") {
-					y += box.h - 1;
-				} else {
-					y += box.h;
-					cursor = origin_x;
+							const { box: node, cursor_x: x } = createTextBox(val, box.left, box.top, max_width, max_height, 0, 0);
+							cursor_x = x;
+							box.boxes.push(node);
+							box.height = node.height;
+							if (box.color == xtRESET_COLOR)
+								box.color = xtUNDERLINE_COLOR;
+						}
+						break;
 				}
-				boxes.push(box);
+			}
+			break;
+	}
+
+	return { cursor_x, cursor_y, box };
+};
+
+
+function tagIsInline(tag: string) {
+	return ["span", "a", "input", "button"].indexOf(tag) >= 0;
+}
+
+export function getCompositeBoxes(
+	obj: ExtendedHTMLElement,
+	css: CSSNode = null,
+	x = 0,
+	y = 0,
+	maximum_width = 0,
+	maximum_height = 0,
+	cursor_x = 0,
+	cursor_y = 0,
+) {
+
+
+	const boxes = [];
+	let
+		DEFINED_WIDTH = false,
+		DEFINED_HEIGHT = false,
+		IS_INLINE = tagIsInline(obj.tag),
+		max_height = maximum_height,
+		max_width = maximum_width,
+		padding = { t: 0, r: 0, b: 0, l: 0 },
+		margin = { t: 0, r: 0, b: 0, l: 0 },
+		fg_color = undefined,
+		bg_color = undefined,
+		color = xtRESET_COLOR,
+		CENTER_TEXT = false,
+		calc_width = 1,
+		calc_height = 1;
+
+	//*
+	if (css) {
+		const array = getArrayOfMatchedRules(obj, css);
+
+		for (const { props } of array) {
+			for (const [name, prop] of props.entries()) {
+
+				switch (name) {
+					case "display":
+						IS_INLINE = prop.val[0] == "block";
+						if (prop.val[0] == "none") return null;
+						break;
+					case "color": fg_color = prop.val[0]; break;
+					case "background_color": bg_color = prop.val[0]; break;
+					case "padding": setPadding(prop, padding); break;
+					case "padding_top": setPaddingTop(prop, padding); break;
+					case "padding_left": setPaddingLeft(prop, padding); break;
+					case "padding_right": setPaddingRight(prop, padding); break;
+					case "padding_bottom": setPaddingBottom(prop, padding); break;
+					case "text_align": CENTER_TEXT = prop.val[0] == "center"; break;
+					case "width":
+						DEFINED_WIDTH = true;
+						max_width = Math.max(1, Math.min(max_width, +prop.val[0]));
+						break;
+					case "height":
+						DEFINED_HEIGHT = true;
+						max_height = Math.max(1, Math.min(max_height, +prop.val[0]));
+						break;
+				}
 			}
 		}
+	}
 
-		return this.handleCompositeSpecialization(boxes, origin_x, origin_y, max_width + p_lr, y + 1 - origin_y, padding.l, padding.t, max_width, max_height, cursor_start, cursor);
-	};
+	//Adjust Color -------------------------------
+	if (fg_color !== undefined || bg_color !== undefined)
+		color = xtF(xtColor(fg_color, bg_color));
+	//Adjust Width
 
-	function createTextBox(text, x, y, width, height, cursor): DrawBox {
-		//Split the text up along the bondaries of the container. Only split on spaces. 
-		if (!text)
-			return null;
+	//Adjust padding -----------------------------
+	max_width -= (padding.r + padding.l);
+	max_height -= (padding.b + padding.t);
+	//*/
+	if (!IS_INLINE && x != 0) {
+		x = 0; y++;
+	}
 
-		const
-			value = [],
-			max_width = width,
-			max_height = height;
+	let box: DrawBox = null, box_width = 0, box_height = 0, box_top = 0;
 
-		let
-			cut_width = Math.min(text.length, (x + width) - cursor),
-			curr_index = cut_width,
-			curr_base = 0,
-			curr_line = 0,
-			base = 0,
-			end_cursor_start = cursor,
-			i = 0;
+	for (const child of obj.children) {
+		//need to know width and height of child; child responsible
+		if (child instanceof TextNode) {
 
-		while (curr_line < max_height && curr_base < text.length) {
-			curr_index = Math.min(text.length, i + cut_width);
-			cut_width = max_width;
-			i = curr_index;
+			const
+				STARTS_WITH_SPACE = ("\n \t").includes(child.data.toString()[0]),
+				ENDS_WITH_SPACE = ("\n \t").includes(child.data.toString().slice(-1));
 
-			base = curr_base;
+			let text = (child.data + "").trim().replace(/[\t\n]/g, " ");
 
-			if (i < text.length)
-				//minimize cut width until a space boundary is found
-				while (text[i] !== " " && i-- > base) { };
+			if (text && STARTS_WITH_SPACE)
+				text = " " + text;
 
-			value.push(text.slice(base, i + 1));
+			if (text && ENDS_WITH_SPACE)
+				text = text + " ";
 
-			curr_line++;
+			const { box: b, cursor_x: cx, cursor_y: cy } = createTextBox(text, 0, 0, max_width, max_height, cursor_x, cursor_y);
 
-			if (curr_line >= max_height || i >= text.length)
-				break;
+			box = b; cursor_x = cx; cursor_y = cy;
 
-			end_cursor_start = 0;
-			curr_base = i + 1;
+		} else {
+
+			let result = getCompositeBoxes(child, css, cursor_x, 0, max_width, max_height, 0, 0);
+
+			if (!result) continue;
+
+			const { box: b, cursor_x: cx, cursor_y: cy } = result;
+
+			box = b; cursor_x = b.width + b.left; cursor_y = cy;
+
+
 		}
 
-		return {
-			cur_start: cursor,
-			cur_end: end_cursor_start + x + i - base,
-			type: "text",
-			x,
-			y,
-			h: curr_line,
-			w: width,
-			value,
-			boxes: [],
-			color: xtRESET_COLOR
-		};
+		if (box) {
+
+			calc_height = Math.max(calc_height, box.top + box.height);
+			calc_width = Math.max(calc_width, box.left + box.width);
+			box.left += padding.l;
+			box.top += padding.t;
+
+
+			//x = box.left;
+			//y = box.top;
+
+			box_width = Math.max(x + box.width, box_width);
+			box_height = Math.max(y + box.height, box_height);
+
+			boxes.push(box);
+		}
 	}
+
+	const out_box: DrawBox = {
+		//ele: obj,
+		tag: obj.tag,
+		left: x,
+		top: y,
+		width: (DEFINED_WIDTH ? max_width : calc_width) + (padding.r + padding.l),
+		height: (DEFINED_HEIGHT ? max_height : calc_height) + (padding.t + padding.b),
+		type: "block",
+		boxes,
+		color,
+		IS_INLINE,
+		cursor_x,
+		cursor_y
+	};
+
+	if (CENTER_TEXT) {
+		for (const text of out_box.boxes.filter(t => t.type = "text")) {
+			for (const val of text.value) {
+				const diff = (calc_width - val.txt.length) >> 1;
+				val.off = diff;
+			}
+		}
+	}
+
+	return handleCompositeSpecialization(
+		obj,
+		out_box,
+		css,
+		x,
+		y,
+		max_width,
+		max_height,
+		IS_INLINE ? cursor_x : x,
+		y,
+	);
+};
+
+function createTextBox(
+	text: string,
+	x: number,
+	y: number,
+	max_width: number,
+	max_height: number,
+	cursor_x: number,
+	cursor_y: number
+): { cursor_x: number, cursor_y: number, box: DrawBox; } {
+	//Split the text up along the boundaries of the container. Only split on spaces. 
+	if (!text)
+		return null;
+
+	const value_lines = [];
+
+	let
+		cut_width = Math.min(text.length, max_width - cursor_x),
+		max_cut = cut_width,
+		curr_index = cut_width,
+		curr_base = 0,
+		curr_line = 0,
+		base = 0,
+		i = 0;
+
+	while (curr_line < max_height && curr_base < text.length) {
+
+		curr_index = Math.min(text.length, i + cut_width);
+
+		i = curr_index;
+
+		base = curr_base;
+
+		if (i < text.length)
+			//minimize cut width until a space boundary is found
+			while (text[i] !== " " && i-- > base) { };
+
+		value_lines.push({
+			off: cursor_x, txt: text.slice(base, i + 1)
+		});
+
+		curr_line++;
+
+		max_cut = Math.max(max_cut, cursor_x + cut_width);
+
+		if (curr_line >= max_height || i >= text.length) {
+			cursor_x += i - base;
+			break;
+		}
+
+		cursor_x = 0;
+		cut_width = max_width;
+
+		curr_base = i + 1;
+	}
+
+
+	return {
+		cursor_x,
+		cursor_y: cursor_y + curr_line - 1,
+		box: {
+			type: "text",
+			left: x,
+			top: y,
+			height: curr_line,
+			width: max_cut,
+			value: value_lines,
+			cursor_x,
+			cursor_y
+		}
+	};
 }

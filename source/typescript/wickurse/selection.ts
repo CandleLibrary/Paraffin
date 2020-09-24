@@ -2,7 +2,8 @@ import key from "../utils/keyboard_codes.js";
 import html, { HTMLNode, TextNode } from "@candlefw/html";
 import { ExtendedHTMLElement } from "../types/extended_HTML_element.js";
 
-export default function (wick, html) {
+export default function () {
+
 	const
 		ele_prototype: ExtendedHTMLElement = (<any>HTMLNode).prototype,
 		txt_prototype = TextNode.prototype;
@@ -22,7 +23,6 @@ export default function (wick, html) {
 				break;
 			case "checkbox":
 				if (code == key.SPACE) {
-					console.log("AAAAAAAAAAAAAAAAA")
 					this.checked = !this.checked;
 					this.runEvent("input", { target: this });
 				}
@@ -33,7 +33,7 @@ export default function (wick, html) {
 	ele_prototype.selectNextInput = function (start = this, prev = null) {
 		//We try to traverse depth first
 		if (this.fch && !this.fch !== start && this.fch !== prev)
-			return setNext(this.fch, start)
+			return setNext(this.fch, start);
 
 		if (this.next && this.next !== this.par.fch && this.next !== start)
 			return setNext(this.next, start);
@@ -44,6 +44,7 @@ export default function (wick, html) {
 		return this;
 	};
 
+
 	function setNext(node, start, prev = null) {
 		if (node.tag == "input") return node;
 		return node.selectNextInput(start, prev);
@@ -51,7 +52,7 @@ export default function (wick, html) {
 
 	txt_prototype.selectNextInput = function (start) {
 		if (this.fch && !this.fch !== start)
-			return setNext(this.fch, start)
+			return setNext(this.fch, start);
 
 		if (this.next && this.next !== this.par.fch && this.next !== start)
 			return setNext(this.next, start);

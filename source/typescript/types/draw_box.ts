@@ -1,16 +1,14 @@
 
 export interface DrawBox {
 	tag?: string;
-	cur_start: number;
-	cur_end: number;
-	x: number;
-	y: number;
-	w: number;
-	h: number;
-	pl?: number;
-	pt?: number;
+	left: number;
+	top: number;
+	width: number;
+	height: number;
+	pad_left?: number;
+	pad_top?: number;
 	type: "block" | "text" | "inline";
 	value?: string[];
-	boxes: DrawBox[];
-	color: string;
+	boxes?: DrawBox[];
+	color?: string;
 }

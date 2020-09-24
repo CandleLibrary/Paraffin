@@ -1,8 +1,9 @@
 import { HTMLNode } from "@candlefw/html";
 import { DrawBox } from "./draw_box";
+import { CSSNode } from "@candlefw/css";
 export class ExtendedHTMLElement extends HTMLNode {
 
-    public SELECTED?: boolean;
+    public selected?: boolean;
 
     public checked?: boolean;
 
@@ -15,6 +16,7 @@ export class ExtendedHTMLElement extends HTMLNode {
     selectNextInput: (start: ExtendedHTMLElement, prev: ExtendedHTMLElement) => ExtendedHTMLElement;
 
     handleCompositeSpecialization: (
+        css:CSSNode,
         boxes: DrawBox[],
         x: number,
         y: number,

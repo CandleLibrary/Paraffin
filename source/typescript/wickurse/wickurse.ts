@@ -7,14 +7,33 @@
 
 import tty from "tty";
 import spark from "@candlefw/spark";
-import integrateComposite from "./compositing.js";
+import integrateComposite, { getCompositeBoxes } from "./compositing.js";
 import integrateSelection from "./selection.js";
 import key from "../utils/keyboard_codes.js";
-import { WickLibrary } from "@candlefw/wick";
+import { WickLibrary, CSSNode } from "@candlefw/wick";
 import html, { HTMLNode, TextNode } from "@candlefw/html";
 import URL from "@candlefw/url";
 import { DrawBox } from "../types/draw_box.js";
-
+import { componentToMutatedCSS } from "@candlefw/wick/build/library/component/component_data_to_css.js";
+import {
+	xtColor,
+	xtReset,
+	xtBold,
+	xtDim,
+	xtUnderline,
+	xtBlink,
+	xtInvert,
+	xtHidden,
+	xtRBold,
+	xtRDim,
+	xtRUnderline,
+	xtRBlink,
+	xtRInvert,
+	xtF,
+	col_x11
+} from "../color/color.js";
+const
+	xtRESET_COLOR = xtF(xtReset);
 interface Wickurse extends WickLibrary {
 	/**
 	 * Creates a CLI from a wick template and optional model.
@@ -27,7 +46,7 @@ interface Wickurse extends WickLibrary {
 		 * is received.
 		 */
 		start(): Promise<void>;
-	}>
+	}>;
 }
 
 /**
@@ -54,17 +73,23 @@ export default async function integrate(wick: WickLibrary): Wickurse {
 
 	stdin.setRawMode(true);
 
-	integrateComposite(wick, html);
+	integrateComposite();
+	integrateSelection();
 
-	integrateSelection(wick, html);
+	let DEBOUNCE = false, PENDING = false;
 
-	ele_prototype.renderCLI = function () {
+	function renderCLI(ele: HTMLElement, css: CSSNode) {
+
+		if (DEBOUNCE) return void (PENDING = true);
+		DEBOUNCE = true;
+
+
 		//Prepare wick to operate in NodeJS.
 		const columns = process.stdout.columns;
 		const rows = process.stdout.rows;
 
 		//writes data to console
-		const box = this.getCompositeBoxes(0, 0, columns, rows);
+		const { box } = getCompositeBoxes(ele, css, 0, 0, columns, rows, 0);
 
 		//Assign positional values to boxes
 
@@ -72,73 +97,78 @@ export default async function integrate(wick: WickLibrary): Wickurse {
 		//For text and special elements within block data, write text data.
 
 		//Using basic flex arrangement for text data. L-R unless the css prop flex-direction column is set. 
-		let str = "";
 
-		const buffer = { write: s => str += s };
+		let str = xtRESET_COLOR, prev_col = "";
 
-		for (let i = 0; i < rows; i++)
-			writeLine(box, buffer, i, 0, columns);
+		const data = { txt: "", color: "", index: 0 };
 
-		stdout.write(str);
-	};
+		//console.dir(box, { depth: 20 });
 
-	function writeLine(box: DrawBox, buffer, line = 0, col = 0, maxwidth = 0) {
-		//The first line is all ways a margin of padding. 
-		//Should this bell
+		for (let i = 0; i < box.height; i++) {
+			for (let j = 0; j < columns; j++) {
 
-		//Check to make sure bounding box is within the text area.
-		if (line >= box.y && line < box.y + box.h) {
-			// If on starting line, and the diff between box.y and line is zero
-			// make sure that col == box.cur_start to handle inline offsets.
-			if (box.type == "text")
+				writeCell(box, j, i, data);
 
-				if ((line - box.y == 0) && col !== box.cur_start)
-					return col;
-
-			if (col >= box.x && col < box.x + box.w) {
-				//Set padding and color
-				if (box.type == "text") {
-					//select the correct text string. 
-					const i = line - box.y;
-
-
-					if (!box.value[i])
-						return col;
-
-					const x = box.value[i].length;
-
-					buffer.write(box.value[i]);
-
-					return col + x;
-				} else {
-
-					buffer.write(box.color);
-
-					if (box.pl > 0) //padding
-						buffer.write((" ").repeat(box.pl));
-
-					let x = col + box.pl;
-
-					if (Array.isArray(box.boxes))
-						for (const c_box of box.boxes) {
-							buffer.write(box.color);
-							x = writeLine(c_box, buffer, line, x, box.w);
-						}
-
-					buffer.write(box.color);
-
-					for (let i = x; i < box.cur_end; i++)
-						buffer.write(" "); //padding
-
-					return box.cur_end;
+				if (prev_col != data.color) {
+					str += (data.color + "");
+					prev_col = data.color + "";
 				}
 
+				str += data.txt[0] || " ";
+
+				data.txt = "";
 			}
 		}
 
-		return col;
-	}
+		stdout.write(str + xtRESET_COLOR);
 
+		if (PENDING) {
+			PENDING = false;
+			() => stdout.cursorTo(0, 0, () => {
+				stdout.clearScreenDown(() => {
+					{
+						DEBOUNCE = false;
+						renderCLI(ele, css);
+					};
+				});
+			});
+		} else {
+			DEBOUNCE = false;
+		}
+	};
+
+	function writeCell(box: DrawBox, x: number, y: number, data: { txt: string, color: string; }) {
+		if (y >= box.top && y < box.top + box.height) {
+			if (x >= box.left && x < box.left + box.width) {
+				switch (box.type) {
+					case "block":
+						data.txt = " ";
+						data.color = box.color;
+						break;
+					case "text":
+
+						const i = y - box.top;
+
+						if (!box.value[i]) return;
+
+						const { txt, off } = box.value[i];
+						const index = x - off - box.left;
+
+						if (index < 0 || index >= txt.length) return;
+
+						data.txt = txt[index];
+
+						break;
+				}
+
+				const cx = x - box.left, cy = y - box.top;
+
+				for (const cbox of box.boxes || []) {
+					writeCell(cbox, cx, cy, data);
+				}
+			}
+		}
+	}
 	txt_prototype.bubbleUpdate = ele_prototype.bubbleUpdate = function () {
 
 		if (this.parent)
@@ -149,16 +179,16 @@ export default async function integrate(wick: WickLibrary): Wickurse {
 
 		const
 			comp_data = await wick(template_or_url),
+			style_sheet = componentToMutatedCSS(comp_data.CSS[0], comp_data),
 			ele = html("<div></div>"),
 			comp = (new comp_data.class(model)).appendToDOM(ele),
-			write = () => //stdout.cursorTo(0, 0, () => {
-			//stdout.clearScreenDown(() => {
-			{
-
-				ele.renderCLI();
-			};
-		//	})
-		// })
+			write = () => stdout.cursorTo(0, 0, () => {
+				stdout.clearScreenDown(() => {
+					{
+						renderCLI(ele, style_sheet);
+					};
+				});
+			});
 
 		ele.bubbleUpdate = () => write();
 
@@ -209,8 +239,6 @@ export default async function integrate(wick: WickLibrary): Wickurse {
 							if (selected_ele)
 								selected_ele.selected = true;
 
-							console.log("-->", selected_ele.tag)
-
 							write();
 						}
 					}, 10);
@@ -219,5 +247,5 @@ export default async function integrate(wick: WickLibrary): Wickurse {
 		};
 	};
 
-	return <Wickurse>wick
+	return <Wickurse>wick;
 }
