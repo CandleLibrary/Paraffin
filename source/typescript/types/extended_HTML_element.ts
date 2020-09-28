@@ -7,7 +7,7 @@ export class ExtendedHTMLElement extends HTMLNode {
 
     public checked?: boolean;
 
-    public value?: string;
+    public value: string;
 
     children: ExtendedHTMLElement[];
 
