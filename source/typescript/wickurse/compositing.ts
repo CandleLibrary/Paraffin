@@ -110,7 +110,7 @@ export function getCompositeBoxes(
 		margin = { t: 0, r: 0, b: 0, l: 0 },
 		fg_color = undefined,
 		bg_color = undefined,
-		color = xtRESET_COLOR,
+		color = "",
 		CENTER_TEXT = false;
 	//*
 	if (css) {
