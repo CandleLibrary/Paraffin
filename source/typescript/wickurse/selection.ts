@@ -30,79 +30,83 @@ export default function () {
 		}
 	};
 
-	ele_prototype.selectNextInput = function (start = this, prev = null) {
-		//We try to traverse depth first
-		if (this.fch && !this.fch !== start && this.fch !== prev)
-			return setNext(this.fch, start);
-
-		if (this.next && this.next !== this.par.fch && this.next !== start)
-			return setNext(this.next, start);
-
-		if (this.par && this.par !== start)
-			return setNext(this.par, start, this.next);
-
-		return this;
-	};
-
-
-	function setNext(node, start, prev = null) {
+	function setNext(node, root) {
 		if (node.tag == "input") return node;
-		return node.selectNextInput(start, prev);
+		return node.selectNextInput(node, root);
 	}
 
-	txt_prototype.selectNextInput = function (start) {
-		if (this.fch && !this.fch !== start)
-			return setNext(this.fch, start);
+	ele_prototype.selectNextInput = function (prev = null, root = null) {
 
-		if (this.next && this.next !== this.par.fch && this.next !== start)
-			return setNext(this.next, start);
+		if (root == this) return null;
 
-		if (this.par && this.par !== start)
-			return setNext(this.par, start, this.next);
+		let ch = this.fch, start = this.fch;
+
+		if (ch) {
+
+			if (prev) {
+				while (ch !== prev) {
+					ch = ch.next;
+					if (ch == this.fch) break;
+				}
+				start = ch;
+			}
+
+			do {
+				if (ch !== prev) {
+					let result = setNext(ch, this);
+
+					if (result) return result;
+				}
+				ch = ch.next;
+			} while (ch !== start);
+		}
+
+		if (this.par) return this.par.selectNextInput(this, root);
 
 		return null;
 	};
 
-	ele_prototype.selectPrevInput = function (start = this) {
+	txt_prototype.selectNextInput = function (start) {
+		return null;
+	};
 
-		if (start.par == this) {
-			if (start.previous !== this.fch) {
-				if (start.previous.tag == "input") return start.previous;
-				return start.previous.selectPrevInput(start);
+	function setPrev(node, root) {
+		if (node.tag == "input") return node;
+		return node.selectPrevInput(node, root);
+	}
+
+	ele_prototype.selectPrevInput = function (prev = null, root = null) {
+
+		if (root == this) return null;
+
+		let ch = this.fch, start = this.fch;
+
+		if (ch) {
+
+			if (prev) {
+				while (ch !== prev) {
+					ch = ch.previous;
+					if (ch == this.fch) break;
+				}
+				start = ch;
 			}
-		} else {
-			if (this.fch && this.fch !== start) {
-				if (this.fch.tag == "input") return this.fch;
-				return this.fch.selectPrevInput(start);
-			}
+
+			do {
+				if (ch !== prev) {
+					let result = setPrev(ch, this);
+
+					if (result) return result;
+				}
+				ch = ch.previous;
+			} while (ch !== start);
 		}
 
-		if (this.previous && this.par.fch !== this.previous && this.previous !== start) {
-			if (this.previous.tag == "input") return this.previous;
-			else return this.previous.selectPrevInput();
-		}
-
-		if (this.par && this.par !== start) {
-			if (this.par.tag == "input") return this.par;
-			return this.par.selectPrevInput(start);
-		}
-
-		if (this.tag == "input")
-			return this;
+		if (this.par) return this.par.selectPrevInput(this, root);
 
 		return null;
 	};
 
 	txt_prototype.selectPrevInput = function (start) {
-		if (this.previous !== this && this.previous !== start && this.previous !== this.par.fch) {
-			if (this.previous.tag == "input") return this.previous;
-			return this.previous.selectPrevInput(start);
-		}
-
-		if (this.par && this.par !== start) {
-			if (this.par.tag == "input") return this.par;
-			return this.par.selectPrevInput(start);
-		}
-
+		return null;
 	};
 }
