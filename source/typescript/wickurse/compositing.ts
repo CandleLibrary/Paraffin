@@ -223,8 +223,13 @@ export function getCompositeBoxes(
 			if (!result) continue;
 
 			const { box: b, cursor_x: cx, cursor_y: cy } = result;
+			box = b;
+			if (box.IS_INLINE) {
+				cursor_x = cx; cursor_y = cy;
+			} else {
+				cursor_x = 0; cursor_y = b.height + b.top;
+			}
 
-			box = b; cursor_x = cx; cursor_y = cy;
 		}
 
 		if (box) {
@@ -239,11 +244,14 @@ export function getCompositeBoxes(
 	}
 
 	if (CENTER_TEXT) {
-		for (const text of boxes.filter(t => t.type = "text")) {
-			for (const val of text.value) {
-				const diff = (calc_box.w - val.txt.length) >> 1;
-				val.off = diff;
-			}
+		for (const text of boxes.filter(t => t.type == "text")) {
+			if (text.value)
+				for (const val of text.value) {
+					if (val) {
+						const diff = (calc_box.w - val.txt.length) >> 1;
+						val.off = diff;
+					}
+				}
 		}
 	}
 
@@ -281,14 +289,14 @@ function createTextBox(
 	if (!text)
 		return null;
 
-	const value_lines = [];
+	const value_lines = Array(cursor_y);
 
 	let
 		cut_width = Math.min(text.length, max_width - cursor_x),
 		max_cut = cut_width,
 		curr_index = cut_width,
 		curr_base = 0,
-		curr_line = 0,
+		curr_line = value_lines.length,
 		base = 0,
 		i = 0;
 
@@ -326,7 +334,7 @@ function createTextBox(
 
 	return {
 		cursor_x,
-		cursor_y: cursor_y + curr_line - 1,
+		cursor_y: curr_line - 1,
 		box: {
 			type: "text",
 			left: x,

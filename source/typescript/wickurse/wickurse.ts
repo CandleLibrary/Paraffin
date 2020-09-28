@@ -32,6 +32,7 @@ import {
 	xtF,
 	col_x11
 } from "../color/color.js";
+import { P } from "@candlefw/wind/build/types/ascii_code_points";
 const
 	xtRESET_COLOR = xtF(xtReset);
 interface Wickurse extends WickLibrary {
@@ -78,6 +79,19 @@ export default async function integrate(): Wickurse {
 
 	let DEBOUNCE = false, PENDING = false;
 
+	function clearAndExit(exiting_message: string = "") {
+		return new Promise(res => {
+			stdout.cursorTo(0, 0, () => {
+				stdout.clearScreenDown(() => {
+					stdout.cursorTo(0, 0, () => {
+						console.log(exiting_message);
+						res();
+					});
+				});
+			});
+		});
+	}
+
 	function renderCLI(ele: HTMLElement, css: CSSNode) {
 
 		if (DEBOUNCE) return void (PENDING = true);
@@ -86,57 +100,62 @@ export default async function integrate(): Wickurse {
 
 		stdout.cursorTo(0, 0, () => {
 
-			stdout.clearScreenDown(() => {
+			//stdout.clearScreenDown(() => {
 
-				//Prepare wick to operate in NodeJS.
-				const
-					columns = process.stdout.columns,
-					rows = process.stdout.rows;
+			//Prepare wick to operate in NodeJS.
+			const
+				columns = process.stdout.columns,
+				rows = process.stdout.rows;
 
-				//writes data to console
-				const { box } = getCompositeBoxes(ele, css, { t: 0, l: 0, w: columns, h: rows });
+			//writes data to console
+			const { box } = getCompositeBoxes(ele, css, { t: 0, l: 0, w: columns, h: rows });
 
-				//Assign positional values to boxes
+			//Assign positional values to boxes
 
-				//Starting at top left and working towards bottom left height, write block data to console. 
-				//For text and special elements within block data, write text data.
+			//Starting at top left and working towards bottom left height, write block data to console. 
+			//For text and special elements within block data, write text data.
 
-				//Using basic flex arrangement for text data. L-R unless the css prop flex-direction column is set. 
+			//Using basic flex arrangement for text data. L-R unless the css prop flex-direction column is set. 
 
-				//	console.dir({ box }, { depth: 20 });
+			//console.dir({ box }, { depth: 20 });
 
-				let str = xtRESET_COLOR, prev_col = "";
+			let str = xtRESET_COLOR, prev_col = "";
 
-				const data = { txt: " ", color: "", index: 0 };
+			const data = { txt: " ", color: "", index: 0 };
 
-				for (let i = 0; i < box.height; i++) {
-					for (let j = 0; j < columns; j++) {
+			for (let i = 0; i < box.height; i++) {
+				for (let j = 0; j < columns; j++) {
 
-						writeCell(box, j, i, data);
+					writeCell(box, j, i, data);
 
-						if (prev_col != data.color) {
-							str += (data.color + "");
-							prev_col = data.color + "";
-						}
-
-						str += data.txt;
-						data.txt = " ";
+					if (prev_col != data.color) {
+						str += (data.color + "");
+						prev_col = data.color + "";
 					}
 
+					str += data.txt;
+					data.txt = " ";
 				}
+			}
 
-				stdout.write(str + xtRESET_COLOR);
+			str += xtRESET_COLOR;
 
-				if (PENDING) {
-					PENDING = false;
-					{
-						DEBOUNCE = false;
-						renderCLI(ele, css);
-					};
-				} else {
+			for (let i = 0; i < rows - box.height; i++)
+				str += (" ").repeat(columns);
+
+
+			stdout.write(str + xtRESET_COLOR);
+
+			if (PENDING) {
+				PENDING = false;
+				{
 					DEBOUNCE = false;
-				}
-			});
+					renderCLI(ele, css);
+				};
+			} else {
+				DEBOUNCE = false;
+			}
+			//	});
 		});
 	};
 
@@ -163,8 +182,9 @@ export default async function integrate(): Wickurse {
 							written |= +writeCell(cbox, cx, cy, data, apply_color);
 
 
-						if (box.INLINE) {
+						if (box.IS_INLINE) {
 							if (written) {
+								data.color = box.color;
 							}
 						}
 
@@ -174,13 +194,13 @@ export default async function integrate(): Wickurse {
 
 						const i = y - box.top;
 
-						if (!box.value[i]) return;
+						if (!box.value[i]) return false;
 
 						const
 							{ txt, off } = box.value[i],
 							index = x - off - box.left;
 
-						if (index < 0 || index >= txt.length) return;
+						if (index < 0 || index >= txt.length) return false;
 
 						data.txt = txt[index];
 
@@ -219,7 +239,7 @@ export default async function integrate(): Wickurse {
 					if (selected_ele) selected_ele.selected = true;
 
 					//Create a command poller to handle user input
-					const id = setInterval(() => {
+					const id = setInterval(async _ => {
 
 						const data = stdin.read("utf8");
 
@@ -231,6 +251,7 @@ export default async function integrate(): Wickurse {
 							if (ctrl == key.END_OF_TXT) // CTR-C ETX
 							{
 								clearInterval(id);
+								await clearAndExit("Closing out");
 								return res();
 							}
 
