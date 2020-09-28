@@ -256,8 +256,8 @@ function createTextBox(
 	cursor_y: number
 ): { cursor_x: number, cursor_y: number, box: TextDrawBox; } {
 	//Split the text up along the boundaries of the container. Only split on spaces. 
-	if (!text)
-		return null;
+	//if (!text)
+	//	return null;
 
 	const value_lines = Array(cursor_y);
 
