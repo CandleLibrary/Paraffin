@@ -52,7 +52,7 @@ export function handleCompositeSpecialization(
 			{
 				switch (obj.getAttribute("type")) {
 					case "checkbox":
-						return [new TextNode(!!obj.checked ? " ☑ " : " ☐ ")];
+						return [new TextNode(!!obj.checked ? "☑" : "☐")];
 
 					case "text":
 					default: //Text
@@ -60,7 +60,7 @@ export function handleCompositeSpecialization(
 							let val = obj.value || "";
 							// if the text field is too long to fit into the current line, 
 							// drop to next line
-							if (!val) val = obj.getAttribute("placeholder") || "";
+							if (!val) val = obj.getAttribute("placeholder") || "  ";
 
 							return [new TextNode(val)];
 						}
@@ -157,7 +157,6 @@ export function getCompositeBoxes(
 		box_metrics.t++;
 		box_metrics.h--;
 		cursor_x = 0;
-		cursor_y = 0;
 	}
 
 	const children = handleCompositeSpecialization(
