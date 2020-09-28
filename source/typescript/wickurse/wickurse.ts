@@ -6,7 +6,7 @@
 */
 
 import tty from "tty";
-import spark from "@candlefw/spark";
+import wick from "@candlefw/wick";
 import integrateComposite, { getCompositeBoxes } from "./compositing.js";
 import integrateSelection from "./selection.js";
 import key from "../utils/keyboard_codes.js";
@@ -51,14 +51,14 @@ interface Wickurse extends WickLibrary {
 
 /**
  * Converts wick templates into CLI interfaces, 
- * providing ways to descibe cursor based display and 
- * inputs using HTML and CSS syntaxees, and user interaction 
+ * providing ways to describe cursor based display and 
+ * inputs using HTML and CSS syntaxes, and user interaction 
  * with JS scripting syntaxes.  
  * 
  * @param wick 
  * @param html 
  */
-export default async function integrate(wick: WickLibrary): Wickurse {
+export default async function integrate(): Wickurse {
 
 	await wick.server();
 	await html.server();
@@ -81,94 +81,119 @@ export default async function integrate(wick: WickLibrary): Wickurse {
 	function renderCLI(ele: HTMLElement, css: CSSNode) {
 
 		if (DEBOUNCE) return void (PENDING = true);
+
 		DEBOUNCE = true;
 
+		stdout.cursorTo(0, 0, () => {
 
-		//Prepare wick to operate in NodeJS.
-		const columns = process.stdout.columns;
-		const rows = process.stdout.rows;
+			stdout.clearScreenDown(() => {
 
-		//writes data to console
-		const { box } = getCompositeBoxes(ele, css, 0, 0, columns, rows, 0);
+				//Prepare wick to operate in NodeJS.
+				const
+					columns = process.stdout.columns,
+					rows = process.stdout.rows;
 
-		//Assign positional values to boxes
+				//writes data to console
+				const { box } = getCompositeBoxes(ele, css, { t: 0, l: 0, w: columns, h: rows });
 
-		//Starting at top left and working towards bottom left height, write block data to console. 
-		//For text and special elements within block data, write text data.
+				//Assign positional values to boxes
 
-		//Using basic flex arrangement for text data. L-R unless the css prop flex-direction column is set. 
+				//Starting at top left and working towards bottom left height, write block data to console. 
+				//For text and special elements within block data, write text data.
 
-		let str = xtRESET_COLOR, prev_col = "";
+				//Using basic flex arrangement for text data. L-R unless the css prop flex-direction column is set. 
 
-		const data = { txt: "", color: "", index: 0 };
+				console.dir({ box }, { depth: 20 });
 
-		//console.dir(box, { depth: 20 });
+				let str = xtRESET_COLOR, prev_col = "";
 
-		for (let i = 0; i < box.height; i++) {
-			for (let j = 0; j < columns; j++) {
+				const data = { txt: " ", color: "", index: 0 };
 
-				writeCell(box, j, i, data);
+				for (let i = 0; i < box.height; i++) {
+					for (let j = 0; j < columns; j++) {
 
-				if (prev_col != data.color) {
-					str += (data.color + "");
-					prev_col = data.color + "";
+						writeCell(box, j, i, data);
+
+						if (prev_col != data.color) {
+							str += (data.color + "");
+							prev_col = data.color + "";
+						}
+
+						if (i == 0 && j == 0) str += "#"; else
+							str += data.txt;
+
+						data.txt = " ";
+					}
+
 				}
 
-				str += data.txt[0] || " ";
 
-				data.txt = "";
-			}
-		}
 
-		stdout.write(str + xtRESET_COLOR);
+				stdout.write(str + xtRESET_COLOR);
 
-		if (PENDING) {
-			PENDING = false;
-			() => stdout.cursorTo(0, 0, () => {
-				stdout.clearScreenDown(() => {
+				if (PENDING) {
+					PENDING = false;
 					{
 						DEBOUNCE = false;
 						renderCLI(ele, css);
 					};
-				});
+				} else {
+					DEBOUNCE = false;
+				}
 			});
-		} else {
-			DEBOUNCE = false;
-		}
+		});
 	};
 
 	function writeCell(box: DrawBox, x: number, y: number, data: { txt: string, color: string; }) {
+
 		if (y >= box.top && y < box.top + box.height) {
+
 			if (x >= box.left && x < box.left + box.width) {
+
 				switch (box.type) {
+
 					case "block":
-						data.txt = " ";
-						data.color = box.color;
+
+
+						const cx = x - box.left, cy = y - box.top;
+						let written = false;
+
+						const apply_color = box.INLINE ? (box.color || apply_color) : "";
+
+						if (!box.IS_INLINE)
+							data.color = box.color;
+
+						for (const cbox of box.boxes || [])
+							written |= +writeCell(cbox, cx, cy, data, apply_color);
+
+
+						if (box.INLINE) {
+							if (written) {
+							}
+						}
+
 						break;
+
 					case "text":
 
 						const i = y - box.top;
 
 						if (!box.value[i]) return;
 
-						const { txt, off } = box.value[i];
-						const index = x - off - box.left;
+						const
+							{ txt, off } = box.value[i],
+							index = x - off - box.left;
 
 						if (index < 0 || index >= txt.length) return;
 
 						data.txt = txt[index];
 
-						break;
-				}
-
-				const cx = x - box.left, cy = y - box.top;
-
-				for (const cbox of box.boxes || []) {
-					writeCell(cbox, cx, cy, data);
+						return true;
 				}
 			}
 		}
 	}
+
 	txt_prototype.bubbleUpdate = ele_prototype.bubbleUpdate = function () {
 
 		if (this.parent)
@@ -182,13 +207,7 @@ export default async function integrate(wick: WickLibrary): Wickurse {
 			style_sheet = componentToMutatedCSS(comp_data.CSS[0], comp_data),
 			ele = html("<div></div>"),
 			comp = (new comp_data.class(model)).appendToDOM(ele),
-			write = () => stdout.cursorTo(0, 0, () => {
-				stdout.clearScreenDown(() => {
-					{
-						renderCLI(ele, style_sheet);
-					};
-				});
-			});
+			write = () => renderCLI(ele, style_sheet);
 
 		ele.bubbleUpdate = () => write();
 
@@ -199,12 +218,10 @@ export default async function integrate(wick: WickLibrary): Wickurse {
 				return new Promise(res => {
 					write();
 
-					let cli_input_string = "";
-
 					let selected_ele = ele.selectNextInput();
 
-					if (selected_ele)
-						selected_ele.selected = true;
+					if (selected_ele) selected_ele.selected = true;
+
 					//Create a command poller to handle user input
 					const id = setInterval(() => {
 
