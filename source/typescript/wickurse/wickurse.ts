@@ -225,9 +225,9 @@ export default async function integrate(): Wickurse {
 			comp = (new comp_data.class(model)).appendToDOM(ele),
 			write = () => renderCLI(ele, style_sheet);
 
-		ele.bubbleUpdate = () => write();
+		ele.bubbleUpdate = write;
 
-		let i = 0;
+		stdout.on('resize', write);
 
 		return {
 			start: () => {
