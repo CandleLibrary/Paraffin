@@ -14,27 +14,4 @@ export class ExtendedHTMLElement extends HTMLNode {
     update: (code: number, str: string) => void;
 
     selectNextInput: (start: ExtendedHTMLElement, prev: ExtendedHTMLElement) => ExtendedHTMLElement;
-
-    handleCompositeSpecialization: (
-        css:CSSNode,
-        boxes: DrawBox[],
-        x: number,
-        y: number,
-        w: number,
-        h: number,
-        pl: number,
-        pt: number,
-        max_width: number,
-        max_height: number,
-        cursor_start: number,
-        cursor_end: number
-    ) => DrawBox;
-
-    getCompositeBoxes: (
-        x: number,
-        y: number,
-        width: number,
-        height: number,
-        cursor: number
-    ) => DrawBox;
 }

@@ -45,7 +45,7 @@ export function handleCompositeSpecialization(
 	box_metrics: BoxMetrics,
 	cursor_x: number,
 	cursor_y: number
-): (HTMLNode | TextNode)[] {
+): (ExtendedHTMLElement | TextNode)[] {
 
 	switch (obj.tag) {
 		case "input":
@@ -170,7 +170,7 @@ export function getCompositeBoxes(
 
 	let box: DrawBox = null;
 
-	for (const child of children) {
+	for (const child of <ExtendedHTMLElement[]>children) {
 		//need to know width and height of child; child responsible
 		if (child instanceof TextNode) {
 
