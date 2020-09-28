@@ -27,8 +27,8 @@ import { ExtendedHTMLElement } from "../types/extended_HTML_element.js";
 import { DrawBox, TextDrawBox, BlockDrawBox } from "../types/draw_box";
 import { CSSNode, getArrayOfMatchedRules, CSS_Color, getMatchedRulesGen } from "@candlefw/css";
 import { setPadding, setPaddingBottom, setPaddingRight, setPaddingLeft, setPaddingTop } from "./set_padding.js";
-import { min_max } from "./min_max.js";
 import { BoxMetrics, CALCFlag } from "./calculated_flags.js";
+import { setWidth, setHeight } from "./set_dimensions.js";
 
 export default function color() {
 	CSS_Color.parse = function (lex) {
@@ -79,34 +79,9 @@ function tagIsInline(tag: string) {
 }
 
 
-function setWidth(prop: CSSProperty, box: BoxMetrics, parent_box: BoxMetrics) {
-
-	const val = prop.val[0];
-
-	if (val instanceof CSS_Percentage)
-		box.w = min_max(0, parent_box.w * (+val / 100), parent_box.w);
-	else
-		box.w = min_max(0, (+val), parent_box.w);
-
-	box.defined |= CALCFlag.WIDTH;
-}
-
-function setHeight(prop: CSSProperty, box: BoxMetrics, parent_box: BoxMetrics) {
-	const val = prop.val[0];
-	if (val instanceof CSS_Percentage)
-		box.h = min_max(0, parent_box.h * (+val / 100), parent_box.h);
-	else
-		box.h = min_max(0, (+val), parent_box.h);
-	box.defined |= CALCFlag.HEIGHT;
-}
-
 export function getCompositeBoxes(
 	obj: ExtendedHTMLElement,
 	css: CSSNode = null,
-	/**
-	 * Size and position of parent box as it appears 
-	 * to a child box. 
-	 */
 	parent_box: BoxMetrics,
 	cursor_x = 0,
 	cursor_y = 0,
