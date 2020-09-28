@@ -103,7 +103,7 @@ export default async function integrate(): Wickurse {
 
 				//Using basic flex arrangement for text data. L-R unless the css prop flex-direction column is set. 
 
-				console.dir({ box }, { depth: 20 });
+				//	console.dir({ box }, { depth: 20 });
 
 				let str = xtRESET_COLOR, prev_col = "";
 
@@ -119,15 +119,11 @@ export default async function integrate(): Wickurse {
 							prev_col = data.color + "";
 						}
 
-						if (i == 0 && j == 0) str += "#"; else
-							str += data.txt;
-
+						str += data.txt;
 						data.txt = " ";
 					}
 
 				}
-
-
 
 				stdout.write(str + xtRESET_COLOR);
 

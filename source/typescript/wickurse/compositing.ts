@@ -80,12 +80,14 @@ function tagIsInline(tag: string) {
 
 
 function setWidth(prop: CSSProperty, box: BoxMetrics, parent_box: BoxMetrics) {
+
 	const val = prop.val[0];
-	console.log({ prop, val });
+
 	if (val instanceof CSS_Percentage)
 		box.w = min_max(0, parent_box.w * (+val / 100), parent_box.w);
 	else
 		box.w = min_max(0, (+val), parent_box.w);
+
 	box.defined |= CALCFlag.WIDTH;
 }
 
