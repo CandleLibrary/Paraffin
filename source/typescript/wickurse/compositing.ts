@@ -24,8 +24,8 @@ const
 
 import html, { HTMLNode, TextNode } from "@candlefw/html";
 import { ExtendedHTMLElement } from "../types/extended_HTML_element.js";
-import { DrawBox } from "../types/draw_box";
-import { CSSNode, getArrayOfMatchedRules, CSS_Color, CSSProperty, CSS_Percentage, getMatchedRulesGen } from "@candlefw/css";
+import { DrawBox, TextDrawBox, BlockDrawBox } from "../types/draw_box";
+import { CSSNode, getArrayOfMatchedRules, CSS_Color, getMatchedRulesGen } from "@candlefw/css";
 import { setPadding, setPaddingBottom, setPaddingRight, setPaddingLeft, setPaddingTop } from "./set_padding.js";
 import { min_max } from "./min_max.js";
 import { BoxMetrics, CALCFlag } from "./calculated_flags.js";
@@ -223,13 +223,14 @@ export function getCompositeBoxes(
 			if (!result) continue;
 
 			const { box: b, cursor_x: cx, cursor_y: cy } = result;
-			box = b;
-			if (box.IS_INLINE) {
+
+			if (b.IS_INLINE) {
 				cursor_x = cx; cursor_y = cy;
 			} else {
 				cursor_x = 0; cursor_y = b.height + b.top;
 			}
 
+			box = b;
 		}
 
 		if (box) {
@@ -255,8 +256,7 @@ export function getCompositeBoxes(
 		}
 	}
 
-	const draw_box: DrawBox = {
-		//ele: obj,
+	const draw_box: BlockDrawBox = {
 		tag: obj.tag,
 		left: box_metrics.l,
 		top: box_metrics.t,
@@ -265,11 +265,6 @@ export function getCompositeBoxes(
 		type: "block",
 		color,
 		IS_INLINE,
-		fg_color,
-		bg_color,
-		cursor_x,
-		cursor_y,
-		prop_names: getArrayOfMatchedRules(obj, css).flatMap(r => [...r.props.values()]).map(p => p.val),
 		boxes,
 	};
 
@@ -284,7 +279,7 @@ function createTextBox(
 	max_height: number,
 	cursor_x: number,
 	cursor_y: number
-): { cursor_x: number, cursor_y: number, box: DrawBox; } {
+): { cursor_x: number, cursor_y: number, box: TextDrawBox; } {
 	//Split the text up along the boundaries of the container. Only split on spaces. 
 	if (!text)
 		return null;
@@ -341,9 +336,7 @@ function createTextBox(
 			top: y,
 			height: curr_line,
 			width: max_cut,
-			value: value_lines,
-			cursor_x,
-			cursor_y
+			value: value_lines
 		}
 	};
 }

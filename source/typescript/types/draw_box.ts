@@ -1,14 +1,25 @@
 
 export interface DrawBox {
-	tag?: string;
 	left: number;
 	top: number;
 	width: number;
 	height: number;
+	type: "block" | "text";
+}
+
+export interface BlockDrawBox extends DrawBox {
+	tag: string;
+	width: number;
+	height: number;
 	pad_left?: number;
 	pad_top?: number;
-	type: "block" | "text" | "inline";
-	value?: string[];
-	boxes?: DrawBox[];
-	color?: string;
+	IS_INLINE: boolean;
+	type: "block";
+	boxes: DrawBox[];
+	color: string | "";
+};
+
+export interface TextDrawBox extends DrawBox {
+	type: "text";
+	value: string[];
 }
