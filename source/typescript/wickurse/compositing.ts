@@ -188,7 +188,7 @@ export function getCompositeBoxes(
 				STARTS_WITH_SPACE = ("\n \t").includes(child.data.toString()[0]),
 				ENDS_WITH_SPACE = ("\n \t").includes(child.data.toString().slice(-1));
 
-			let text = (child.data + "").trim().replace(/[\t\n]/g, " ");
+			let text = child.data;
 
 			if (text && STARTS_WITH_SPACE)
 				text = " " + text;
