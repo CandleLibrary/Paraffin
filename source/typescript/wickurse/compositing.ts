@@ -161,11 +161,14 @@ export function getCompositeBoxes(
 	if (IS_INLINE) {
 		box_metrics.t = 0;
 		box_metrics.l = 0;
-	}
+	} else {
 
-	if (!IS_INLINE && cursor_x != 0) {
-		box_metrics.t = cursor_y + 1;
-		box_metrics.h--;
+		box_metrics.t = cursor_y;
+
+		if (cursor_x != 0) {
+			box_metrics.t++;
+			box_metrics.h--;
+		}
 		cursor_x = 0;
 		cursor_y = 0;
 	}
