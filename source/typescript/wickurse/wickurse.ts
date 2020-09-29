@@ -34,7 +34,8 @@ import {
 } from "../color/color.js";
 import { P } from "@candlefw/wind/build/types/ascii_code_points";
 const
-	xtRESET_COLOR = xtF(xtReset);
+	xtRESET_COLOR = xtF(xtRBlink, xtRUnderline, xtRBold, xtRDim, xtRInvert),
+	xtRESET_COLOR_FULL = xtF(xtReset, xtRBlink, xtRUnderline, xtRBold, xtRDim, xtRInvert);
 interface Wickurse extends WickLibrary {
 	/**
 	 * Creates a CLI from a wick template and optional model.
@@ -129,12 +130,13 @@ export default async function integrate(): Wickurse {
 					writeCell(box, j, i, data);
 
 					if (prev_col != data.color) {
-						str += (data.color + "");
-						prev_col = data.color + "";
+						str += xtRESET_COLOR + data.color;
+						prev_col = data.color;
 					}
 
 					str += data.txt;
 					data.txt = " ";
+					data.color = "";
 				}
 			}
 
@@ -144,7 +146,7 @@ export default async function integrate(): Wickurse {
 				str += (" ").repeat(columns);
 
 
-			stdout.write(str + xtRESET_COLOR);
+			stdout.write(str + xtRESET_COLOR_FULL);
 
 			if (PENDING) {
 				PENDING = false;
@@ -173,13 +175,13 @@ export default async function integrate(): Wickurse {
 						const cx = x - box.left, cy = y - box.top;
 						let written = false;
 
-						const apply_color = box.INLINE ? (box.color || apply_color) : "";
+						//const apply_color = box.INLINE ? (box.color || apply_color) : "";
 
-						if (!box.IS_INLINE)
+						if (!box.IS_INLINE && box.color)
 							data.color = box.color;
 
 						for (const cbox of box.boxes || [])
-							written |= +writeCell(cbox, cx, cy, data, apply_color);
+							written |= +writeCell(cbox, cx, cy, data);
 
 
 						if (box.IS_INLINE) {

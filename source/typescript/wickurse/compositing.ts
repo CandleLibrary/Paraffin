@@ -60,7 +60,16 @@ export function handleCompositeSpecialization(
 							let val = obj.value || "";
 							// if the text field is too long to fit into the current line, 
 							// drop to next line
+
+							if (obj.selected)
+								if (val)
+									box_metrics.color.push(xtUnderline, xtInvert);
+								else
+									box_metrics.color.push(xtUnderline, xtDim, xtHidden);
 							if (!val) val = obj.getAttribute("placeholder") || "  ";
+
+
+
 
 							return [new TextNode(val)];
 						}
@@ -100,6 +109,7 @@ export function getCompositeBoxes(
 		},
 		box_metrics: BoxMetrics =
 		{
+			color: [],
 			t: parent_box.t,
 			l: parent_box.l,
 			w: parent_box.w,
@@ -108,12 +118,12 @@ export function getCompositeBoxes(
 		},
 		padding = { t: 0, r: 0, b: 0, l: 0 },
 		margin = { t: 0, r: 0, b: 0, l: 0 },
-		fg_color = undefined,
-		bg_color = undefined,
-		color = "",
 		CENTER_TEXT = false;
 	//*
 	if (css) {
+
+		let fg_color, bg_color;
+
 		for (const { props } of getMatchedRulesGen(obj, css)) {
 
 			for (const [name, prop] of props.entries()) {
@@ -138,7 +148,7 @@ export function getCompositeBoxes(
 
 		//Adjust Color -------------------------------
 		if (fg_color !== undefined || bg_color !== undefined)
-			color = xtF(xtColor(fg_color, bg_color));
+			box_metrics.color.push(xtColor(fg_color, bg_color));
 		//Adjust Width
 
 		//Adjust padding -----------------------------
@@ -229,7 +239,6 @@ export function getCompositeBoxes(
 				}
 		}
 	}
-
 	const draw_box: BlockDrawBox = {
 		tag: obj.tag,
 		left: box_metrics.l,
@@ -237,7 +246,7 @@ export function getCompositeBoxes(
 		width: (box_metrics.defined & CALCFlag.WIDTH ? box_metrics.w : calc_box.w) + (padding.r + padding.l),
 		height: (box_metrics.defined & CALCFlag.HEIGHT ? box_metrics.h : calc_box.h) + (padding.t + padding.b),
 		type: "block",
-		color,
+		color: box_metrics.color.length > 0 ? xtF(...box_metrics.color) : "",
 		IS_INLINE,
 		boxes,
 	};
