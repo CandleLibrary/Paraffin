@@ -1,7 +1,7 @@
 /**[API;README]:api
  * Main files of the repository
  */
-export type PackageJSONData = any & {
+export type PackageJSONData = {
     version: string;
     name: string;
     main: string;
@@ -14,4 +14,5 @@ export type PackageJSONData = any & {
     license: string;
     bin: any;
     scripts: any;
+    [key: string]: any;
 };

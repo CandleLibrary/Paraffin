@@ -105,7 +105,7 @@ export function getCompositeBoxes(
 			l: 0,
 			w: 0,
 			h: 0,
-			defined: 0
+			defined: 0,
 		},
 		box_metrics: BoxMetrics =
 		{

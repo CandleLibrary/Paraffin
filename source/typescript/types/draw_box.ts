@@ -5,6 +5,7 @@ export interface DrawBox {
 	width: number;
 	height: number;
 	type: "block" | "text";
+	IS_INLINE?: boolean;
 }
 
 export interface BlockDrawBox extends DrawBox {
@@ -21,5 +22,5 @@ export interface BlockDrawBox extends DrawBox {
 
 export interface TextDrawBox extends DrawBox {
 	type: "text";
-	value: string[];
+	value: { txt: string, off: number; }[];
 }

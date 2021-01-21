@@ -13,5 +13,8 @@ export class ExtendedHTMLElement extends HTMLNode {
 
     update: (code: number, str: string) => void;
 
-    selectNextInput: (start: ExtendedHTMLElement, prev: ExtendedHTMLElement) => ExtendedHTMLElement;
+    selectNextInput: (start?: ExtendedHTMLElement, prev?: ExtendedHTMLElement) => ExtendedHTMLElement;
+    selectPrevInput: (start?: ExtendedHTMLElement, prev?: ExtendedHTMLElement) => ExtendedHTMLElement;
+
+    runEvent: (event_name: string, event_data: any) => void;
 }

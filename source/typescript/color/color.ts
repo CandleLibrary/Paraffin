@@ -10,26 +10,26 @@ export type color = col_css | col_pwg | col_x11;
 
 export function xtColor(text?: color, background?: color) {
 
-	let
-		text_color_code = col_css.White,
-		background_color_code = col_css.Black,
-		str = [];
+    let
+        text_color_code = col_css.white,
+        background_color_code = col_css.black,
+        str = [];
 
-	if (text !== undefined) {
-		if (typeof text == "number")
-			text_color_code = text & 0xFF;
+    if (text !== undefined) {
+        if (typeof text == "number")
+            text_color_code = text & 0xFF;
 
-		str.push(`38;5;${text_color_code}`);
-	}
+        str.push(`38;5;${text_color_code}`);
+    }
 
-	if (background !== undefined) {
-		if (typeof background == "number")
-			background_color_code = background & 0xFF;
+    if (background !== undefined) {
+        if (typeof background == "number")
+            background_color_code = background & 0xFF;
 
-		str.push(`48;5;${background_color_code}`);
-	}
+        str.push(`48;5;${background_color_code}`);
+    }
 
-	return str.join(";");
+    return str.join(";");
 }
 
 export const xtReset = "0";

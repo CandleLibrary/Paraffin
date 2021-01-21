@@ -1,6 +1,6 @@
-import { lrParse, ParserData, ParserEnvironment } from "@candlefw/hydrocarbon";
-import parse_data from "../parser/process_args.js";
 
+import { ParserEnvironment } from "@candlefw/hydrocarbon";
+import parse_data from "../parser/parser.js";
 
 type Flag = {
     /**
@@ -68,7 +68,7 @@ function getProcessArgs<T>(
      * 
      * Defaults to ""
      */
-    error_message: string = "Unable to process arguments"
+    custom_error_message: string = "Unable to process arguments"
 
 ): Output<typeof arg_candidates> {
 
@@ -78,20 +78,23 @@ function getProcessArgs<T>(
         functions: {},
         data: arg_candidates
     };
-    const { value, error } = lrParse<Output<typeof arg_candidates>>(process.argv.slice(2).join(" "), <ParserData><any>parse_data, env);
+
+    const { result, error_message } = parse_data(process.argv.slice(2).join(" "), env);
+    const value = result[0];
 
     // for each arg candidate,
     // if the arg candidate value is a string, then replace the output value entry 
     // with the value of this argument.
 
-    if (error) {
-        if (error.message == "Unexpected end of input") {
+    if (error_message) {
+        if (error_message == "Unexpected end of input") {
             //suppress empty argument error
         } else
-            console.error(error_message, error.message);
+            console.error(custom_error_message, error_message);
 
         return <Output<typeof arg_candidates>>{ __array__: [] };
     } else {
+
 
 
         for (const name in arg_candidates) {

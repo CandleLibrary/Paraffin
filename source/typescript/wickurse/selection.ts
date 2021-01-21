@@ -32,6 +32,7 @@ export default function () {
 
 	function setNext(node, root) {
 		if (node.tag == "input") return node;
+		else if (node?.getAttribute?.("selectable") == "true") return node;
 		return node.selectNextInput(node, root);
 	}
 
@@ -65,16 +66,17 @@ export default function () {
 
 		return null;
 	};
-
+	//@ts-ignore
 	txt_prototype.selectNextInput = function (start) {
 		return null;
 	};
 
 	function setPrev(node, root) {
 		if (node.tag == "input") return node;
+		else if (node?.getAttribute?.("selectable") == "true") return node;
 		return node.selectPrevInput(node, root);
 	}
-
+	//@ts-ignore
 	ele_prototype.selectPrevInput = function (prev = null, root = null) {
 
 		if (root == this) return null;
@@ -105,7 +107,7 @@ export default function () {
 
 		return null;
 	};
-
+	//@ts-ignore
 	txt_prototype.selectPrevInput = function (start) {
 		return null;
 	};

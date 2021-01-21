@@ -1,10 +1,13 @@
 {
 	"name": "@candlefw/wax",
-	"version": "0.0.4",
-	"description": "Terminal Drawing Tools",
+	"version": "0.0.5",
+	"description": "CLI Tools",
 	"type": "module",
 	"main": "./build/library/wax.js",
 	"types": "./build/types/wax.d.ts",
+	"engines": {
+		"node": "^14.3.*"
+	},
 	"scripts": {
 		"build.watch": "tsc --watch",
 		"build": "tsc",
@@ -12,7 +15,7 @@
 		"prepublishOnly": "tsc -p ./tsconfig.json && yarn test",
 		"build-colors": "./utils/build_colors.js",
 		"test": "cfw.test ./test/**",
-		"compile": "hydrocarbon compile -o ./source/typescript/parser --parser glalr --type module ./source/grammar/process_args.hcg",
+		"compile": "hydrocarbon compile --output_dir ./source/typescript/parser/ --recognizer_type wasm  ./source/grammar/process_args.hcg",
 		"compile.test": "hydrocarbon compile -d -m --parser glalr --type module ./source/grammar/process_args.hcg"
 	},
 	"repository": {
@@ -22,10 +25,10 @@
 	"author": "galactrax <anthonycweathersby@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
+		"@candlefw/css": "*",
 		"@candlefw/conflagrate": "*",
-		"@candlefw/css": "^0.2.6",
-		"@candlefw/html": "*",
 		"@candlefw/hydrocarbon": "*",
+		"@candlefw/html": "*",
 		"@candlefw/url": "*",
 		"@candlefw/wick": "*",
 		"@candlefw/wind": "*"

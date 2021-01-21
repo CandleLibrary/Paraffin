@@ -1,29 +1,30 @@
 export const enum CALCFlag {
-	UNDEFINED = 0,
-	TOP = 1,
-	LEFT = 2,
-	WIDTH = 4,
-	HEIGHT = 8
+    UNDEFINED = 0,
+    TOP = 1,
+    LEFT = 2,
+    WIDTH = 4,
+    HEIGHT = 8
 }
 export interface BoxMetrics {
     /**
      * Top
      */
-	t: number;
+    t: number;
     /**
      * Left
      */
-	l: number;
+    l: number;
     /**
      * Width
      */
-	w: number;
+    w: number;
     /**
      * Height
      */
-	h: number;
+    h: number;
     /**
      * DEFINED Flags
      */
-	defined: CALCFlag;
+    defined: CALCFlag;
+    color?: string[];
 }

@@ -1,6 +1,10 @@
 import URL from "@candlefw/url";
 
 import { PackageJSONData } from "../types/package";
+//@ts-ignore
+import fs from "fs";
+
+const fsp = fs.promises;
 
 /**
  * Locates the nearest package.json file. Searches up the directory structure until one is found.
@@ -34,4 +38,10 @@ export async function getPackageJsonObject(cwd: string = URL.getCWDURL() + "")
     }
 
     return { package: <PackageJSONData>pkg, package_dir: FOUND ? pkg_file_path.dir : "", FOUND };
+}
+
+export async function savePackageJSON(pkg: PackageJSONData, directory: string = URL.getCWDURL() + "") {
+    const { package_dir } = await getPackageJsonObject(directory);
+
+    await fsp.writeFile(package_dir + "package.json", JSON.stringify(pkg));
 }

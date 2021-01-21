@@ -1,9 +1,7 @@
 import getProcessArgs from "./utils/get_process_arguments.js";
+export { getProcessArgs };
 
-/** [README;API]:api
- * 
- */
-import {
+export {
     xtColor,
     xtReset,
     xtBold,
@@ -23,29 +21,7 @@ import {
     col_pwg
 } from "./color/color.js";
 
-import { getPackageJsonObject } from "./utils/get_package_json.js";
-
-export {
-    getPackageJsonObject,
-    getProcessArgs,
-    xtColor,
-    xtReset,
-    xtBold,
-    xtDim,
-    xtUnderline,
-    xtBlink,
-    xtInvert,
-    xtHidden,
-    xtRBold,
-    xtRDim,
-    xtRUnderline,
-    xtRBlink,
-    xtRInvert,
-    xtF,
-    col_x11,
-    col_css,
-    col_pwg
-};
+export { getPackageJsonObject, savePackageJSON } from "./utils/get_package_json.js";
 
 import wickurse from "./wickurse/wickurse.js";
 export { wickurse };
