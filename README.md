@@ -11,7 +11,7 @@
 </sub>
 </p>
 
-<p align="center"><img alt="npm (tag)" src="https://img.shields.io/npm/v/@candlefw/wax/latest?style=for-the-badge&logo=appveyor"><img alt="npm (tag)" src="https://img.shields.io/npm/l/@candlefw/wax?style=for-the-badge&logo=appveyor"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/candlefw/test?style=for-the-badge&logo=appveyor"></p>
+<p align="center"><img alt="npm (tag)" src="https://img.shields.io/npm/v/@candlefw/wax/latest?style=for-the-badge&logo=appveyor"><img alt="npm (tag)" src="https://img.shields.io/npm/l/@candlefw/wax?style=for-the-badge&logo=appveyor"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/candlefw/wax?style=for-the-badge&logo=appveyor"></p>
 
 <div>
 
