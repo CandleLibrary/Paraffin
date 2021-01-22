@@ -31,10 +31,10 @@
 
 												f:r{ ($$sym3) ? ( !!( typeof env.data[$$sym2] == "string" ? env.data[env.data[$$sym2]] :  env.data[$$sym2] ) || $$sym3.e)? {key:$$sym2, val:$sym3.v} : [{key:$$sym2, val:true}, {key:$$sym3.v, val:true}]: {key:$sym2}}
 
-<> naked_arg >  val g:ws?	 					f:r{ { key:$sym1 + $sym2, val:null } }
+<> naked_arg > val	 					f:r{ { key:$sym1 + $sym2, val:null } }
 
 
 <> key > def::js_identifier
 
 <> val > def::string
-	| def::string_value g:ws? 					f:r{ $sym1  } 
+	| ( g:num | g:id | g:sym | \- )(+\" ) g:ws?   f:r{ $sym1 } 

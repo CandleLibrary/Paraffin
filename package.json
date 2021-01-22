@@ -1,6 +1,6 @@
 {
 	"name": "@candlefw/wax",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "CLI Tools",
 	"type": "module",
 	"main": "./build/library/wax.js",
@@ -15,7 +15,7 @@
 		"prepublishOnly": "tsc -p ./tsconfig.json && yarn test",
 		"build-colors": "./utils/build_colors.js",
 		"test": "cfw.test ./test/**",
-		"compile.debug": "hydrocarbon compile --output_dir ./source/typescript/parser/ --debug  ./source/grammar/process_args.hcg",
+		"compile.debug": "hydrocarbon compile --output_dir ./source/typescript/parser/ --annotations --debug  ./source/grammar/process_args.hcg",
 		"compile.release": "hydrocarbon compile --output_dir ./source/typescript/parser/ --recognizer_type wasm  ./source/grammar/process_args.hcg"
 	},
 	"repository": {
