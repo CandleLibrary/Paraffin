@@ -15,8 +15,8 @@
 		"prepublishOnly": "tsc -p ./tsconfig.json && yarn test",
 		"build-colors": "./utils/build_colors.js",
 		"test": "cfw.test ./test/**",
-		"compile": "hydrocarbon compile --output_dir ./source/typescript/parser/ --recognizer_type wasm  ./source/grammar/process_args.hcg",
-		"compile.test": "hydrocarbon compile -d -m --parser glalr --type module ./source/grammar/process_args.hcg"
+		"compile.debug": "hydrocarbon compile --output_dir ./source/typescript/parser/ --debug  ./source/grammar/process_args.hcg",
+		"compile.release": "hydrocarbon compile --output_dir ./source/typescript/parser/ --recognizer_type wasm  ./source/grammar/process_args.hcg"
 	},
 	"repository": {
 		"type": "git",
