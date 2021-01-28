@@ -6,7 +6,7 @@
 	"main": "./build/library/wax.js",
 	"types": "./build/types/wax.d.ts",
 	"engines": {
-		"node": "^14.3.*"
+		"node": ">=14"
 	},
 	"scripts": {
 		"build.watch": "tsc --watch",
