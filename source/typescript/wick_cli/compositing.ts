@@ -27,7 +27,7 @@ import { ExtendedHTMLElement } from "../types/extended_HTML_element.js";
 import { DrawBox, TextDrawBox, BlockDrawBox } from "../types/draw_box";
 import { CSSNode, getArrayOfMatchedRules, CSS_Color, getMatchedRulesGen } from "@candlefw/css";
 import { setPadding, setPaddingBottom, setPaddingRight, setPaddingLeft, setPaddingTop } from "./set_padding.js";
-import { BoxMetrics, CALCFlag } from "./calculated_flags.js";
+import { BoxMetrics, CALCFlag } from "../types/calculated_flags.js";
 import { setWidth, setHeight } from "./set_dimensions.js";
 
 export default function color() {

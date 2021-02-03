@@ -1,6 +1,6 @@
 import { CSSProperty, CSS_Percentage } from "@candlefw/css";
 import { min_max } from "./min_max.js";
-import { BoxMetrics, CALCFlag } from "./calculated_flags.js";
+import { BoxMetrics, CALCFlag } from "../types/calculated_flags.js";
 export function setWidth(prop: CSSProperty, box: BoxMetrics, parent_box: BoxMetrics) {
 
 	const val = prop.val[0];

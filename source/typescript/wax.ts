@@ -23,8 +23,8 @@ export {
 
 export { getPackageJsonObject, savePackageJSON } from "./utils/get_package_json.js";
 
-import wickurse from "./wickurse/wickurse.js";
-export { wickurse };
+import initWickCLI from "./wick_cli/wick_cli.js";
+export { initWickCLI };
 
 
 
