@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { ascii } from "@candlefw/wind";
+import { ascii } from "@candlelib/wind";
 
 export default Object.assign({
 	LEFT_ARROW: 4479771,

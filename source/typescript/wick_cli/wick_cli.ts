@@ -1,8 +1,8 @@
-import html, { HTMLNode, TextNode } from "@candlefw/html";
-import spark from "@candlefw/spark";
-import URL from "@candlefw/url";
-import wick, { CSSNode, ExtendedComponent } from "@candlefw/wick";
-import { componentToMutatedCSS } from "@candlefw/wick/build/library/component/component_data_to_css.js";
+import html, { HTMLNode, TextNode } from "@candlelib/html";
+import spark from "@candlelib/spark";
+import URL from "@candlelib/url";
+import wick, { CSSNode, ExtendedComponent } from "@candlelib/wick";
+import { componentToMutatedCSS } from "@candlelib/wick/build/library/component/compile/component_data_to_css.js";
 
 import { WickCLIView } from "../types/cli_view";
 import { ExtendedHTMLElement } from "../types/extended_HTML_element.js";

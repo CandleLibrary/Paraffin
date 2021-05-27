@@ -1,40 +1,42 @@
 {
-	"name": "@candlefw/wax",
+    "name": "@candlelib/wax",
 	"version": "0.0.6",
-	"description": "CLI Tools",
-	"type": "module",
-	"main": "./build/library/wax.js",
-	"types": "./build/types/wax.d.ts",
-	"engines": {
-		"node": ">=14"
-	},
-	"scripts": {
-		"build.watch": "tsc --watch",
-		"build": "tsc",
-		"test-wickurse": "node ./test/composite.practical.spec.js",
-		"prepublishOnly": "tsc -p ./tsconfig.json && yarn test",
-		"build-colors": "./utils/build_colors.js",
-		"test": "cfw.test ./test/**",
-		"compile.debug": "hydrocarbon compile --output_dir ./source/typescript/parser/ --annotations --debug  ./source/grammar/process_args.hcg",
-		"compile.release": "hydrocarbon compile --output_dir ./source/typescript/parser/ --recognizer_type wasm  ./source/grammar/process_args.hcg"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/candlefw/test.git"
-	},
-	"author": "galactrax <anthonycweathersby@gmail.com>",
-	"license": "MIT",
-	"dependencies": {
-		"@candlefw/css": "*",
-		"@candlefw/conflagrate": "*",
-		"@candlefw/hydrocarbon": "*",
-		"@candlefw/html": "*",
-		"@candlefw/url": "*",
-		"@candlefw/wick": "*",
-		"@candlefw/wind": "*"
-	},
-	"devDependencies": {
-		"@candlefw/test": "*",
-		"jimp": "^0.9.6"
-	}
+    "description": "Command Line Program Library",
+    "type": "module",
+    "main": "./build/library/wax.js",
+    "types": "./build/types/wax.d.ts",
+    "engines": {
+        "node": ">=14"
+    },
+    "scripts": {
+        "build.watch": "tsc --watch",
+        "build": "tsc",
+        "test-wickurse": "node ./test/composite.practical.spec.js",
+        "prepublishOnly": "tsc -p ./tsconfig.json && yarn test",
+        "build-colors": "./utils/build_colors.js",
+        "test": "cfw.test ./test/**",
+        "compile.terminfo.debug": "hydrocarbon compile --nom terminfo_parser --output_dir ./source/typescript/parser/ --annotations --debug  ./source/grammar/terminfo.hcg",
+        "compile.terminfo.release": "hydrocarbon compile --nom terminfo_parser --output_dir ./source/typescript/parser/ --recognizer_type wasm  ./source/grammar/terminfo.hcg",
+        "compile.debug": "hydrocarbon compile --output_dir ./source/typescript/parser/ --annotations --debug  ./source/grammar/process_args.hcg",
+        "compile.release": "hydrocarbon compile --output_dir ./source/typescript/parser/ --recognizer_type wasm  ./source/grammar/process_args.hcg"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/candlelib/wax.git"
+    },
+    "author": "Anthony Weathersby",
+    "license": "MIT",
+    "dependencies": {
+        "@candlelib/css": "0.2.8",
+        "@candlelib/conflagrate": "0.1.1",
+        "@candlelib/hydrocarbon": "0.8.1-alpha-2",
+        "@candlelib/html": "0.1.1",
+        "@candlelib/url": "0.1.5",
+        "@candlelib/wick": "0.12.7",
+        "@candlelib/wind": "0.4.4"
+    },
+    "devDependencies": {
+        "@candlelib/cure": "0.5.0",
+        "jimp": "^0.9.6"
+    }
 }

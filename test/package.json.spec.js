@@ -6,8 +6,8 @@
  * package_dir set to `""`.
  */
 
-import { getPackageJsonObject } from "@candlefw/wax";
-import URL from "@candlefw/url";
+import { getPackageJsonObject } from "@candlelib/wax";
+import URL from "@candlelib/url";
 import assert from "assert";
 
 const
@@ -17,7 +17,7 @@ const
     ;
 
 assert(test_dir_package.FOUND == true);
-assert(test_dir_package.package?.name == "@candlefw/wax");
+assert(test_dir_package.package?.name == "@candlelib/wax");
 assert(test_dir_package.package_dir == URL.resolveRelative("../", URL.getCWDURL()).dir);
 
 assert(no_existent_package_dir.FOUND == false);

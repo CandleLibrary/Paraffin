@@ -16,7 +16,7 @@
  * https://nodejs.org/docs/latest/api/process.html#process_process_argv
  */
 
-import { getProcessArgs } from "@candlefw/wax";
+import { getProcessArgs } from "@candlelib/wax";
 import assert from "assert";
 
 

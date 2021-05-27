@@ -1,4 +1,4 @@
-import { CSSNode, WickRTComponent } from "@candlefw/wick";
+import { CSSNode, WickRTComponent } from "@candlelib/wick";
 import { ExtendedHTMLElement } from "./extended_HTML_element.js";
 
 export interface WickCLIView {

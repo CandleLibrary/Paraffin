@@ -1,4 +1,4 @@
-import { CSSNode } from "@candlefw/wick";
+import { CSSNode } from "@candlelib/wick";
 import { xtRESET_COLOR, xtRESET_COLOR_FULL } from "../color/color_cli.js";
 import { CALCFlag } from "../types/calculated_flags.js";
 import { BlockDrawBox, DrawBox, TextDrawBox } from "../types/draw_box.js";

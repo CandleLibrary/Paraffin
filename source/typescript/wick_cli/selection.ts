@@ -1,5 +1,5 @@
 import key from "../utils/keyboard_codes.js";
-import html, { HTMLNode, TextNode } from "@candlefw/html";
+import html, { HTMLNode, TextNode } from "@candlelib/html";
 import { ExtendedHTMLElement } from "../types/extended_HTML_element.js";
 
 export default function () {

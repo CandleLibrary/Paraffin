@@ -5,7 +5,7 @@
 ```ts
 // input: $ my-app --hello world -acb true naked_arg
 
-import { getProcessArgs } from "@candlefw/wax";
+import { getProcessArgs } from "@candlelib/wax";
 
 const arg_obj = await getProcessArgs(
 /** 

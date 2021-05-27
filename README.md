@@ -1,7 +1,7 @@
 
 <div>
 <h1 align="center">
-<img height="200" src="./source/media/logo.svg" alt="@candlefw/wax logo"/></h1>
+<img height="200" src="./source/media/logo.svg" alt="@candlelib/wax logo"/></h1>
 
 <h3 align="center">CLI Tools</h3>
 
@@ -11,13 +11,11 @@
 </sub>
 </p>
 
-<p align="center"><img alt="npm (tag)" src="https://img.shields.io/npm/v/@candlefw/wax/latest?style=for-the-badge&logo=appveyor"><img alt="npm (tag)" src="https://img.shields.io/npm/l/@candlefw/wax?style=for-the-badge&logo=appveyor"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/candlefw/wax?style=for-the-badge&logo=appveyor"></p>
+<p align="center"><img alt="npm (tag)" src="https://img.shields.io/npm/v/@candlelib/wax/latest?style=for-the-badge&logo=appveyor"><img alt="npm (tag)" src="https://img.shields.io/npm/l/@candlelib/wax?style=for-the-badge&logo=appveyor"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/candlefw/wax?style=for-the-badge&logo=appveyor"></p>
 
 <div>
 
-Wax is a command-line-interface utility and rendering tool that can be used to perform several common
-
-tasks encountered when building CLI applications with NodeJS or Deno[*](#Deno%20Support).
+Wax is a command-line-interface utility and rendering tool that can be used to perform several common tasks encountered when building CLI applications with NodeJS or Deno[*](#Deno%20Support).
 
 ### Current Features
 
@@ -43,13 +41,13 @@ Though not yet implemented, the majority of Wax and its dependencies have been w
 ### yarn
 
 ```bash
-$ yarn add @candlefw/wax
+$ yarn add @candlelib/wax
 ```
 
 ### npm
 
 ```
-$ npm install --save @candlefw/wax
+$ npm install --save @candlelib/wax
 ```
 
 <div align="right">
@@ -86,7 +84,7 @@ Wickurse uses [cfw.Wick](https://github.com/candlefw/wick) to compile HTML and *
 #### `my-app.js` or `my-app.ts`
 
 ```ts
-import { wickurse } from "@candlefw/wax";
+import { wickurse } from "@candlelib/wax";
 
 const 
     cursed_wick = await wickurse(),
@@ -112,7 +110,7 @@ await cli_view.start();
 ```ts
 // input: $ my-app --hello world -acb true naked_arg
 
-import { getProcessArgs } from "@candlefw/wax";
+import { getProcessArgs } from "@candlelib/wax";
 
 const arg_obj = await getProcessArgs(
 /** 

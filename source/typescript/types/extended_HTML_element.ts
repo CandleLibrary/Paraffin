@@ -1,6 +1,6 @@
-import { HTMLNode } from "@candlefw/html";
+import { HTMLNode } from "@candlelib/html";
 import { DrawBox } from "./draw_box";
-import { CSSNode } from "@candlefw/css";
+import { CSSNode } from "@candlelib/css";
 export class ExtendedHTMLElement extends HTMLNode {
 
     public selected?: boolean;

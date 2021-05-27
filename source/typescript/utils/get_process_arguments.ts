@@ -1,5 +1,5 @@
 
-import { ParserEnvironment } from "@candlefw/hydrocarbon";
+import { ParserEnvironment } from "@candlelib/hydrocarbon";
 import parse_data from "../parser/parser.js";
 
 type Flag = {

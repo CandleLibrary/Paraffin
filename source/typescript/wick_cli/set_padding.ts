@@ -1,4 +1,4 @@
-import { CSSProperty } from "@candlefw/css";
+import { CSSProperty } from "@candlelib/css";
 export function setPadding(prop: CSSProperty, padding: { t: number; r: number; b: number; l: number; }) {
 
 

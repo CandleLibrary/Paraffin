@@ -1,6 +1,4 @@
-import { wickurse } from "@candlefw/wax";
-import wick from "@candlefw/wick";
-import html from "@candlefw/html";
+import { wickurse } from "@candlelib/wax";
 
 const cursed_wick = await wickurse(wick, html);
 const model = { number: 55 };

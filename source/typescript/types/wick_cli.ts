@@ -1,5 +1,5 @@
-import URL from "@candlefw/url";
-import { WickLibrary } from "@candlefw/wick";
+import URL from "@candlelib/url";
+import { WickLibrary } from "@candlelib/wick";
 
 export interface WickCLI extends WickLibrary {
 
