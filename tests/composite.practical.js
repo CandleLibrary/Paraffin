@@ -1,4 +1,4 @@
-import { wickurse } from "@candlelib/wax";
+import { wickurse } from "../build/library/paraffin.js";
 import wick from "@candlelib/wick";
 import html from "@candlelib/html";
 
