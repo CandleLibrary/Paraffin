@@ -1,6 +1,6 @@
 import html, { HTMLNode, TextNode } from "@candlelib/html";
 import spark from "@candlelib/spark";
-import URL from "@candlelib/url";
+import URL from "@candlelib/uri";
 import wick, { CSSNode, ExtendedComponent } from "@candlelib/wick";
 import { componentToMutatedCSS } from "@candlelib/wick/build/library/compiler/ast-render/css.js";
 

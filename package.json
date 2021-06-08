@@ -1,6 +1,6 @@
 {
     "name": "@candlelib/paraffin",
-	"version": "0.0.6",
+    "version": "0.0.6",
     "description": "Command Line Interface Library",
     "type": "module",
     "main": "./build/library/paraffin.js",
@@ -31,7 +31,7 @@
         "@candlelib/conflagrate": "0.1.1",
         "@candlelib/hydrocarbon": "0.8.1-alpha-2",
         "@candlelib/html": "0.1.1",
-        "@candlelib/url": "0.1.5",
+        "@candlelib/uri": "0.1.5",
         "@candlelib/wick": "0.12.7",
         "@candlelib/wind": "0.4.4"
     },

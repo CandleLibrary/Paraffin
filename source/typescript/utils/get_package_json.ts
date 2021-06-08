@@ -1,4 +1,4 @@
-import URL from "@candlelib/url";
+import URL from "@candlelib/uri";
 
 import { PackageJSONData } from "../types/package";
 //@ts-ignore

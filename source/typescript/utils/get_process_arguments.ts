@@ -170,7 +170,7 @@ const configs: CommandBlock = {
 type ArgumentHandle = {
     value: string,
     argument: Argument;
-    callback?: (args: { [i in string]: ArgumentHandle }) => void;
+    callback?: (args: Output<any>) => void;
 };
 /**
  * Assigns an argument or command data to a command path and returns a 
@@ -340,7 +340,7 @@ function renderHelpDoc(command_block: CommandBlock) {
 
     help_message.push("");
 
-    if (command_block.arguments) {
+    if (Object.keys(command_block.arguments).length > 0) {
 
         help_message.push("Arguments:\n");
 
@@ -356,7 +356,7 @@ function renderHelpDoc(command_block: CommandBlock) {
 
     for (const [name, cb] of command_block.sub_commands.entries()) {
 
-        help_message.push(addIndent(`[${name}]\n${addIndent(cb.help_brief, 4)}`, 4));
+        help_message.push(addIndent(`\n[${name}]\n${addIndent(cb.help_brief, 4)}`, 4));
     }
 
     return help_message.join("\n") + "\n";

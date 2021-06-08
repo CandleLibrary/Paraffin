@@ -7,7 +7,7 @@
  */
 
 import { getPackageJsonObject } from "../build/library/paraffin.js";
-import URL from "@candlelib/url";
+import URL from "@candlelib/uri";
 import assert from "assert";
 
 const
