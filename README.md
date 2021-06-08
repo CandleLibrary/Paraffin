@@ -27,7 +27,7 @@ Wax is a command-line-interface utility and rendering tool that can be used to p
 
 ### Deno Support
 
-Though not yet implemented, the majority of Wax and its dependencies have been written in a way that would allow usage with Deno after some minor modification. The main task would be to setup a host for all CandleFW TypeScript files and update `import` statements to use absolute URLs for the respective library entry points. This has been, impart, accomplished with [cfw.Lantern](https://github.com/candlelibrary/lantern) and it's build-in CandleFW dispatch, so evolving this mechanism to work with Deno should be a fairly trivial task.
+Though not yet implemented, the majority of Wax and its dependencies have been written in a way that would allow usage with Deno after some minor modification. The main task would be to setup a host for all CandleLibrary TypeScript files and update `import` statements to use absolute URLs for the respective library entry points. This has been, impart, accomplished with [cfw.Lantern](https://github.com/candlelibrary/lantern) and it's build-in CandleLibrary dispatch, so evolving this mechanism to work with Deno should be a fairly trivial task.
 <div align="right">
 <a href="./source/doc_fragments/readme_header.md#0">
 <img src="./source/media/readme/go_to_source.svg" height="18" alt="src"/></a>

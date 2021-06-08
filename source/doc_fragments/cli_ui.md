@@ -2,7 +2,7 @@
 
 ## Rendering a CLI with Wickurse
 
-Wickurse uses [cfw.Wick](https://github.com/candlefw/wick) to compile HTML and *.wick source files. Please refer to the [Wick documentation](https://github.com/candlefw/wick/documentation) for writing Wick components. 
+Wickurse uses [cfw.Wick](https://github.com/CandleLibrary/wick) to compile HTML and *.wick source files. Please refer to the [Wick documentation](https://github.com/CandleLibrary/wick/documentation) for writing Wick components. 
 
 #### `wick-component.html`
 ```html

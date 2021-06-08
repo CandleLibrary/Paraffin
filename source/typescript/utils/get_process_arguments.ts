@@ -128,7 +128,7 @@ type Argument = {
      */
     key: string | number;
 
-    REQUIRES_VALUE: boolean,
+    REQUIRES_VALUE?: boolean,
     /**
      * A function used to determine if the argument
      * if valid. If any string value other than the
@@ -147,7 +147,7 @@ type Argument = {
 
     handles?: ArgumentHandle[],
 
-    path: string,
+    path?: string,
 };
 
 type CommandBlock = {
@@ -285,7 +285,9 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
 
         if (key == "h" || key == "help" || key == "?") {
 
-            renderHelpDoc(command_block);
+            const help_doc = renderHelpDoc(command_block);
+
+            console.log(help_doc);
 
             return command_block.path + "::help";
         }
@@ -301,7 +303,9 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
                 const error_message = arg.validate(val);
 
                 if (error_message) {
-                    const error = `ARGUMENT ERROR:\n [--${name}] = (${val}) \n ${error_message}`;
+                    const error = `ARGUMENT ERROR:\n\n[--${arg.key}] = ${val}\n`
+                        + addIndent(error_message, 4)
+                        + "\n";
 
                     console.error(error);
                     throw new Error(error);
@@ -318,21 +322,42 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
     return command_block.path;
 }
 
+function addIndent(error_message: string, number_of_indent_space: number = 2) {
+    const space = " ".repeat(number_of_indent_space);
+    const indent = "\n" + space;
+    return space + error_message.split("\n").join(indent);
+}
+
 function renderHelpDoc(command_block: CommandBlock) {
 
     const help_message = [];
-    help_message.push(command_block.path);
-    help_message.push(command_block.help_brief);
+
+    if (command_block.name != "root")
+        help_message.push("", "Command: " + command_block.path);
+
+    if (command_block.help_brief)
+        help_message.push(command_block.help_brief);
+
     help_message.push("");
 
-    if (command_block.arguments)
+    if (command_block.arguments) {
+
+        help_message.push("Arguments:\n");
+
         for (const key in command_block.arguments) {
             const arg = command_block.arguments[key];
-            help_message.push(`--${key}  ${arg.help_brief}`);
+            help_message.push(addIndent(`--${key}\n${addIndent(arg.help_brief, 4)}`, 4));
         }
-    for (const [name, cb] of command_block.sub_commands.entries()) {
-        help_message.push(`[${name}]  ${cb.help_brief}`);
     }
 
-    console.log(help_message.join("\n"));
+    if (command_block.sub_commands.size > 0)
+
+        help_message.push("Sub-Commands:\n");
+
+    for (const [name, cb] of command_block.sub_commands.entries()) {
+
+        help_message.push(addIndent(`[${name}]\n${addIndent(cb.help_brief, 4)}`, 4));
+    }
+
+    return help_message.join("\n") + "\n";
 }
