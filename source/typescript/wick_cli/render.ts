@@ -7,6 +7,20 @@ import { getCompositeBoxes } from "./compositing.js";
 
 let DEBOUNCE = false;
 let PENDING = false;
+
+/**
+ * Should contain
+ * [bg_color_16bit, char_color_16bit, char_16bit, depth_16bit] 64 bit fragment
+ */
+let bufferA = new Uint8Array();
+let bufferB = new Uint8Array();
+
+function Box_Is_A_Block(box: DrawBox): box is BlockDrawBox {
+	return box.type == "block";
+}
+function Box_Is_Text(box: DrawBox): box is TextDrawBox {
+	return box.type == "text";
+}
 export function renderCLI(ele: ExtendedHTMLElement, css: CSSNode) {
 
 	if (DEBOUNCE)
@@ -71,20 +85,13 @@ export function renderCLI(ele: ExtendedHTMLElement, css: CSSNode) {
 		//	});
 	});
 }
-;
-function isBoxBlock(box: DrawBox): box is BlockDrawBox {
-	return box.type == "block";
-}
-function isBoxText(box: DrawBox): box is TextDrawBox {
-	return box.type == "text";
-}
 function writeCell(box: DrawBox, x: number, y: number, data: { txt: string; color: string; }) {
 
 	if (y >= box.top && y < box.top + box.height) {
 
 		if (x >= box.left && x < box.left + box.width) {
 
-			if (isBoxBlock(box)) {
+			if (Box_Is_A_Block(box)) {
 
 				const cx = x - box.left, cy = y - box.top;
 				let written = 0;
@@ -103,7 +110,8 @@ function writeCell(box: DrawBox, x: number, y: number, data: { txt: string; colo
 					}
 				}
 
-			} else if (isBoxText(box)) {
+			} else if (Box_Is_Text(box)) {
+
 
 				const i = y - box.top;
 

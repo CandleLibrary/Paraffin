@@ -4,10 +4,10 @@
 
 ### yarn
 ```bash
-$ yarn add @candlelib/wax
+$ yarn add @candlelib/paraffin
 ```
 ### npm
 ```
-$ npm install --save @candlelib/wax
+$ npm install --save @candlelib/paraffin
 ```
 

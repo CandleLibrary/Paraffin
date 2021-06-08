@@ -1,34 +1,16 @@
+import { CSSNode, CSS_Color, getMatchedRulesGen } from "@candlelib/css";
+import { TextNode } from "@candlelib/html";
 import {
-	xtColor,
-	xtReset,
-	xtBold,
+	col_css, col_x11, xtColor,
 	xtDim,
-	xtUnderline,
-	xtBlink,
-	xtInvert,
-	xtHidden,
-	xtRBold,
-	xtRDim,
-	xtRUnderline,
-	xtRBlink,
-	xtRInvert,
-	xtF,
-	col_x11,
-	col_css
+	xtF, xtHidden, xtInvert, xtReset,
+	xtUnderline
 } from "../color/color.js";
-
-const
-	xtSELECTED_INPUT = xtF(xtColor(col_x11.Maroon, col_x11.Gray50), xtUnderline),
-	xtUNDERLINE_COLOR = xtF(xtColor(col_x11.Black, col_x11.Gray85), xtUnderline),
-	xtRESET_COLOR = xtF(xtReset);
-
-import html, { HTMLNode, TextNode } from "@candlefw/html";
-import { ExtendedHTMLElement } from "../types/extended_HTML_element.js";
-import { DrawBox, TextDrawBox, BlockDrawBox } from "../types/draw_box";
-import { CSSNode, getArrayOfMatchedRules, CSS_Color, getMatchedRulesGen } from "@candlefw/css";
-import { setPadding, setPaddingBottom, setPaddingRight, setPaddingLeft, setPaddingTop } from "./set_padding.js";
 import { BoxMetrics, CALCFlag } from "../types/calculated_flags.js";
-import { setWidth, setHeight } from "./set_dimensions.js";
+import { BlockDrawBox, DrawBox, TextDrawBox } from "../types/draw_box";
+import { ExtendedHTMLElement } from "../types/extended_HTML_element.js";
+import { setHeight, setWidth } from "./set_dimensions.js";
+import { setPadding, setPaddingBottom, setPaddingLeft, setPaddingRight, setPaddingTop } from "./set_padding.js";
 
 export default function color() {
 	CSS_Color.parse = function (lex) {

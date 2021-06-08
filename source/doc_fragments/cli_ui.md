@@ -24,7 +24,7 @@ Wickurse uses [cfw.Wick](https://github.com/candlefw/wick) to compile HTML and *
 
 #### `my-app.js` or `my-app.ts`
 ```ts
-import { wickurse } from "@candlelib/wax";
+import { wickurse } from "@candlelib/paraffin";
 
 const 
     cursed_wick = await wickurse(),

@@ -1,7 +1,7 @@
 
 <div>
 <h1 align="center">
-<img height="200" src="./source/media/logo.svg" alt="@candlelib/wax logo"/></h1>
+<img height="200" src="./source/media/logo.svg" alt="@candlelib/paraffin logo"/></h1>
 
 <h3 align="center">CLI Tools</h3>
 
@@ -11,7 +11,7 @@
 </sub>
 </p>
 
-<p align="center"><img alt="npm (tag)" src="https://img.shields.io/npm/v/@candlelib/wax/latest?style=for-the-badge&logo=appveyor"><img alt="npm (tag)" src="https://img.shields.io/npm/l/@candlelib/wax?style=for-the-badge&logo=appveyor"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/candlefw/wax?style=for-the-badge&logo=appveyor"></p>
+<p align="center"><img alt="npm (tag)" src="https://img.shields.io/npm/v/@candlelib/paraffin/latest?style=for-the-badge&logo=appveyor"><img alt="npm (tag)" src="https://img.shields.io/npm/l/@candlelib/paraffin?style=for-the-badge&logo=appveyor"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/candlefw/wax?style=for-the-badge&logo=appveyor"></p>
 
 <div>
 
@@ -41,13 +41,13 @@ Though not yet implemented, the majority of Wax and its dependencies have been w
 ### yarn
 
 ```bash
-$ yarn add @candlelib/wax
+$ yarn add @candlelib/paraffin
 ```
 
 ### npm
 
 ```
-$ npm install --save @candlelib/wax
+$ npm install --save @candlelib/paraffin
 ```
 
 <div align="right">
@@ -84,7 +84,7 @@ Wickurse uses [cfw.Wick](https://github.com/candlefw/wick) to compile HTML and *
 #### `my-app.js` or `my-app.ts`
 
 ```ts
-import { wickurse } from "@candlelib/wax";
+import { wickurse } from "@candlelib/paraffin";
 
 const 
     cursed_wick = await wickurse(),
@@ -110,7 +110,7 @@ await cli_view.start();
 ```ts
 // input: $ my-app --hello world -acb true naked_arg
 
-import { getProcessArgs } from "@candlelib/wax";
+import { getProcessArgs } from "@candlelib/paraffin";
 
 const arg_obj = await getProcessArgs(
 /** 

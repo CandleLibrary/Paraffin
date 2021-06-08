@@ -2,7 +2,7 @@ import html, { HTMLNode, TextNode } from "@candlelib/html";
 import spark from "@candlelib/spark";
 import URL from "@candlelib/url";
 import wick, { CSSNode, ExtendedComponent } from "@candlelib/wick";
-import { componentToMutatedCSS } from "@candlelib/wick/build/library/component/compile/component_data_to_css.js";
+import { componentToMutatedCSS } from "@candlelib/wick/build/library/compiler/ast-render/css.js";
 
 import { WickCLIView } from "../types/cli_view";
 import { ExtendedHTMLElement } from "../types/extended_HTML_element.js";
@@ -26,9 +26,6 @@ function Is_Active_View_Valid(active_view: WickCLIView) {
  * @param html 
  */
 export default async function integrate(): Promise<WickCLI> {
-
-	await wick.server();
-	await html.server();
 
 	//@ts-ignore
 	global.Node = html.HTMLNode;
@@ -167,7 +164,7 @@ async function processInputsAndOutputs(active_view: WickCLIView) {
 
 	const { ele, style } = active_view;
 
-	renderCLI(ele, style);
+	//renderCLI(ele, style);
 
 	selected_ele = ele.selectNextInput();
 
@@ -183,6 +180,12 @@ async function processInputsAndOutputs(active_view: WickCLIView) {
 	//Create a command poller to handle user input
 	process.stdin.setRawMode(true);
 
+	stdin.on("data", (a, b) => {
+		console.log({ a, b });
+	});
+
+	process.stdout.write("\x1b[1003h");
+
 	while (true) {
 
 		if (!Is_Active_View_Valid(active_view)) break;
@@ -191,7 +194,7 @@ async function processInputsAndOutputs(active_view: WickCLIView) {
 			{ ele, style } = active_view,
 			data = stdin.read();
 
-		if (data) {
+		if (false && data) {
 
 			const ctrl = data[0] << 0 | data[1] << 8 | data[2] << 16 | data[3] << 24 | data[4] << 32 | data[5] << 40 | data[6] << 48 | data[7] << 54;
 
@@ -243,6 +246,10 @@ async function processInputsAndOutputs(active_view: WickCLIView) {
 
 		await spark.sleep(10);
 	}
+	//Clear and reset console
+	process.stdin.setRawMode(false);
+
+	console.clear();
 
 	ACTIVE_CLI = false;
 
