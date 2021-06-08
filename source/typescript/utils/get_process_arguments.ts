@@ -45,7 +45,7 @@ type Output<T> = { [i in keyof T]?: { index: number, val: string | boolean; }; }
  *	and an array prop that contains the the key:value pairs ordered left to right based on the 
  *	original argv index location. 
  */
-function getProcessArgs<T>(
+export function getProcessArgs<T>(
     /** An object whose keys represent expected argument keys
      *  and key~values which can either be `true`, `false` or a string
      * 
@@ -53,11 +53,11 @@ function getProcessArgs<T>(
      * proceeding it will have capture the next naked argument
      * 
      * 2. If this value is `false` then no value will be assigned to the
-     * argv unless it the argv key is followed by an = character
+     * argv unless the argv key is followed by an equal [=] character
      * 
      * 2. If the value is a `string` then the it will act like case 1.
      * and, in addition, the value will be remapped to an output property
-     * with a key that matches to the `string` value. 
+     * with a key that matches the `string` value. 
      * > This will overwrite any existing property with the same name.
      */
     arg_candidates: T = <T>{},
@@ -68,7 +68,7 @@ function getProcessArgs<T>(
      * 
      * Defaults to ""
      */
-    custom_error_message: string = "Unable to process arguments"
+    process_arguments: string[] = process.argv.slice(2)
 
 ): Output<typeof arg_candidates> {
 
@@ -79,7 +79,7 @@ function getProcessArgs<T>(
         data: arg_candidates
     };
 
-    const { result, error_message } = parse_data(process.argv.slice(2).join(" "), env);
+    const { result, error_message } = parse_data(process_arguments.join(" "), env);
     const value = result[0];
 
     // for each arg candidate,
@@ -89,8 +89,8 @@ function getProcessArgs<T>(
     if (error_message) {
         if (error_message == "Unexpected end of input") {
             //suppress empty argument error
-        } else
-            console.error(custom_error_message, error_message);
+        } //else
+        //  console.error(custom_error_message, error_message);
 
         return <Output<typeof arg_candidates>>{ __array__: [] };
     } else {
@@ -118,4 +118,221 @@ function getProcessArgs<T>(
     return value;
 }
 
-export default getProcessArgs;
+type Argument = {
+    /**
+     * The argument name for this config type. 
+     * if the key is the same value as the previous
+     * command argument in addConfig, then this 
+     * object is used as the config settings for 
+     * the command. 
+     */
+    key: string | number;
+
+    REQUIRES_VALUE: boolean,
+    /**
+     * A function used to determine if the argument
+     * if valid. If any string value other than the
+     * empty string is provided, the argument
+     * value is considered to be invalid, and the 
+     * returned string is used to provide an error
+     * message to the user. 
+     */
+    validate?: (arg: string) => string;
+    /**
+     * A simple help message that is displayed when
+     * the --help, -h, or -? argument is specified.
+     */
+    help_brief?: string;
+
+
+    handles?: ArgumentHandle[],
+
+    path: string,
+};
+
+type CommandBlock = {
+    path: string,
+    name: string;
+    help_brief: string;
+    arguments: { [i in string]: Argument };
+    sub_commands: Map<string, CommandBlock>;
+    handle?: ArgumentHandle;
+};
+
+const configs: CommandBlock = {
+    path: "root",
+    name: "root",
+    help_brief: "",
+    arguments: {},
+    sub_commands: new Map
+};
+
+type ArgumentHandle = {
+    value: string,
+    argument: Argument;
+    callback?: (args: { [i in string]: ArgumentHandle }) => void;
+};
+/**
+ * Assigns an argument or command data to a command path and returns a 
+ * handle to the argument object, or to the command.
+ * @param commands 
+ * @returns 
+ */
+export function addCLIConfig(...commands: (string | Argument)[]): ArgumentHandle {
+
+    if (typeof commands.slice(-1)[0] != "object")
+        throw new Error("Invalid type provided for the last argument. Should be an object that matches the Argument interface");
+
+    const argument: Argument = <any>commands.slice(-1)[0];
+
+    let command_block = configs;
+
+    let path = commands.slice(0, -1);
+
+    let command_path = [];
+
+    for (const command of path) {
+
+        command_path.push(command);
+
+        if (typeof command == "string") {
+
+            if (!command_block.sub_commands.has(command)) {
+
+                command_block.sub_commands.set(command, {
+                    path: command_path.join("/"),
+                    name: command,
+                    help_brief: "undefined",
+                    arguments: {},
+                    sub_commands: new Map
+                });
+            }
+
+            command_block = command_block.sub_commands.get(command);
+        }
+    }
+
+
+    if (command_block.name == argument.key) {
+
+        command_block.help_brief = argument.help_brief;
+
+        const handle: ArgumentHandle = {
+            argument: null,
+            value: "command",
+            callback: _ => _
+        };
+
+        command_block.handle = handle;
+
+        return handle;
+
+    } else {
+
+        argument.handles = [];
+
+        argument.path = path.join("/") + "::" + argument.key,
+
+            command_block.arguments[argument.key] = argument;
+
+        const handle: ArgumentHandle = {
+            argument: argument,
+            value: null
+        };
+
+        argument.handles.push(handle);
+
+        return handle;
+    }
+};
+
+
+export function processCLIConfig(process_arguments: string[] = process.argv.slice(2)): string {
+
+    let command_block: CommandBlock = configs;
+    let i = 0;
+
+    for (; i < process_arguments.length; i++) {
+
+        const command_candidate = process_arguments[i];
+
+        if (command_block.sub_commands.has(command_candidate)) {
+
+            command_block = command_block.sub_commands.get(command_candidate);
+
+            continue;
+        } else break;
+    }
+
+    const remaining_arguments = process_arguments.slice(i);
+
+    const arg_params = {};
+
+    for (const key in command_block.arguments) {
+
+        const arg = command_block.arguments[key];
+
+        arg_params[key] = false;
+
+        if (arg.REQUIRES_VALUE)
+            arg_params[key] = true;
+    }
+
+    const args = getProcessArgs(arg_params, remaining_arguments);
+
+    for (const key in args) {
+
+
+        if (key == "h" || key == "help" || key == "?") {
+
+            renderHelpDoc(command_block);
+
+            return command_block.path + "::help";
+        }
+
+        if (command_block.arguments[key]) {
+
+            const arg = command_block.arguments[key];
+
+            const val = arg.REQUIRES_VALUE ? args[key].val : true;
+
+            if (arg.REQUIRES_VALUE && arg.validate) {
+
+                const error_message = arg.validate(val);
+
+                if (error_message) {
+                    const error = `ARGUMENT ERROR:\n [--${name}] = (${val}) \n ${error_message}`;
+
+                    console.error(error);
+                    throw new Error(error);
+                }
+            }
+
+            for (const handle of arg.handles)
+                handle.value = val;
+        }
+    }
+
+    command_block?.handle?.callback(args);
+
+    return command_block.path;
+}
+
+function renderHelpDoc(command_block: CommandBlock) {
+
+    const help_message = [];
+    help_message.push(command_block.path);
+    help_message.push(command_block.help_brief);
+    help_message.push("");
+
+    if (command_block.arguments)
+        for (const key in command_block.arguments) {
+            const arg = command_block.arguments[key];
+            help_message.push(`--${key}  ${arg.help_brief}`);
+        }
+    for (const [name, cb] of command_block.sub_commands.entries()) {
+        help_message.push(`[${name}]  ${cb.help_brief}`);
+    }
+
+    console.log(help_message.join("\n"));
+}
