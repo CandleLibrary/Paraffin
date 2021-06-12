@@ -25,7 +25,7 @@ import assert from "assert";
 
 
 process.argv.length = 0;
-process.argv.push("", "", "--test", `"test value"`, "--value", "uncaptured  ", "-abt", "timeout", "./dir", "--data", "=./data/dir", "../file/path", "./another-potential/file/path/**/*.js");
+process.argv.push("", "", "--test", `"test value"`, "--value", "uncaptured  ", "-abt", "timeout", "./dir", "--data", "=./data/dir", "../file/path", "\"./another-potential/file/path/**/*.js\"");
 
 /**[ADDENDUM]
  * The passed data is a list of anticipated arguments
