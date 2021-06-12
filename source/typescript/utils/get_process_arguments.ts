@@ -1,6 +1,10 @@
 
 import { ParserEnvironment } from "@candlelib/hydrocarbon";
-import parse_data from "../parser/parser.js";
+//import parse_data from "../parser/parser.js";
+import loader from "../parser/args_parser.js";
+const parse_data = loader.parser;
+
+
 
 type Flag = {
     /**
@@ -72,6 +76,13 @@ export function getProcessArgs<T>(
 
 ): Output<typeof arg_candidates> {
 
+    if (process_arguments.length < 1) {
+        return {
+            __array__: [],
+            trailing_arguments: []
+        };
+    }
+
 
     const env: ParserEnvironment = <ParserEnvironment>{
         options: {},
@@ -80,7 +91,9 @@ export function getProcessArgs<T>(
     };
 
     const { result, error_message } = parse_data(process_arguments.join(" "), env);
+
     const value = result[0];
+
 
     // for each arg candidate,
     // if the arg candidate value is a string, then replace the output value entry 
@@ -107,8 +120,8 @@ export function getProcessArgs<T>(
 
         value.trailing_arguments = [];
 
-        for (const [key, val] of value.__array__.reverse()) {
-            if (val) break;
+        for (const [key, val, hyphens] of value.__array__.reverse()) {
+            if (val || hyphens > 0) break;
             value.trailing_arguments.push(key);
         }
 
@@ -264,6 +277,7 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
         } else break;
     }
 
+
     const remaining_arguments = process_arguments.slice(i);
 
     const arg_params = {};
@@ -302,7 +316,7 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
 
                 const error_message = arg.validate(val);
 
-                if (error_message) {
+                if (error_message != undefined) {
                     const error = `ARGUMENT ERROR:\n\n[--${arg.key}] = ${val}\n`
                         + addIndent(error_message, 4)
                         + "\n";
@@ -346,7 +360,7 @@ function renderHelpDoc(command_block: CommandBlock) {
 
         for (const key in command_block.arguments) {
             const arg = command_block.arguments[key];
-            help_message.push(addIndent(`--${key}\n${addIndent(arg.help_brief, 4)}`, 4));
+            help_message.push(addIndent(`--${key}\n${addIndent(arg.help_brief || "", 4)}`, 4));
         }
     }
 
@@ -356,7 +370,7 @@ function renderHelpDoc(command_block: CommandBlock) {
 
     for (const [name, cb] of command_block.sub_commands.entries()) {
 
-        help_message.push(addIndent(`\n[${name}]\n${addIndent(cb.help_brief, 4)}`, 4));
+        help_message.push(addIndent(`\n[${name}]\n${addIndent(cb.help_brief || "", 4)}`, 4));
     }
 
     return help_message.join("\n") + "\n";
