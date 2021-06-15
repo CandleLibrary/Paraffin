@@ -38,4 +38,4 @@
 <> key > def::js_identifier
 
 <> val > def::string
-    | ( g:num | g:id | g:sym )(+\" ) g:ws?   f:r{ $1 } 
+    | ( g:num | g:id | g:sym ) ( g:num | g:id | g:sym )(*\" ) ( g:ws | $eof )   f:r{ $1 + $2 } 
