@@ -1,9 +1,8 @@
-source/
-tests/
-doc/
-docs/
-utils/
-workspaces/
-.git/
+/source/
+/tests/
+/doc/
+/docs/
+/workspaces/
+/.git/
 
 
