@@ -14,7 +14,7 @@
         "test-wickurse": "node ./test/composite.practical.spec.js",
         "prepublish": "rm -rf ./build && tsc & sleep 10",
         "build-colors": "./utils/build_colors.js",
-        "test": "candle.cure ./tests/**",
+        "test": "candle.cure ./tests/",
         "compile.terminfo.debug": "hydrocarbon compile --nom terminfo_parser --output_dir ./source/typescript/parser/ --annotations --debug  ./source/grammar/terminfo.hcg",
         "compile.terminfo.release": "hydrocarbon compile --nom terminfo_parser --output_dir ./source/typescript/parser/ --recognizer_type wasm  ./source/grammar/terminfo.hcg",
         "compile.debug": "hydrocarbon compile --output_dir ./source/typescript/parser/ --annotations --debug  ./source/grammar/process_args.hcg",
