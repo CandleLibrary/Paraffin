@@ -12,7 +12,7 @@ import assert from "assert";
 
 const
     test_dir_package = await getPackageJsonObject(URL.getCWDURL()),
-    no_existent_package_dir = await getPackageJsonObject(new URL("/")),
+    no_existent_package_dir = await getPackageJsonObject("/"),
     fake_package_dir = await getPackageJsonObject(URL.resolveRelative("./tests/data/", URL.getCWDURL()));
 
 assert(test_dir_package.FOUND == true);

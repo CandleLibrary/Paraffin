@@ -3,6 +3,7 @@ import URL from "@candlelib/uri";
 import { PackageJSONData } from "../types/package";
 //@ts-ignore
 import fs from "fs";
+import URI from "@candlelib/uri";
 
 const fsp = fs.promises;
 
@@ -10,13 +11,16 @@ const fsp = fs.promises;
  * Locates the nearest package.json file. Searches up the directory structure until one is found.
  * If no package.json file can be found, then the return object property FOUND will be false.
  */
-export async function getPackageJsonObject(cwd: string = URL.getCWDURL() + "")
+export async function getPackageJsonObject(cwd: string | URI = URL.getCWDURL())
     : Promise<{ package: PackageJSONData, package_dir: string; FOUND: boolean; }> {
 
     await URL.server();
 
+    if (typeof cwd == "string")
+        cwd = new URL(cwd);
+
     let
-        pkg_file_path: URL = URL.resolveRelative("./package.json", cwd),
+        pkg_file_path: URL = URL.resolveRelative("./package.json", cwd.dir),
         i = pkg_file_path.path.split("/").filter(s => s !== "..").length,
         pkg: PackageJSONData = null,
         FOUND = false;
