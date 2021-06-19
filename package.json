@@ -24,6 +24,12 @@
         "type": "git",
         "url": "git+https://github.com/candlelibrary/paraffin.git"
     },
+    "files": [
+        "/build",
+        "/README.md",
+        "/CHANGELOG.md",
+        "/LICENSE"
+    ],
     "author": "Anthony Weathersby",
     "license": "MIT",
     "dependencies": {
