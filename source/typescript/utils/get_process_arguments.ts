@@ -1,8 +1,9 @@
 
 import { ParserEnvironment } from "@candlelib/hydrocarbon";
 //import parse_data from "../parser/parser.js";
-import loader from "../parser/args_parser.js";
-const parse_data = loader.parser;
+import framework from "../parser/args_parser.js";
+
+const { parse } = await framework;
 
 
 
@@ -90,7 +91,7 @@ export function getProcessArgs<T>(
         data: arg_candidates
     };
 
-    const { result, error_message } = parse_data(process_arguments.join(" "), env);
+    const { result, err } = parse(process_arguments.join(" "), env);
 
     const value = result[0];
 
@@ -99,11 +100,9 @@ export function getProcessArgs<T>(
     // if the arg candidate value is a string, then replace the output value entry 
     // with the value of this argument.
 
-    if (error_message) {
-        if (error_message == "Unexpected end of input") {
-            //suppress empty argument error
-        } //else
-        //  console.error(custom_error_message, error_message);
+    if (err) {
+
+        console.error(err);
 
         return <Output<typeof arg_candidates>>{ __array__: [] };
     } else {
@@ -142,6 +141,23 @@ type Argument = {
     key: string | number;
 
     REQUIRES_VALUE?: boolean,
+
+    /**
+     * A default value to set the arg to 
+     * if none is supplied by the user.
+     */
+    default?: string;
+
+    /**
+     * An array of values which are acceptable
+     * inputs for the argument. If the input argument
+     * is not one of these values than an error will
+     * be thrown.
+     * This is overridden by the validate function if present
+     * 
+     */
+    accepted_values?: string[];
+
     /**
      * A function used to determine if the argument
      * if valid. If any string value other than the
@@ -151,6 +167,7 @@ type Argument = {
      * message to the user. 
      */
     validate?: (arg: string) => string;
+
     /**
      * A simple help message that is displayed when
      * the --help, -h, or -? argument is specified.
@@ -261,79 +278,90 @@ export function addCLIConfig(...commands: (string | Argument)[]): ArgumentHandle
 
 
 export function processCLIConfig(process_arguments: string[] = process.argv.slice(2)): string {
+    try {
+        let command_block: CommandBlock = configs;
+        let i = 0;
 
-    let command_block: CommandBlock = configs;
-    let i = 0;
+        for (; i < process_arguments.length; i++) {
 
-    for (; i < process_arguments.length; i++) {
+            const command_candidate = process_arguments[i];
 
-        const command_candidate = process_arguments[i];
+            if (command_block.sub_commands.has(command_candidate)) {
 
-        if (command_block.sub_commands.has(command_candidate)) {
+                command_block = command_block.sub_commands.get(command_candidate);
 
-            command_block = command_block.sub_commands.get(command_candidate);
+                continue;
 
-            continue;
-        } else break;
-    }
-
-
-    const remaining_arguments = process_arguments.slice(i);
-
-    const arg_params = {};
-
-    for (const key in command_block.arguments) {
-
-        const arg = command_block.arguments[key];
-
-        arg_params[key] = false;
-
-        if (arg.REQUIRES_VALUE)
-            arg_params[key] = true;
-    }
-
-    const args = getProcessArgs(arg_params, remaining_arguments);
-
-    for (const key in args) {
-
-
-        if (key == "h" || key == "help" || key == "?") {
-
-            const help_doc = renderHelpDoc(command_block);
-
-            console.log(help_doc);
-
-            return command_block.path + "::help";
+            } else break;
         }
 
-        if (command_block.arguments[key]) {
+
+        const remaining_arguments = process_arguments.slice(i);
+
+        const arg_params = {};
+
+        for (const key in command_block.arguments) {
 
             const arg = command_block.arguments[key];
 
-            const val = arg.REQUIRES_VALUE ? args[key].val : true;
+            arg_params[key] = false;
 
-            if (arg.REQUIRES_VALUE && arg.validate) {
+            if (arg.REQUIRES_VALUE)
+                arg_params[key] = true;
+        }
 
-                const error_message = arg.validate(val);
+        const args = getProcessArgs(arg_params, remaining_arguments);
 
-                if (error_message != undefined) {
-                    const error = `ARGUMENT ERROR:\n\n[--${arg.key}] = ${val}\n`
-                        + addIndent(error_message, 4)
-                        + "\n";
+        for (const key in args) {
 
-                    console.error(error);
-                    throw new Error(error);
-                }
+            if (key == "h" || key == "help" || key == "?") {
+
+                const help_doc = renderHelpDoc(command_block);
+
+                console.log(help_doc);
+
+                return command_block.path + "::help";
             }
 
-            for (const handle of arg.handles)
-                handle.value = val;
+            if (command_block.arguments[key]) {
+
+                const arg = command_block.arguments[key];
+
+                const val = arg.REQUIRES_VALUE ? args[key].val || arg.default : arg.default || true;
+
+                if (arg.validate) {
+
+                    const error_message = arg.validate(val);
+
+                    if (error_message != undefined) {
+                        const error = `ARGUMENT ERROR:\n\n[--${arg.key}] = ${val}\n`
+                            + addIndent(error_message, 4)
+                            + "\n";
+
+                        console.error(error);
+                        throw new Error(error);
+                    }
+                } else if (arg.accepted_values) {
+                    if (!arg.accepted_values.includes(val))
+                        throw new Error(`ARGUMENT ERROR: ${val} is not a valid argument for [--${arg.key}].`
+                            + ` This argument accepts ["${arg.accepted_values.join("\" | \"")}"]`);
+                }
+
+                for (const handle of arg.handles)
+                    handle.value = val;
+            } else {
+
+            }
         }
+
+        command_block?.handle?.callback(args);
+
+        return command_block.path;
+    } catch (e) {
+        console.error(e.message);
+
+        throw new Error("Could process arguments");
     }
-
-    command_block?.handle?.callback(args);
-
-    return command_block.path;
 }
 
 function addIndent(error_message: string, number_of_indent_space: number = 2) {
