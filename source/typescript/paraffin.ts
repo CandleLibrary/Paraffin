@@ -58,6 +58,6 @@ import initWickCLI from "./wick_cli/wick_cli.js";
 
 export { initWickCLI };
 
-
+export * from "./utils/traverse_files.js";
 
 
