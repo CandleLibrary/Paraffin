@@ -295,7 +295,6 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
             } else break;
         }
 
-
         const remaining_arguments = process_arguments.slice(i);
 
         const arg_params = {};
@@ -314,6 +313,7 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
 
         for (const key in args) {
 
+
             if (key == "h" || key == "help" || key == "?") {
 
                 const help_doc = renderHelpDoc(command_block);
@@ -326,6 +326,8 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
             if (command_block.arguments[key]) {
 
                 const arg = command_block.arguments[key];
+
+
 
                 const val = arg.REQUIRES_VALUE ? args[key].val || arg.default : arg.default || true;
 
