@@ -1,6 +1,6 @@
 {
     "name": "@candlelib/paraffin",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "description": "Command Line Interface Library",
     "type": "module",
     "main": "./build/library/paraffin.js",
@@ -33,12 +33,12 @@
     "author": "Anthony Weathersby",
     "license": "MIT",
     "dependencies": {
-        "@candlelib/css": "0.3.13",
-        "@candlelib/conflagrate": "0.4.7",
-        "@candlelib/hydrocarbon": "0.14.2",
+        "@candlelib/css": "0.3.14",
+        "@candlelib/conflagrate": "0.4.8",
+        "@candlelib/hydrocarbon": "0.14.3",
         "@candlelib/html": "0.2.5",
         "@candlelib/uri": "0.3.0",
-        "@candlelib/wick": "0.15.14",
+        "@candlelib/wick": "0.15.15",
         "@candlelib/wind": "0.5.4"
     },
     "devDependencies": {
