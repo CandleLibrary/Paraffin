@@ -39,6 +39,7 @@
         "@candlelib/html": "0.2.5",
         "@candlelib/uri": "0.3.0",
         "@candlelib/wick": "0.15.16",
+        "@candlelib/log": "*",
         "@candlelib/wind": "0.5.4"
     },
     "devDependencies": {
