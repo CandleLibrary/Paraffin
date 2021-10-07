@@ -23,6 +23,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
 */
+import "./logger_inject.js";
+
 
 export { PackageJSONData } from "./types/package.js";
 
@@ -31,6 +33,7 @@ export {
     addCLIConfig,
     processCLIConfig
 } from "./utils/get_process_arguments.js";
+
 
 export {
     xtColor,
@@ -54,9 +57,9 @@ export {
 
 export { getPackageJsonObject, savePackageJSON } from "./utils/get_package_json.js";
 
-import initWickCLI from "./wick_cli/wick_cli.js";
+/* import initWickCLI from "./wick_cli/wick_cli.js"; */
 
-export { initWickCLI };
+//export { initWickCLI };
 
 export * from "./utils/traverse_files.js";
 
