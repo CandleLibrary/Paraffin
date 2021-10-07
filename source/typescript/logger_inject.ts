@@ -16,6 +16,7 @@ let cursor;
 
 let lines = 0;
 let delta = 0;
+let prev_name = "";
 
 LogWriter.prototype.writeLog = function (
     logger_name: string,
@@ -34,23 +35,29 @@ LogWriter.prototype.writeLog = function (
 
     let header = "";
 
-    switch (log_level) {
-        case LogLevel.CRITICAL:
-            header = construct_log_header(xtF(xtBold) + "CRITICAL" + xtF(xtRBold), logger_name, "❗", error_color);
-            break;
-        case LogLevel.ERROR:
-            header = construct_log_header("ERROR", logger_name, "❌", error_color);
-            break;
-        case LogLevel.WARN:
-            header = construct_log_header("WARN", logger_name, "⚠️", warn_color);
-            break;
-        case LogLevel.INFO:
-            header = construct_log_header("INFO", logger_name, "ℹ️", log_color);
-            break;
-        case LogLevel.DEBUG:
-            header = construct_log_header("DEBUG", logger_name, "☣️", debug_color);
-            break;
+    if (prev_name != logger_name || REWRITE)
+        switch (log_level) {
+            case LogLevel.CRITICAL:
+                header = construct_log_header(xtF(xtBold) + "CRITICAL" + xtF(xtRBold), logger_name, "❗", error_color);
+                break;
+            case LogLevel.ERROR:
+                header = construct_log_header("ERROR", logger_name, "❌", error_color);
+                break;
+            case LogLevel.WARN:
+                header = construct_log_header("WARN", logger_name, "⚠️", warn_color);
+                break;
+            case LogLevel.INFO:
+                header = construct_log_header("INFO", logger_name, "ℹ️", log_color);
+                break;
+            case LogLevel.DEBUG:
+                header = construct_log_header("DEBUG", logger_name, "☣️", debug_color);
+                break;
+        }
+    else {
+        header = "     ";
     }
+
+    prev_name = logger_name;
 
     if (log_level == LogLevel.CRITICAL || log_level == LogLevel.ERROR) {
         process.stderr.write(header + " " + data + "\n");
