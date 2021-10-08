@@ -25,17 +25,13 @@ LogWriter.prototype.writeLog = function (
     ...args: any[]
 ) {
 
-    if (REWRITE) {
-        //Clear the last lines added
-    }
-
     const data = args.map(i => typeof i == "string" ? i : inspect(i, {
         depth: 8, colors: true
     })).join(" ");
 
     let header = "";
 
-    if (prev_name != logger_name || REWRITE)
+    if (prev_name != (logger_name + log_level) || REWRITE)
         switch (log_level) {
             case LogLevel.CRITICAL:
                 header = construct_log_header(xtF(xtBold) + "CRITICAL" + xtF(xtRBold), logger_name, "❗", error_color);
@@ -54,10 +50,10 @@ LogWriter.prototype.writeLog = function (
                 break;
         }
     else {
-        header = "     ";
+        header = "    •";
     }
 
-    prev_name = logger_name;
+    prev_name = logger_name + log_level;
 
     if (log_level == LogLevel.CRITICAL || log_level == LogLevel.ERROR) {
         process.stderr.write(header + " " + data + "\n");
@@ -83,8 +79,8 @@ function construct_log_header(type, logger_name: string, emoji, color: string): 
 
     const time = new Date();
 
-    return ["  ", color, emoji, " ", rst, time_color, time.toLocaleTimeString(undefined, <Intl.DateTimeFormatOptions>{
+    return ["  ", color, emoji, "  ", rst, time_color, time.toLocaleTimeString(undefined, <Intl.DateTimeFormatOptions>{
         hour12: false,
-    }), color, " ", logger_name, ` [${type}] `, rst, "\n  ╰─>"].join("");
+    }), color, " ", logger_name, ` [${type}] `, rst, "\n  ╰─•"].join("");
 }
 
