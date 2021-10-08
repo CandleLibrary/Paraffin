@@ -133,10 +133,15 @@ export function getProcessArgs<T>(
 type Argument = {
     /**
      * The argument name for this config type. 
-     * if the key is the same value as the previous
-     * command argument in addConfig, then this 
-     * object is used as the config settings for 
-     * the command. 
+     * if the key is the same value as the last
+     * command patch name in addConfig, then this 
+     * object is used as the configuration settings for 
+     * that command. 
+     * 
+     * Otherwise this configuration
+     * applies to an argument [`--<key>`] of the 
+     * command [`.. '::' .. '::' <command>`]
+     * 
      */
     key: string | number;
 
@@ -156,7 +161,7 @@ type Argument = {
      * This is overridden by the validate function if present
      * 
      */
-    accepted_values?: string[];
+    accepted_values?: (string | any)[];
 
     /**
      * A function used to determine if the argument
@@ -313,8 +318,7 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
 
         for (const key in args) {
 
-
-            if (key == "h" || key == "help" || key == "?") {
+            if (key == "h" || key == "help" || key == "?" || !command_block.handle) {
 
                 const help_doc = renderHelpDoc(command_block);
 
@@ -380,9 +384,12 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
 
         return command_block.path;
     } catch (e) {
+
         console.error(e.message);
 
-        throw new Error("Could process arguments");
+        //throw new Error("Could not process arguments");
+
+        process.exit(-1);
     }
 }
 
