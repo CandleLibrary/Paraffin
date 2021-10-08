@@ -327,7 +327,16 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
 
                 const arg = command_block.arguments[key];
 
+                if (arg.REQUIRES_VALUE && args[key].val === undefined) {
+                    const error = `ARGUMENT ERROR:\n\n   No value provided for argument [--${arg.key}]\n`
+                        + (arg.accepted_values ? `   Expected value to be one of [ ${arg.accepted_values.map(v => {
+                            if (typeof v == "string")
+                                return `"${v}"`;
+                            else return `<${v.name}>`;
+                        }).join(", ")} ]` : "");
 
+                    throw new Error(error);
+                }
 
                 const val = arg.REQUIRES_VALUE ? args[key].val || arg.default : arg.default || true;
 
@@ -340,11 +349,22 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
                             + addIndent(error_message, 4)
                             + "\n";
 
-                        console.error(error);
                         throw new Error(error);
                     }
                 } else if (arg.accepted_values) {
-                    if (!arg.accepted_values.includes(val))
+                    let VALID = false;
+
+                    for (const validator of arg?.accepted_values ?? []) {
+                        if (typeof validator == "string" && val == validator) {
+                            VALID = true;
+                            break;
+                        } else if (validator == Number && !Number.isNaN(Number.parseFloat(val))) {
+                            VALID = true;
+                            break;
+                        }
+                    }
+
+                    if (!VALID)
                         throw new Error(`ARGUMENT ERROR: ${val} is not a valid argument for [--${arg.key}].`
                             + ` This argument accepts ["${arg.accepted_values.join("\" | \"")}"]`);
                 }
