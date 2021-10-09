@@ -387,9 +387,9 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
 
         console.error(e.message);
 
-        //throw new Error("Could not process arguments");
+        throw new Error("Could not process arguments");
 
-        process.exit(-1);
+        //process.exit(-1);
     }
 }
 
