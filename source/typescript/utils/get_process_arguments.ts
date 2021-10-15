@@ -2,6 +2,7 @@
 import { ParserEnvironment } from "@candlelib/hydrocarbon";
 //import parse_data from "../parser/parser.js";
 import framework from "../parser/args_parser.js";
+import { Logger } from "@candlelib/log";
 
 const { parse } = await framework;
 
@@ -130,7 +131,7 @@ export function getProcessArgs<T>(
     return value;
 }
 
-type Argument = {
+export type Argument<T> = {
     /**
      * The argument name for this config type. 
      * if the key is the same value as the last
@@ -145,21 +146,26 @@ type Argument = {
      */
     key: string | number;
 
+    /**
+     * Allows the agument to capture any non-argument
+     * characters that follow it and assign them as 
+     * a string to the `value` property.
+     */
     REQUIRES_VALUE?: boolean,
 
     /**
      * A default value to set the arg to 
      * if none is supplied by the user.
      */
-    default?: string;
+    default?: T;
 
     /**
      * An array of values which are acceptable
      * inputs for the argument. If the input argument
      * is not one of these values than an error will
      * be thrown.
-     * This is overridden by the validate function if present
      * 
+     * This is overridden by the validate function if present
      */
     accepted_values?: (string | any)[];
 
@@ -174,14 +180,24 @@ type Argument = {
     validate?: (arg: string) => string;
 
     /**
+     * A function that can be used to process
+     * the argument value or generate a synthetic
+     * value to be consumed downstream
+     */
+    transform?: (val: any, args: Output<any>) => T | Promise<T>;
+
+    /**
      * A simple help message that is displayed when
      * the --help, -h, or -? argument is specified.
      */
     help_brief?: string;
-
-
+    /**
+     * Internal USE 
+     */
     handles?: ArgumentHandle[],
-
+    /**
+     * Internal USE 
+     */
     path?: string,
 };
 
@@ -189,8 +205,9 @@ type CommandBlock = {
     path: string,
     name: string;
     help_brief: string;
-    arguments: { [i in string]: Argument };
+    arguments: { [i in string]: Argument<any> };
     sub_commands: Map<string, CommandBlock>;
+    transform?: (any) => any;
     handle?: ArgumentHandle;
 };
 
@@ -202,9 +219,9 @@ const configs: CommandBlock = {
     sub_commands: new Map
 };
 
-type ArgumentHandle = {
-    value: string,
-    argument: Argument;
+type ArgumentHandle<T = string> = {
+    value: T,
+    argument: Argument<T>;
     callback?: (args: Output<any>) => void;
 };
 /**
@@ -213,12 +230,12 @@ type ArgumentHandle = {
  * @param commands 
  * @returns 
  */
-export function addCLIConfig(...commands: (string | Argument)[]): ArgumentHandle {
+export function addCLIConfig<T>(...commands: (string | Argument<T>)[]): ArgumentHandle<T> {
 
     if (typeof commands.slice(-1)[0] != "object")
         throw new Error("Invalid type provided for the last argument. Should be an object that matches the Argument interface");
 
-    const argument: Argument = <any>commands.slice(-1)[0];
+    const argument: Argument<T> = Object.assign({}, <any>commands.slice(-1)[0]);
 
     let command_block = configs;
 
@@ -252,7 +269,7 @@ export function addCLIConfig(...commands: (string | Argument)[]): ArgumentHandle
 
         command_block.help_brief = argument.help_brief;
 
-        const handle: ArgumentHandle = {
+        const handle: ArgumentHandle<any> = {
             argument: null,
             value: "command",
             callback: _ => _
@@ -270,7 +287,7 @@ export function addCLIConfig(...commands: (string | Argument)[]): ArgumentHandle
 
             command_block.arguments[argument.key] = argument;
 
-        const handle: ArgumentHandle = {
+        const handle: ArgumentHandle<any> = {
             argument: argument,
             value: null
         };
@@ -282,7 +299,7 @@ export function addCLIConfig(...commands: (string | Argument)[]): ArgumentHandle
 };
 
 
-export function processCLIConfig(process_arguments: string[] = process.argv.slice(2)): string {
+export async function processCLIConfig(process_arguments: string[] = process.argv.slice(2)): Promise<string> {
     try {
         let command_block: CommandBlock = configs;
         let i = 0;
@@ -302,7 +319,7 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
 
         const remaining_arguments = process_arguments.slice(i);
 
-        const arg_params = {};
+        const arg_params = {}, to_process_arguments: Set<Argument<any>> = new Set();
 
         for (const key in command_block.arguments) {
 
@@ -312,6 +329,9 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
 
             if (arg.REQUIRES_VALUE)
                 arg_params[key] = true;
+
+            if (arg.default)
+                to_process_arguments.add(arg)
         }
 
         const args = getProcessArgs(arg_params, remaining_arguments);
@@ -322,67 +342,74 @@ export function processCLIConfig(process_arguments: string[] = process.argv.slic
 
                 const help_doc = renderHelpDoc(command_block);
 
-                console.log(help_doc);
+                Logger.get("HELP").activate().log(help_doc);
 
                 return command_block.path + "::help";
             }
 
             if (command_block.arguments[key]) {
+                to_process_arguments.add(command_block.arguments[key])
+            }
+        }
 
-                const arg = command_block.arguments[key];
+        for (const arg of to_process_arguments) {
 
-                if (arg.REQUIRES_VALUE && args[key].val === undefined) {
-                    const error = `ARGUMENT ERROR:\n\n   No value provided for argument [--${arg.key}]\n`
-                        + (arg.accepted_values ? `   Expected value to be one of [ ${arg.accepted_values.map(v => {
-                            if (typeof v == "string")
-                                return `"${v}"`;
-                            else return `<${v.name}>`;
-                        }).join(", ")} ]` : "");
+            const key = arg.key;
+
+            if (arg.REQUIRES_VALUE && args[key]?.val === undefined && arg.default === undefined) {
+                const error = `ARGUMENT ERROR:\n\n   No value provided for argument [--${arg.key}]\n`
+                    + (arg.accepted_values ? `   Expected value to be one of [ ${arg.accepted_values.map(v => {
+                        if (typeof v == "string")
+                            return `"${v}"`;
+                        else return `<${v.name}>`;
+                    }).join(", ")} ]` : "");
+
+                throw new Error(error);
+            }
+
+            let val = arg.REQUIRES_VALUE ? args[key]?.val ?? arg.default : arg.default ?? true;
+
+            if (arg.validate) {
+
+                const error_message = arg.validate(val);
+
+                if (error_message != undefined) {
+                    const error = `ARGUMENT ERROR:\n\n[--${arg.key}] = ${val}\n`
+                        + addIndent(error_message, 4)
+                        + "\n";
 
                     throw new Error(error);
                 }
+            } else if (arg.accepted_values) {
+                let VALID = false;
 
-                const val = arg.REQUIRES_VALUE ? args[key].val || arg.default : arg.default || true;
-
-                if (arg.validate) {
-
-                    const error_message = arg.validate(val);
-
-                    if (error_message != undefined) {
-                        const error = `ARGUMENT ERROR:\n\n[--${arg.key}] = ${val}\n`
-                            + addIndent(error_message, 4)
-                            + "\n";
-
-                        throw new Error(error);
+                for (const validator of arg?.accepted_values ?? []) {
+                    if (typeof validator == "string" && val == validator) {
+                        VALID = true;
+                        break;
+                    } else if (validator == Number && !Number.isNaN(Number.parseFloat(val))) {
+                        VALID = true;
+                        break;
                     }
-                } else if (arg.accepted_values) {
-                    let VALID = false;
-
-                    for (const validator of arg?.accepted_values ?? []) {
-                        if (typeof validator == "string" && val == validator) {
-                            VALID = true;
-                            break;
-                        } else if (validator == Number && !Number.isNaN(Number.parseFloat(val))) {
-                            VALID = true;
-                            break;
-                        }
-                    }
-
-                    if (!VALID)
-                        throw new Error(`ARGUMENT ERROR: ${val} is not a valid argument for [--${arg.key}].`
-                            + ` This argument accepts ["${arg.accepted_values.join("\" | \"")}"]`);
                 }
 
-                for (const handle of arg.handles)
-                    handle.value = val;
-            } else {
-
+                if (!VALID)
+                    throw new Error(`ARGUMENT ERROR: ${val} is not a valid argument for [--${arg.key}].`
+                        + ` This argument accepts ["${arg.accepted_values.join("\" | \"")}"]`);
             }
+
+            if (arg.transform)
+                val = await arg.transform(val, args);
+
+            for (const handle of arg.handles)
+                handle.value = val;
+
         }
 
         command_block?.handle?.callback(args);
 
         return command_block.path;
+
     } catch (e) {
 
         console.error(e.message);

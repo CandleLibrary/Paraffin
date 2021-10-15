@@ -31,7 +31,8 @@ export { PackageJSONData } from "./types/package.js";
 export {
     getProcessArgs,
     addCLIConfig,
-    processCLIConfig
+    processCLIConfig,
+    Argument
 } from "./utils/get_process_arguments.js";
 
 
@@ -62,5 +63,3 @@ export { getPackageJsonObject, savePackageJSON } from "./utils/get_package_json.
 //export { initWickCLI };
 
 export * from "./utils/traverse_files.js";
-
-
