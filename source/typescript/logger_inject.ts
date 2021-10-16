@@ -24,10 +24,32 @@ LogWriter.prototype.writeLog = function (
     REWRITE: boolean,
     ...args: any[]
 ) {
+    const max_column = process.stdout.columns;
 
     const data = args.map(i => typeof i == "string" ? i : inspect(i, {
         depth: 8, colors: true
-    })).join(" ");
+    })).join(" ").split("\n").flatMap(v => {
+        if (v.length > max_column) {
+            const spaces = v.split(" ");
+            const pending = [];
+            const out = [];
+            let curr_len = 0;
+            for (const str of spaces) {
+                if (curr_len + str.length + 8 >= max_column) {
+                    out.push(pending.join(" "));
+                    curr_len = 0
+                    pending.length = 0;
+                }
+                curr_len += str.length + 1;
+                pending.push(str)
+            }
+            if (pending.length > 0)
+                out.push(pending.join(" "));
+            return out;
+
+        }
+        return v;
+    }).join("\n      ");
 
     let header = "";
 
