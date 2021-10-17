@@ -58,7 +58,6 @@ export function getProcessArgs<T>(
         };
     }
 
-
     const env = {
         options: {},
         functions: {},
@@ -186,6 +185,10 @@ export function addCLIConfig<T>(...commands: (string | Argument<T>)[]): Argument
 
         argument.path = path.join("/") + "::" + argument.key;
 
+        if (!argument.accepted_values && argument.REQUIRES_VALUE)
+            argument.accepted_values = [String];
+
+
         command_block.arguments[argument.key] = argument;
 
         const handle: ArgumentHandle<any> = {
@@ -292,19 +295,23 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
             } else if (arg.accepted_values) {
                 let VALID = false;
 
+
                 for (const validator of arg?.accepted_values ?? []) {
                     if (typeof validator == "string" && val == validator) {
                         VALID = true;
                         break;
-                    } else if (validator == Number && !Number.isNaN(Number.parseFloat(val))) {
+                    } else if (validator === Number && !Number.isNaN(Number.parseFloat(val))) {
+                        VALID = true;
+                        break;
+                    } else if (validator === String) {
                         VALID = true;
                         break;
                     }
                 }
 
                 if (!VALID)
-                    throw new Error(`ARGUMENT ERROR: ${val} is not a valid argument for [--${arg.key}].`
-                        + ` This argument accepts ["${arg.accepted_values.join("\" | \"")}"]`);
+                    throw new Error(`\n${err_color}ARGUMENT ERROR:${rst} [ ${val} ] is not a valid value for [ ${key_color}--${arg.key + rst} ]`
+                        + `\n\nThis argument accepts  [ ${arg.accepted_values.map(accepted_values_to_string).join(" | ")} ]\n`);
             }
 
             if (arg.transform)
@@ -324,9 +331,9 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
 
         console.error(e.message);
 
-        throw new Error("Could not process arguments");
+        //throw new Error("Could not process arguments");
 
-        //process.exit(-1);
+        process.exit(-1);
     }
 }
 
@@ -343,6 +350,9 @@ function maxWidth(error_message: string, number_of_indent_space: number = 2) {
 }
 
 import { col_x11, xtBlink, xtBold, xtColor, xtDim, xtF, xtInvert, xtRBold, xtReset } from "../color/color.js";
+const err_color = xtF(xtColor(col_x11.Red), xtBold);
+
+const warn_color2 = xtF(xtColor(col_x11.Orange3));
 const warn_color = xtF(xtColor(col_x11.Orange3), xtBold);
 const key_color = xtF(xtColor(col_x11.LightBlue3), xtBold);
 const string_color = xtF(xtColor(col_x11.SeaGreen3));
@@ -396,7 +406,8 @@ function renderHelpDoc(command_block: CommandBlock) {
 };
 function accepted_values_to_string(v) {
     const map = [
-        [v => (v === Number), () => "[0..9]*"],
+        [v => (v === Number), () => "[0-9]+"],
+        [v => (v === String), () => "\"*\""],
         [v => (v instanceof String), v => `${string_color}"${v}"${rst}`],
         [_ => true, () => `${string_color}"${v.toString()}"${rst}`],
     ];
