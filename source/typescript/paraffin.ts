@@ -55,22 +55,33 @@ export enum FS_RESULTS {
 
 export const args = {
     log_level_properties: <Argument<LogLevel>>{
-        key: "log-level",
+        key: "loglevel",
         "help_brief":
             `
 Change the level of messages printed to the console:
 `,
         accepted_values: ["verbose", "normal", "errors"],
-        default: <any>"verbose",
+        default: <any>"normal",
+        REQUIRES_VALUE: true,
         transform: (val: string, args) => {
+
+            let log_level = LogLevel.INFO | LogLevel.WARN | LogLevel.ERROR | LogLevel.CRITICAL;
+
             switch (val) {
                 case "verbose":
-                    return LogLevel.INFO | LogLevel.ERROR | LogLevel.CRITICAL | LogLevel.WARN | LogLevel.DEBUG;
+                    log_level = LogLevel.INFO | LogLevel.ERROR | LogLevel.CRITICAL | LogLevel.WARN | LogLevel.DEBUG;
+                    break;
                 case "normal":
-                    return LogLevel.INFO | LogLevel.ERROR | LogLevel.CRITICAL | LogLevel.WARN;
+                    log_level = LogLevel.INFO | LogLevel.WARN | LogLevel.ERROR | LogLevel.CRITICAL;
+                    break;
                 case "errors":
-                    return LogLevel.INFO | LogLevel.ERROR | LogLevel.CRITICAL;
+                    log_level = LogLevel.WARN | LogLevel.ERROR | LogLevel.CRITICAL;
+                    break;
             }
+
+            Logger.setDefaultLogLevel(log_level);
+
+            return log_level;
         }
     }
 };
