@@ -1,40 +1,12 @@
 
-import { ParserEnvironment } from "@candlelib/hydrocarbon";
+//import { ParserEnvironment } from "@candlelib/hydrocarbon";
 //import parse_data from "../parser/parser.js";
+import { limitColumnLength } from '../logger_inject.js';
 import framework from "../parser/args_parser.js";
-import { Logger } from "@candlelib/log";
+import { Argument, ArgumentHandle, CommandBlock } from '../types/cli_arg_types';
+import { Output } from '../types/output';
 
 const { parse } = await framework;
-
-
-
-type Flag = {
-    /**
-     * Name of the flag.
-     */
-    name: string;
-    /**
-     * Number of hyphens preceding the name.
-     */
-    hyphens: number;
-    /**
-     * Value of the flag, if flag is followed by a un-hyphenated value.
-     */
-    value: string;
-};
-
-
-type Output<T> = { [i in keyof T]?: { index: number, val: string | boolean; }; } &
-{
-    /**
-     * All argument [key, val] pairs ordered first to last
-     */
-    __array__: [string, string][];
-    /**
-     * The trailing set of arguments without a value member
-     */
-    trailing_arguments: string[];
-};
 
 /**[API]
  *	Returns an object housing key:value pairs from the values of process.argv. 
@@ -79,6 +51,7 @@ export function getProcessArgs<T>(
 ): Output<typeof arg_candidates> {
 
     if (process_arguments.length < 1) {
+        //@ts-ignore
         return {
             __array__: [],
             trailing_arguments: []
@@ -86,7 +59,7 @@ export function getProcessArgs<T>(
     }
 
 
-    const env: ParserEnvironment = <ParserEnvironment>{
+    const env = {
         options: {},
         functions: {},
         data: arg_candidates
@@ -131,98 +104,12 @@ export function getProcessArgs<T>(
     return value;
 }
 
-export type Argument<T> = {
-    /**
-     * The argument name for this config type. 
-     * if the key is the same value as the last
-     * command patch name in addConfig, then this 
-     * object is used as the configuration settings for 
-     * that command. 
-     * 
-     * Otherwise this configuration
-     * applies to an argument [`--<key>`] of the 
-     * command [`.. '::' .. '::' <command>`]
-     * 
-     */
-    key: string | number;
-
-    /**
-     * Allows the agument to capture any non-argument
-     * characters that follow it and assign them as 
-     * a string to the `value` property.
-     */
-    REQUIRES_VALUE?: boolean,
-
-    /**
-     * A default value to set the arg to 
-     * if none is supplied by the user.
-     */
-    default?: T;
-
-    /**
-     * An array of values which are acceptable
-     * inputs for the argument. If the input argument
-     * is not one of these values than an error will
-     * be thrown.
-     * 
-     * This is overridden by the validate function if present
-     */
-    accepted_values?: (string | any)[];
-
-    /**
-     * A function used to determine if the argument
-     * if valid. If any string value other than the
-     * empty string is provided, the argument
-     * value is considered to be invalid, and the 
-     * returned string is used to provide an error
-     * message to the user. 
-     */
-    validate?: (arg: string) => string;
-
-    /**
-     * A function that can be used to process
-     * the argument value or generate a synthetic
-     * value to be consumed downstream
-     */
-    transform?: (val: any, args: Output<any>) => T | Promise<T>;
-
-    /**
-     * A simple help message that is displayed when
-     * the --help, -h, or -? argument is specified.
-     */
-    help_brief?: string;
-    /**
-     * Internal USE 
-     */
-    handles?: ArgumentHandle[],
-    /**
-     * Internal USE 
-     */
-    path?: string,
-};
-
-type CommandBlock = {
-    path: string,
-    name: string;
-    help_brief: string;
-    arguments: { [i in string]: Argument<any> };
-    sub_commands: Map<string, CommandBlock>;
-    transform?: (any) => any;
-    handle?: ArgumentHandle;
-};
-
-const configs: CommandBlock = {
+let configs: CommandBlock = {
     path: "root",
     name: "root",
     help_brief: "",
     arguments: {},
     sub_commands: new Map
-};
-
-type ArgumentHandle<T = string> = {
-    value: T,
-    argument: Argument<T>;
-    callback?: (args: Output<any>) => void;
 };
 /**
  * Assigns an argument or command data to a command path and returns a 
@@ -243,7 +130,19 @@ export function addCLIConfig<T>(...commands: (string | Argument<T>)[]): Argument
 
     let command_path = [];
 
-    for (const command of path) {
+    if (
+        command_block.name == argument.key
+        &&
+        path.length == 1
+        &&
+        path[0] == "root"
+
+    ) {
+        //Merge the command
+
+        Object.assign(configs, argument);
+
+    } else for (const command of path) {
 
         command_path.push(command);
 
@@ -272,10 +171,12 @@ export function addCLIConfig<T>(...commands: (string | Argument<T>)[]): Argument
         const handle: ArgumentHandle<any> = {
             argument: null,
             value: "command",
-            callback: _ => _
+            callback: null
         };
 
         command_block.handle = handle;
+
+        Object.freeze(command_block);
 
         return handle;
 
@@ -283,9 +184,9 @@ export function addCLIConfig<T>(...commands: (string | Argument<T>)[]): Argument
 
         argument.handles = [];
 
-        argument.path = path.join("/") + "::" + argument.key,
+        argument.path = path.join("/") + "::" + argument.key;
 
-            command_block.arguments[argument.key] = argument;
+        command_block.arguments[argument.key] = argument;
 
         const handle: ArgumentHandle<any> = {
             argument: argument,
@@ -331,24 +232,32 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
                 arg_params[key] = true;
 
             if (arg.default)
-                to_process_arguments.add(arg)
+                to_process_arguments.add(arg);
         }
 
         const args = getProcessArgs(arg_params, remaining_arguments);
 
         for (const key in args) {
 
-            if (key == "h" || key == "help" || key == "?" || !command_block.handle) {
+            if (
+                key == "h"
+                ||
+                key == "help"
+                ||
+                key == "?"
+                ||
+                !(command_block?.handle?.callback)
+            ) {
 
                 const help_doc = renderHelpDoc(command_block);
 
-                Logger.get("HELP").activate().log(help_doc);
+                console.log(help_doc);
 
                 return command_block.path + "::help";
             }
 
             if (command_block.arguments[key]) {
-                to_process_arguments.add(command_block.arguments[key])
+                to_process_arguments.add(command_block.arguments[key]);
             }
         }
 
@@ -406,7 +315,8 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
 
         }
 
-        command_block?.handle?.callback(args);
+        if (command_block?.handle?.callback)
+            command_block?.handle?.callback(args);
 
         return command_block.path;
 
@@ -426,6 +336,18 @@ function addIndent(error_message: string, number_of_indent_space: number = 2) {
     return space + error_message.split("\n").join(indent);
 }
 
+function maxWidth(error_message: string, number_of_indent_space: number = 2) {
+    const space = " ".repeat(number_of_indent_space);
+    const indent = "\n" + space;
+    return space + error_message.split("\n").join(indent);
+}
+
+import { col_x11, xtBlink, xtBold, xtColor, xtDim, xtF, xtInvert, xtRBold, xtReset } from "../color/color.js";
+const warn_color = xtF(xtColor(col_x11.Orange3), xtBold);
+const key_color = xtF(xtColor(col_x11.LightBlue3), xtBold);
+const string_color = xtF(xtColor(col_x11.SeaGreen3));
+const bold = xtF(xtBold);
+const rst = xtF(xtReset);
 function renderHelpDoc(command_block: CommandBlock) {
 
     const help_message = [];
@@ -434,28 +356,59 @@ function renderHelpDoc(command_block: CommandBlock) {
         help_message.push("", "Command: " + command_block.path);
 
     if (command_block.help_brief)
-        help_message.push(command_block.help_brief);
+        help_message.push("\n" + createHelpColumn(command_block, 80));
 
     help_message.push("");
 
     if (Object.keys(command_block.arguments).length > 0) {
 
-        help_message.push("Arguments:\n");
+        help_message.push(`${bold}Arguments:${rst}\n`);
 
         for (const key in command_block.arguments) {
             const arg = command_block.arguments[key];
-            help_message.push(addIndent(`--${key}\n${addIndent(arg.help_brief || "", 4)}`, 4));
+            const REQUIRED = arg.REQUIRES_VALUE && arg.default === undefined;
+
+            const lines = [addIndent(`${key_color}--${key}${rst}\n`, 2)];
+
+            if (REQUIRED) {
+                lines.push(addIndent(`${warn_color}REQUIRED${rst}\n`, 4));
+            }
+
+            if (arg.accepted_values)
+                lines.push(addIndent(`Accepted values: [ ${arg.accepted_values.map(accepted_values_to_string).join(" | ")} ]\n`, 4));
+
+            lines.push(addIndent(createHelpColumn(arg), 4));
+
+            help_message.push(...lines, "\n");
         }
     }
 
     if (command_block.sub_commands.size > 0)
 
-        help_message.push("Sub-Commands:\n");
+        help_message.push(addIndent("==================================\n\nSub-Commands:", 0));
 
     for (const [name, cb] of command_block.sub_commands.entries()) {
 
-        help_message.push(addIndent(`\n[${name}]\n${addIndent(cb.help_brief || "", 4)}`, 4));
+        help_message.push(addIndent(`\n[${name}]\n\n${addIndent(createHelpColumn(cb), 2)} `, 2));
     }
 
     return help_message.join("\n") + "\n";
+};
+function accepted_values_to_string(v) {
+    const map = [
+        [v => (v === Number), () => "[0..9]*"],
+        [v => (v instanceof String), v => `${string_color}"${v}"${rst}`],
+        [_ => true, () => `${string_color}"${v.toString()}"${rst}`],
+    ];
+
+    for (const [evaluator, value] of map) {
+        if (evaluator(v))
+            return value(v);
+    }
+}
+function createHelpColumn(cb: CommandBlock | Argument<any>, column_size: number = 74): string {
+
+    if (!cb.help_brief) return "";
+
+    return limitColumnLength(cb.help_brief.replace(/(?<=[^\n])\n(?=[^\n])/g, " ").trim(), column_size);
 }

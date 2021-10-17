@@ -10,13 +10,39 @@ const warn_color = xtF(xtColor(col_x11.OrangeRed));
 const debug_color = xtF(xtColor(col_x11.GreenYellow));
 const time_color = xtF(xtColor(col_x11.LemonChiffon1));
 const rst = xtF(xtReset);
-const dim = xtF(xtDim);
 
-let cursor;
-
-let lines = 0;
 let delta = 0;
 let prev_name = "";
+
+export function limitColumnLength(
+    string: string,
+    max_column_length: number,
+    join = "\n"
+) {
+    return string.split("\n").flatMap(v => {
+        v = v.trim();
+        if (v.length > max_column_length) {
+            const spaces = v.split(" ");
+            const pending = [];
+            const out = [];
+            let curr_len = 0;
+            for (const str of spaces) {
+                if (curr_len + str.length + 8 >= max_column_length) {
+                    out.push(pending.join(" "));
+                    curr_len = 0;
+                    pending.length = 0;
+                }
+                curr_len += str.length + 1;
+                pending.push(str);
+            }
+            if (pending.length > 0)
+                out.push(pending.join(" "));
+            return out;
+
+        }
+        return v;
+    }).join(join);
+}
 
 LogWriter.prototype.writeLog = function (
     logger_name: string,
@@ -26,30 +52,9 @@ LogWriter.prototype.writeLog = function (
 ) {
     const max_column = process.stdout.columns;
 
-    const data = args.map(i => typeof i == "string" ? i : inspect(i, {
+    const data = limitColumnLength(args.map(i => typeof i == "string" ? i : inspect(i, {
         depth: 8, colors: true
-    })).join(" ").split("\n").flatMap(v => {
-        if (v.length > max_column) {
-            const spaces = v.split(" ");
-            const pending = [];
-            const out = [];
-            let curr_len = 0;
-            for (const str of spaces) {
-                if (curr_len + str.length + 8 >= max_column) {
-                    out.push(pending.join(" "));
-                    curr_len = 0
-                    pending.length = 0;
-                }
-                curr_len += str.length + 1;
-                pending.push(str)
-            }
-            if (pending.length > 0)
-                out.push(pending.join(" "));
-            return out;
-
-        }
-        return v;
-    }).join("\n      ");
+    })).join(" "), max_column, "\n      ");
 
     let header = "";
 

@@ -23,43 +23,168 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
 */
+import { Logger, LogLevel } from '@candlelib/log';
+import URI from '@candlelib/uri';
 import "./logger_inject.js";
-
-
-export { PackageJSONData } from "./types/package.js";
-
+import { Argument } from "./types/cli_arg_types";
 export {
-    getProcessArgs,
-    addCLIConfig,
-    processCLIConfig,
-    Argument
-} from "./utils/get_process_arguments.js";
-
-
-export {
-    xtColor,
-    xtReset,
-    xtBold,
-    xtDim,
-    xtUnderline,
-    xtBlink,
-    xtInvert,
-    xtHidden,
-    xtRBold,
-    xtRDim,
-    xtRUnderline,
-    xtRBlink,
-    xtRInvert,
-    xtF,
-    col_x11,
     col_css,
-    col_pwg
+    col_pwg, col_x11, xtBlink, xtBold, xtColor, xtDim, xtF, xtHidden, xtInvert, xtRBlink, xtRBold,
+    xtRDim, xtReset, xtRInvert, xtRUnderline, xtUnderline
 } from "./color/color.js";
-
+export { PackageJSONData } from "./types/package.js";
 export { getPackageJsonObject, savePackageJSON } from "./utils/get_package_json.js";
-
-/* import initWickCLI from "./wick_cli/wick_cli.js"; */
-
-//export { initWickCLI };
-
+export {
+    addCLIConfig, getProcessArgs, processCLIConfig
+} from "./utils/get_process_arguments.js";
 export * from "./utils/traverse_files.js";
+export { Argument };
+
+
+const enum RT_TYPE {
+    DENO,
+    NODE
+}
+
+export enum FS_RESULTS {
+    COULD_NOT_ACCESS_DIR,
+    COULD_NOT_ACCESS_FILE,
+    INVALID_INPUT,
+    OK
+}
+
+export const args = {
+    log_level_properties: <Argument<LogLevel>>{
+        key: "log-level",
+        "help_brief":
+            `
+Change the level of messages printed to the console:
+`,
+        accepted_values: ["verbose", "normal", "errors"],
+        default: <any>"verbose",
+        transform: (val: string, args) => {
+            switch (val) {
+                case "verbose":
+                    return LogLevel.INFO | LogLevel.ERROR | LogLevel.CRITICAL | LogLevel.WARN | LogLevel.DEBUG;
+                case "normal":
+                    return LogLevel.INFO | LogLevel.ERROR | LogLevel.CRITICAL | LogLevel.WARN;
+                case "errors":
+                    return LogLevel.INFO | LogLevel.ERROR | LogLevel.CRITICAL;
+            }
+        }
+    }
+};
+
+
+const RT = ("DENO" in globalThis) ? RT_TYPE.DENO : RT_TYPE.NODE;
+const Deno = RT ? globalThis["Deno"] : undefined;
+export const utils = {
+
+    get cwd() {
+        if (RT == RT_TYPE.DENO) {
+            return Deno.cwd();
+        } else {
+            return process.cwd();
+        }
+    },
+
+    async readJSON() {
+        if (RT == RT_TYPE.DENO) {
+
+        } else {
+
+        }
+    },
+
+    async readUTF8() {
+        if (RT == RT_TYPE.DENO) {
+
+        } else {
+
+        }
+    },
+
+    async readBuffer() {
+        if (RT == RT_TYPE.DENO) {
+
+        } else {
+
+        }
+    },
+
+    /**
+     * Converts a JS object to a JSON string
+     * and writes to given location
+     */
+    async writeToJSONFile(obj: any[] | object, location: URI, logger?: Logger) {
+
+        if (typeof obj != "object" || Array.isArray(obj)) {
+            if (logger) {
+                logger.error(`Expected obj arg to be type object or an Array. Got ${typeof obj}`);
+            }
+            return FS_RESULTS.INVALID_INPUT;
+        }
+
+        let output = "";
+        try {
+            output = JSON.stringify(obj, undefined, 2);
+        } catch (e) {
+            if (logger) {
+                logger.error(`Unable to stringify input as JSON:`, e.message);
+            }
+            return FS_RESULTS.INVALID_INPUT;
+        }
+
+        return utils.writeToUTF8File(output, location, logger);
+    },
+
+    async writeToBinaryFile() {
+        if (RT == RT_TYPE.DENO) {
+
+        } else {
+
+        }
+    },
+
+    async writeToUTF8File(output: string, location: URI, logger?: Logger) {
+
+        if (typeof output != "string") {
+            if (logger) {
+                logger.error(`Expected as output argument to writeToUTF8File`);
+            }
+            return FS_RESULTS.INVALID_INPUT;
+        }
+
+        if (RT == RT_TYPE.DENO) {
+
+        } else {
+            const fs = await import("fs");
+            const fsp = fs.promises;
+            //Ensure the directory exists;
+            try {
+
+                await fsp.mkdir(location.dir, { recursive: true });
+
+                try {
+
+                    await fsp.writeFile(location + "", output, { encoding: "utf8" });
+
+                } catch (e) {
+                    if (logger) {
+                        logger.error(`Could not write file [ ${location + ""} ]`);
+                        logger.error(e.message);
+                    }
+                    return FS_RESULTS.COULD_NOT_ACCESS_FILE;
+                }
+            } catch (e) {
+                if (logger) {
+                    logger.error(`Could not write to directory [ ${location.dir + ""} ]`);
+                    logger.error(e.message);
+                }
+                return FS_RESULTS.COULD_NOT_ACCESS_DIR;
+            }
+
+            return FS_RESULTS.OK;
+        }
+    }
+};
