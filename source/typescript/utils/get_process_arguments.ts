@@ -103,11 +103,12 @@ export function getProcessArgs<T>(
     return value;
 }
 
-let configs: CommandBlock = {
+let configs: CommandBlock<any> = {
+    key: "root",
     path: "root",
     name: "root",
     help_brief: "",
-    arguments: {},
+    arguments: new Map,
     sub_commands: new Map
 };
 /**
@@ -116,12 +117,12 @@ let configs: CommandBlock = {
  * @param commands 
  * @returns 
  */
-export function addCLIConfig<T>(...commands: (string | Argument<T>)[]): ArgumentHandle<T> {
+export function addCLIConfig<T, D = any>(...commands: (string | Argument<T, D>)[]): ArgumentHandle<T, D> {
 
     if (typeof commands.slice(-1)[0] != "object")
         throw new Error("Invalid type provided for the last argument. Should be an object that matches the Argument interface");
 
-    const argument: Argument<T> = Object.assign({}, <any>commands.slice(-1)[0]);
+    const argument: Argument<T, D> = Object.assign({}, <any>commands.slice(-1)[0]);
 
     let command_block = configs;
 
@@ -149,13 +150,17 @@ export function addCLIConfig<T>(...commands: (string | Argument<T>)[]): Argument
 
             if (!command_block.sub_commands.has(command)) {
 
-                command_block.sub_commands.set(command, {
-                    path: command_path.join("/"),
-                    name: command,
-                    help_brief: "undefined",
-                    arguments: {},
-                    sub_commands: new Map
-                });
+                command_block.sub_commands.set(
+                    command,
+                    //@ts-ignore
+                    Object.assign({}, {
+                        path: command_path.join("/"),
+                        name: command,
+                        help_brief: "undefined",
+                        arguments: new Map,
+                        sub_commands: new Map
+                    })
+                );
             }
 
             command_block = command_block.sub_commands.get(command);
@@ -165,7 +170,7 @@ export function addCLIConfig<T>(...commands: (string | Argument<T>)[]): Argument
 
     if (command_block.name == argument.key) {
 
-        command_block.help_brief = argument.help_brief;
+        Object.assign(command_block, argument);
 
         const handle: ArgumentHandle<any> = {
             argument: null,
@@ -189,7 +194,7 @@ export function addCLIConfig<T>(...commands: (string | Argument<T>)[]): Argument
             argument.accepted_values = [String];
 
 
-        command_block.arguments[argument.key] = argument;
+        command_block.arguments.set(argument.key, argument);
 
         const handle: ArgumentHandle<any> = {
             argument: argument,
@@ -205,7 +210,8 @@ export function addCLIConfig<T>(...commands: (string | Argument<T>)[]): Argument
 
 export async function processCLIConfig(process_arguments: string[] = process.argv.slice(2)): Promise<string> {
     try {
-        let command_block: CommandBlock = configs;
+        let command_block: CommandBlock<any> = configs;
+
         let i = 0;
 
         for (; i < process_arguments.length; i++) {
@@ -225,9 +231,7 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
 
         const arg_params = {}, to_process_arguments: Set<Argument<any>> = new Set();
 
-        for (const key in command_block.arguments) {
-
-            const arg = command_block.arguments[key];
+        for (const [key, arg] of command_block.arguments) {
 
             arg_params[key] = false;
 
@@ -261,69 +265,32 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
 
             if (command_block.arguments[key]) {
                 to_process_arguments.add(command_block.arguments[key]);
+
             }
         }
 
         for (const arg of to_process_arguments) {
 
             const key = arg.key;
+            const input_val = args[key]?.val;
 
-            if (arg.REQUIRES_VALUE && args[key]?.val === undefined && arg.default === undefined) {
-                const error = `ARGUMENT ERROR:\n\n   No value provided for argument [--${arg.key}]\n`
-                    + (arg.accepted_values ? `   Expected value to be one of [ ${arg.accepted_values.map(v => {
-                        if (typeof v == "string")
-                            return `"${v}"`;
-                        else return `<${v.name}>`;
-                    }).join(", ")} ]` : "");
-
-                throw new Error(error);
-            }
-
-            let val = arg.REQUIRES_VALUE ? args[key]?.val ?? arg.default : arg.default ?? true;
-
-            if (arg.validate) {
-
-                const error_message = arg.validate(val);
-
-                if (error_message != undefined) {
-                    const error = `ARGUMENT ERROR:\n\n[--${arg.key}] = ${val}\n`
-                        + addIndent(error_message, 4)
-                        + "\n";
-
-                    throw new Error(error);
-                }
-            } else if (arg.accepted_values) {
-                let VALID = false;
-
-
-                for (const validator of arg?.accepted_values ?? []) {
-                    if (typeof validator == "string" && val == validator) {
-                        VALID = true;
-                        break;
-                    } else if (validator === Number && !Number.isNaN(Number.parseFloat(val))) {
-                        VALID = true;
-                        break;
-                    } else if (validator === String) {
-                        VALID = true;
-                        break;
-                    }
-                }
-
-                if (!VALID)
-                    throw new Error(`\n${err_color}ARGUMENT ERROR:${rst} [ ${val} ] is not a valid value for [ ${key_color}--${arg.key + rst} ]`
-                        + `\n\nThis argument accepts  [ ${arg.accepted_values.map(accepted_values_to_string).join(" | ")} ]\n`);
-            }
+            let val = await process_argument(arg, input_val);
 
             if (arg.transform)
                 val = await arg.transform(val, args);
 
             for (const handle of arg.handles)
                 handle.value = val;
+        }
 
+        let command_val: any = null;
+
+        if (command_block.REQUIRES_VALUE) {
+            command_val = await process_argument(command_block, args.trailing_arguments.pop());
         }
 
         if (command_block?.handle?.callback)
-            command_block?.handle?.callback(args);
+            command_block?.handle?.callback(command_val, args);
 
         return command_block.path;
 
@@ -335,6 +302,74 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
 
         process.exit(-1);
     }
+}
+
+async function process_argument(
+    arg: CommandBlock<any> | Argument<any>,
+    input_val?
+) {
+
+    if (arg.REQUIRES_VALUE && input_val === undefined && arg.default === undefined) {
+        const error = `ARGUMENT ERROR:\n\n   No value provided for argument [--${arg.key}]\n`
+            + (arg.accepted_values ? `   Expected value to be one of [ ${arg.accepted_values.map(v => {
+                if (typeof v == "string")
+                    return `"${v}"`;
+                else return `<${v.name}>`;
+            }).join(", ")} ]` : "");
+
+        throw new Error(error);
+    }
+
+    let val = input_val ?? arg.default ?? null;
+
+    if (input_val) {
+
+        if (arg.validate) {
+
+            const error_message = arg.validate(val);
+
+            if (error_message != undefined) {
+                const error = `ARGUMENT ERROR:\n\n[--${arg.key}] = ${val}\n`
+                    + addIndent(error_message, 4)
+                    + "\n";
+
+                throw new Error(error);
+            }
+        } else if (arg.accepted_values) {
+            let VALID = false;
+
+
+            for (const validator of arg?.accepted_values ?? []) {
+                if (typeof validator == "string" && val == validator) {
+                    VALID = true;
+                    break;
+                } else if (validator === Number && !Number.isNaN(Number.parseFloat(val))) {
+                    VALID = true;
+                    break;
+                } else if (validator === URI) {
+
+                    const _val = new URI(val);
+
+
+                    if (!_val.path && arg.accepted_values.length == 1)
+                        break;
+
+                    val = _val;
+                    VALID = true;
+                    break;
+                } else if (validator === String) {
+                    VALID = true;
+                    break;
+                }
+            }
+
+            if (!VALID)
+                throw new Error(`\n${err_color}ARGUMENT ERROR:${rst} [ ${val} ] is not a valid value for [ ${key_color}--${arg.key + rst} ]`
+                    + `\n\nThis argument accepts  [ ${arg.accepted_values.map(accepted_values_to_string).join(" | ")} ]\n`);
+        }
+    }
+
+    return val;
 }
 
 function addIndent(error_message: string, number_of_indent_space: number = 2) {
@@ -350,6 +385,8 @@ function maxWidth(error_message: string, number_of_indent_space: number = 2) {
 }
 
 import { col_x11, xtBlink, xtBold, xtColor, xtDim, xtF, xtInvert, xtRBold, xtReset } from "../color/color.js";
+import URI from '@candlelib/uri';
+
 const err_color = xtF(xtColor(col_x11.Red), xtBold);
 
 const warn_color2 = xtF(xtColor(col_x11.Orange3));
@@ -362,20 +399,45 @@ function renderHelpDoc(command_block: CommandBlock) {
 
     const help_message = [];
 
-    if (command_block.name != "root")
-        help_message.push("", "Command: " + command_block.path);
+    if (command_block.name != "root") {
+
+        help_message.push("\nCommand: "
+            + command_block.path
+            + " "
+            + [...command_block.arguments].map(getArgRepresentation).join(" ")
+            + (command_block.REQUIRES_VALUE ? " <...>" : ""));
+    }
 
     if (command_block.help_brief)
-        help_message.push("\n" + createHelpColumn(command_block, 80));
+        help_message.push("", createHelpColumn(command_block, 80));
+
+    if (command_block.REQUIRES_VALUE) {
+
+        const arg = command_block;
+
+
+        const REQUIRED = arg.REQUIRES_VALUE && arg.default === undefined;
+
+        const lines = [addIndent(`\n<...>\n`, 2)];
+
+        if (REQUIRED) {
+            lines.push(addIndent(`${warn_color}REQUIRED${rst}\n`, 2));
+        }
+        if (arg.accepted_values)
+            lines.push(addIndent(`Accepted values: [ ${arg.accepted_values.map(accepted_values_to_string).join(" | ")} ]\n`, 2));
+
+        help_message.push(...lines);
+    }
 
     help_message.push("");
 
-    if (Object.keys(command_block.arguments).length > 0) {
+    if (command_block.arguments.size > 0) {
 
         help_message.push(`${bold}Arguments:${rst}\n`);
 
-        for (const key in command_block.arguments) {
-            const arg = command_block.arguments[key];
+
+        for (const [key, arg] of command_block.arguments) {
+
             const REQUIRED = arg.REQUIRES_VALUE && arg.default === undefined;
 
             const lines = [addIndent(`${key_color}--${key}${rst}\n`, 2)];
@@ -404,9 +466,28 @@ function renderHelpDoc(command_block: CommandBlock) {
 
     return help_message.join("\n") + "\n";
 };
+function getArgRepresentation(
+    [k, v]: [string, Argument<any>],
+    index: number,
+    array: [string, Argument<any>][]
+): string {
+
+    let str = `--${k}`;
+    if (v.REQUIRES_VALUE) {
+        str += " <...>";
+        if (!v.default) {
+            return `${str}`;
+        }
+    }
+    return `[${str}]?`;
+
+
+}
+
 function accepted_values_to_string(v) {
     const map = [
-        [v => (v === Number), () => "[0-9]+"],
+        [v => (v === Number), () => "num: [0-9]+"],
+        [v => (v === URI), () => "path: \\.*(\\/.+)+"],
         [v => (v === String), () => "\"*\""],
         [v => (v instanceof String), v => `${string_color}"${v}"${rst}`],
         [_ => true, () => `${string_color}"${v.toString()}"${rst}`],
@@ -417,7 +498,7 @@ function accepted_values_to_string(v) {
             return value(v);
     }
 }
-function createHelpColumn(cb: CommandBlock | Argument<any>, column_size: number = 74): string {
+function createHelpColumn(cb: CommandBlock | Argument<any>, column_size: number = 76): string {
 
     if (!cb.help_brief) return "";
 
