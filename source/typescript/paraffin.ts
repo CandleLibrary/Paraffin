@@ -58,7 +58,13 @@ export const args = {
         key: "loglevel",
         "help_brief":
             `
-Change the level of messages printed to the console:
+Filter the level of messages printed to the console:
+
++ verbose: All messages will be printed.
+
++ normal: All messages except verbose "debug" message will be printed.
+
++ errors: Only "warn", "error", and "critical" messages will be printed.
 `,
         accepted_values: ["verbose", "normal", "errors"],
         default: <any>"normal",

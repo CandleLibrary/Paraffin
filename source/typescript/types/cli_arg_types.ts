@@ -1,5 +1,5 @@
 import { Output } from "./output";
-export type Argument<T> = {
+export type Argument<T, D = any> = {
     /**
      * The argument name for this config type.
      * if the key is the same value as the last
@@ -25,7 +25,7 @@ export type Argument<T> = {
      * A default value to set the arg to
      * if none is supplied by the user.
      */
-    default?: T;
+    default?: D;
 
     /**
      * An array of values which are acceptable
@@ -52,7 +52,7 @@ export type Argument<T> = {
      * the argument value or generate a synthetic
      * value to be consumed downstream
      */
-    transform?: (val: any, args: Output<any>) => T | Promise<T>;
+    transform?: (val: T | D, args: Output<any>) => T | Promise<T>;
 
     /**
      * A simple help message that is displayed when
@@ -68,22 +68,19 @@ export type Argument<T> = {
      */
     path?: string;
 };
-export type CommandBlock = {
+export type CommandBlock<T, D = any> = Argument<any, D> & {
     path: string;
     name: string;
     help_brief: string;
-    arguments: {
-        [i in string]: Argument<any>;
-    };
-    sub_commands: Map<string, CommandBlock>;
-    transform?: (any) => any;
-    handle?: ArgumentHandle;
+    arguments: Map<string, Argument<any>>;
+    sub_commands: Map<string, CommandBlock<any>>;
+    handle?: ArgumentHandle<T>;
 };
 /**
  * A reference to a post-processed CLI argument
  * defined using the `addCLIConfig`.
  */
-export type ArgumentHandle<T = string> = {
+export type ArgumentHandle<T = string, D = any> = {
     /**
      * The computed value of the CLI argument
      */
@@ -91,7 +88,7 @@ export type ArgumentHandle<T = string> = {
     /**
      * The original argument object.
      */
-    argument: Argument<T>;
+    argument: Argument<T, D>;
     /**
      * An optional callback function that is called
      * after all arguments have been processed.
@@ -99,5 +96,5 @@ export type ArgumentHandle<T = string> = {
      * This only occurs if the Argument that the
      * ArgumentHandle references is a root command
      */
-    callback?: (args: Output<any>) => void;
+    callback?: (val: T, args: Output<any>) => void;
 };
