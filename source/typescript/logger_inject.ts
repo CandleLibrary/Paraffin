@@ -92,11 +92,11 @@ LogWriter.prototype.writeLog = function (
         if (REWRITE) {
             const diff = -delta;
             delta = [...output.matchAll(/\n/g)].length;
-            process.stdout.moveCursor(0, diff);
-            process.stdout.clearScreenDown();
-            process.stdout.write(output);
+            process.stderr.moveCursor(0, diff);
+            process.stderr.clearScreenDown();
+            process.stderr.write(output);
         } else {
-            process.stdout.write(output);
+            process.stderr.write(output);
             delta = 0;
         }
     }

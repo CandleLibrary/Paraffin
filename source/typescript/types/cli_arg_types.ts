@@ -48,6 +48,15 @@ export type Argument<T, D = any> = {
     validate?: (arg: string) => string;
 
     /**
+     * A friendly name to give the trailing argument
+     * specifier (e.g `<help_arg_name>`) when rendering
+     * help information. 
+     * 
+     * Defaults to `...`.
+     */
+    help_arg_name?: string;
+
+    /**
      * A function that can be used to process
      * the argument value or generate a synthetic
      * value to be consumed downstream
@@ -72,6 +81,7 @@ export type CommandBlock<T, D = any> = Argument<any, D> & {
     path: string;
     name: string;
     help_brief: string;
+    help_arg_name?: string;
     arguments: Map<string, Argument<any>>;
     sub_commands: Map<string, CommandBlock<any>>;
     handle?: ArgumentHandle<T>;

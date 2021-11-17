@@ -1,10 +1,20 @@
 
 //import { ParserEnvironment } from "@candlelib/hydrocarbon";
 //import parse_data from "../parser/parser.js";
+import URI from '@candlelib/uri';
+import { col_x11, xtBold, xtColor, xtF, xtReset } from "../color/color.js";
 import { limitColumnLength } from '../logger_inject.js';
 import framework from "../parser/args_parser.js";
 import { Argument, ArgumentHandle, CommandBlock } from '../types/cli_arg_types';
 import { Output } from '../types/output';
+
+const err_color = xtF(xtColor(col_x11.Red), xtBold);
+const warn_color2 = xtF(xtColor(col_x11.Orange3));
+const warn_color = xtF(xtColor(col_x11.Orange3), xtBold);
+const key_color = xtF(xtColor(col_x11.LightBlue3), xtBold);
+const string_color = xtF(xtColor(col_x11.SeaGreen3));
+const bold = xtF(xtBold);
+const rst = xtF(xtReset);
 
 const { parse } = await framework;
 
@@ -194,7 +204,7 @@ export function addCLIConfig<T, D = any>(...commands: (string | Argument<T, D>)[
             argument.accepted_values = [String];
 
 
-        command_block.arguments.set(argument.key, argument);
+        command_block.arguments.set(<string>argument.key, argument);
 
         const handle: ArgumentHandle<any> = {
             argument: argument,
@@ -208,6 +218,7 @@ export function addCLIConfig<T, D = any>(...commands: (string | Argument<T, D>)[
 };
 
 
+const showHelpDoc = console.log;
 export async function processCLIConfig(process_arguments: string[] = process.argv.slice(2)): Promise<string> {
     try {
         let command_block: CommandBlock<any> = configs;
@@ -229,17 +240,17 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
 
         const remaining_arguments = process_arguments.slice(i);
 
-        const arg_params = {}, to_process_arguments: Set<Argument<any>> = new Set();
+        const arg_params = { "md": true }, to_process_arguments: Set<Argument<any>> = new Set();
 
         for (const [key, arg] of command_block.arguments) {
 
             arg_params[key] = false;
 
-            if (arg.REQUIRES_VALUE)
+            if (arg.REQUIRES_VALUE === true || arg.accepted_values)
                 arg_params[key] = true;
 
-            if (arg.default)
-                to_process_arguments.add(arg);
+            //if (arg.default != undefined || arg.REQUIRES_VALUE === true)
+            to_process_arguments.add(arg);
         }
 
         const args = getProcessArgs(arg_params, remaining_arguments);
@@ -247,6 +258,8 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
         for (const key in args) {
 
             if (
+                key == "md"
+                ||
                 key == "h"
                 ||
                 key == "help"
@@ -256,9 +269,11 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
                 !(command_block?.handle?.callback)
             ) {
 
-                const help_doc = renderHelpDoc(command_block);
+                const help_doc = key == "md"
+                    ? renderMarkdownHelpDoc(command_block, args[key]?.val || "").join("\n")
+                    : renderHelpDoc(command_block);
 
-                console.log(help_doc);
+                showHelpDoc(help_doc);
 
                 return command_block.path + "::help";
             }
@@ -272,7 +287,9 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
         for (const arg of to_process_arguments) {
 
             const key = arg.key;
-            const input_val = args[key]?.val;
+
+
+            const input_val = args[key]?.val ?? !!args[key];
 
             let val = await process_argument(arg, input_val);
 
@@ -285,20 +302,19 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
 
         let command_val: any = null;
 
-        if (command_block.REQUIRES_VALUE) {
+        if (command_block.REQUIRES_VALUE || command_block.accepted_values) {
             command_val = await process_argument(command_block, args.trailing_arguments.pop());
         }
 
         if (command_block?.handle?.callback)
-            command_block?.handle?.callback(command_val, args);
+            await command_block?.handle?.callback(command_val, args);
 
         return command_block.path;
 
     } catch (e) {
 
-        console.error(e.message);
-
-        //throw new Error("Could not process arguments");
+        if (e && e instanceof Error)
+            console.error(e.stack);
 
         process.exit(-1);
     }
@@ -306,21 +322,24 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
 
 async function process_argument(
     arg: CommandBlock<any> | Argument<any>,
-    input_val?
+    input_val: any
 ) {
 
-    if (arg.REQUIRES_VALUE && input_val === undefined && arg.default === undefined) {
-        const error = `ARGUMENT ERROR:\n\n   No value provided for argument [--${arg.key}]\n`
-            + (arg.accepted_values ? `   Expected value to be one of [ ${arg.accepted_values.map(v => {
+    if (arg.REQUIRES_VALUE && !input_val && arg.default === undefined) {
+
+        let arg_value = arg.path == arg.key ? "" : "--";
+
+        const error = `\n  ARGUMENT ERROR:\n\n   No value provided for argument [ ${arg_value}${arg.key} ${renderArg(arg)} ]\n`
+            + (arg.accepted_values ? `   Expected ${renderArg(arg)} to be one of [ ${arg.accepted_values.map(v => {
                 if (typeof v == "string")
                     return `"${v}"`;
                 else return `<${v.name}>`;
-            }).join(", ")} ]` : "");
+            }).join(", ")} ]\n` : "\n");
 
         throw new Error(error);
     }
 
-    let val = input_val ?? arg.default ?? null;
+    let val = (input_val || arg.default) ?? null;
 
     if (input_val) {
 
@@ -363,66 +382,143 @@ async function process_argument(
                 }
             }
 
-            if (!VALID)
-                throw new Error(`\n${err_color}ARGUMENT ERROR:${rst} [ ${val} ] is not a valid value for [ ${key_color}--${arg.key + rst} ]`
-                    + `\n\nThis argument accepts  [ ${arg.accepted_values.map(accepted_values_to_string).join(" | ")} ]\n`);
+            if (!VALID) {
+                if (arg.path == arg.key) {
+
+                } else {
+                    throw new Error(`\n${err_color}ARGUMENT ERROR:${rst} [ ${val} ] is not a valid value for [ ${key_color}--${arg.key + rst} ${renderArg(arg)} ]`
+                        + `\n\nThis argument accepts  [ ${arg.accepted_values.map(accepted_values_to_string).join(" | ")} ]\n`);
+                }
+            }
         }
     }
 
     return val;
 }
 
-function addIndent(error_message: string, number_of_indent_space: number = 2) {
+function addIndent(message: string, number_of_indent_space: number = 2) {
     const space = " ".repeat(number_of_indent_space);
     const indent = "\n" + space;
-    return space + error_message.split("\n").join(indent);
+    return space + message.split("\n").map(n => n.trim()).join(indent);
 }
 
-function maxWidth(error_message: string, number_of_indent_space: number = 2) {
-    const space = " ".repeat(number_of_indent_space);
-    const indent = "\n" + space;
-    return space + error_message.split("\n").join(indent);
+function create_header(depth: number) {
+    return `#`.repeat(Math.max(1, Math.min(6, depth)));
 }
 
-import { col_x11, xtBlink, xtBold, xtColor, xtDim, xtF, xtInvert, xtRBold, xtReset } from "../color/color.js";
-import URI from '@candlelib/uri';
-
-const err_color = xtF(xtColor(col_x11.Red), xtBold);
-
-const warn_color2 = xtF(xtColor(col_x11.Orange3));
-const warn_color = xtF(xtColor(col_x11.Orange3), xtBold);
-const key_color = xtF(xtColor(col_x11.LightBlue3), xtBold);
-const string_color = xtF(xtColor(col_x11.SeaGreen3));
-const bold = xtF(xtBold);
-const rst = xtF(xtReset);
-function renderHelpDoc(command_block: CommandBlock) {
+function renderMarkdownHelpDoc(command_block: CommandBlock<any>, cli_name: string = "", header_depth: number = 2) {
 
     const help_message = [];
 
     if (command_block.name != "root") {
+        help_message.push(
+            ...[
+                `${create_header(header_depth)} ${command_block.path}`,
+                `> `
+                + cli_name
+                + " "
+                + command_block.path.split("::").map(s => `**${s}**`).join(" ")
+                + " "
+                + [...command_block.arguments].map(getArgRepresentationMD).join(" ")
+                + ((command_block.REQUIRES_VALUE || command_block.accepted_values) ? " " + renderArgMD(command_block) : ""),
 
-        help_message.push("\nCommand: "
-            + command_block.path
-            + " "
-            + [...command_block.arguments].map(getArgRepresentation).join(" ")
-            + (command_block.REQUIRES_VALUE ? " <...>" : ""));
+            ]
+        );
+    }
+
+    if (command_block.help_brief)
+        help_message.push("", ...command_block.help_brief.split("\n").map(s => s.trim()));
+
+    if (command_block.REQUIRES_VALUE || command_block.accepted_values || command_block.arguments.size > 0)
+        help_message.push(`${create_header(header_depth + 1)} Arguments:\n`);
+
+    if (command_block.REQUIRES_VALUE || command_block.accepted_values) {
+
+        const arg = command_block;
+
+        const REQUIRED = arg.REQUIRES_VALUE && arg.default === undefined;
+
+        let line = `- >${renderArgMD(arg)}`;
+
+        if (REQUIRED) {
+            line += ` **REQUIRED**\n`;
+        }
+
+        help_message.push(line);
+
+        if (arg.accepted_values)
+            help_message.push(`\n     Accepted values: [ ${arg.accepted_values.map(accepted_values_to_stringMD).join(" | ")} ]\n`);
+
+    }
+
+
+    if (command_block.arguments.size > 0) {
+
+        for (const [key, arg] of command_block.arguments) {
+
+            const REQUIRED = arg.REQUIRES_VALUE && arg.default === undefined;
+
+            const lines = [`- ${create_header(header_depth + 1)} ${key}`, (`    > **--${key}** ${arg.REQUIRES_VALUE ? " " + renderArgMD(arg) : ""}`)];
+
+            if (REQUIRED) {
+                lines.push((` **REQUIRED**`));
+            }
+
+            if (arg.accepted_values)
+                lines.push("", (`    Accepted values: [ ${arg.accepted_values.map(accepted_values_to_stringMD).join(" | ")} ]\n`));
+
+            lines.push("", "    " + arg.help_brief.split("\n").map(s => s.trim()).join("\n    "));
+
+            help_message.push(...lines, "\n");
+        }
+    }
+
+    if (command_block.sub_commands.size > 0)
+
+        help_message.push(`${create_header(header_depth)} Sub-Commands`);
+
+    for (const [name, cb] of command_block.sub_commands.entries()) {
+
+        help_message.push(...renderMarkdownHelpDoc(cb, cli_name, header_depth + 1));
+
+        help_message.push("-----");
+    }
+
+    return help_message;
+}
+
+function renderHelpDoc(command_block: CommandBlock<any>) {
+
+    const help_message = [];
+
+    if (command_block.name != "root") {
+        help_message.push(
+            [
+                "\nCommand:",
+                command_block.path,
+                [...command_block.arguments].map(getArgRepresentation).join(" "),
+                ((command_block.REQUIRES_VALUE || command_block.accepted_values) ? renderArg(command_block) : "")
+            ].join(" ")
+        );
     }
 
     if (command_block.help_brief)
         help_message.push("", createHelpColumn(command_block, 80));
 
-    if (command_block.REQUIRES_VALUE) {
+    if (command_block.REQUIRES_VALUE || command_block.accepted_values) {
 
         const arg = command_block;
 
-
         const REQUIRED = arg.REQUIRES_VALUE && arg.default === undefined;
 
-        const lines = [addIndent(`\n<...>\n`, 2)];
+        let line = `\n ${renderArg(arg)}`;
 
         if (REQUIRED) {
-            lines.push(addIndent(`${warn_color}REQUIRED${rst}\n`, 2));
+            line += ` ${warn_color}REQUIRED${rst}\n`;
         }
+
+        const lines = [addIndent(line, 2)];
+
         if (arg.accepted_values)
             lines.push(addIndent(`Accepted values: [ ${arg.accepted_values.map(accepted_values_to_string).join(" | ")} ]\n`, 2));
 
@@ -440,7 +536,7 @@ function renderHelpDoc(command_block: CommandBlock) {
 
             const REQUIRED = arg.REQUIRES_VALUE && arg.default === undefined;
 
-            const lines = [addIndent(`${key_color}--${key}${rst}\n`, 2)];
+            const lines = [addIndent(`${key_color}--${key}${arg.REQUIRES_VALUE ? " " + renderArg(arg) : ""}${rst}\n`, 2)];
 
             if (REQUIRED) {
                 lines.push(addIndent(`${warn_color}REQUIRED${rst}\n`, 4));
@@ -466,6 +562,14 @@ function renderHelpDoc(command_block: CommandBlock) {
 
     return help_message.join("\n") + "\n";
 };
+function renderArg(command_block: CommandBlock<any> | Argument<any>) {
+    return `<${command_block.help_arg_name ? command_block.help_arg_name : command_block.key + "_arg"}>`;
+}
+
+function renderArgMD(command_block: CommandBlock<any> | Argument<any>) {
+    return `&lt;*${command_block.help_arg_name ? command_block.help_arg_name : command_block.key + "_arg"}*&gt;`;
+}
+
 function getArgRepresentation(
     [k, v]: [string, Argument<any>],
     index: number,
@@ -474,14 +578,28 @@ function getArgRepresentation(
 
     let str = `--${k}`;
     if (v.REQUIRES_VALUE) {
-        str += " <...>";
+        str += " " + renderArg(v);
         if (!v.default) {
             return `${str}`;
         }
     }
     return `[${str}]?`;
+}
 
+function getArgRepresentationMD(
+    [k, v]: [string, Argument<any>],
+    index: number,
+    array: [string, Argument<any>][]
+): string {
 
+    let str = `**--${k}**`;
+    if (v.REQUIRES_VALUE || v.accepted_values) {
+        str += " " + renderArgMD(v);
+        if (!v.default) {
+            return `${str}`;
+        }
+    }
+    return `[${str}]?`;
 }
 
 function accepted_values_to_string(v) {
@@ -498,9 +616,24 @@ function accepted_values_to_string(v) {
             return value(v);
     }
 }
-function createHelpColumn(cb: CommandBlock | Argument<any>, column_size: number = 76): string {
+
+function accepted_values_to_stringMD(v) {
+    const map = [
+        [v => (v === Number), () => "num: [0-9]+"],
+        [v => (v === URI), () => "File Path"],
+        [v => (v === String), () => "\"*\""],
+        [v => (v instanceof String), v => `"${v}"`],
+        [_ => true, () => `<span style="color:green">${v.toString()}</span>`],
+    ];
+
+    for (const [evaluator, value] of map) {
+        if (evaluator(v))
+            return value(v);
+    }
+}
+function createHelpColumn(cb: CommandBlock<any> | Argument<any>, column_size: number = 76): string {
 
     if (!cb.help_brief) return "";
 
-    return limitColumnLength(cb.help_brief.replace(/(?<=[^\n])\n(?=[^\n])/g, " ").trim(), column_size);
+    return limitColumnLength(cb.help_brief.split("\n").map(s => s.trim()).join("\n").replace(/(?<=[^\n])\n(?=[^\n])/g, " ").trim(), column_size);
 }

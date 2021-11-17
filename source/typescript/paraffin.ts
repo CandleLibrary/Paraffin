@@ -36,7 +36,7 @@ export { PackageJSONData } from "./types/package.js";
 export { getPackageJsonObject, savePackageJSON } from "./utils/get_package_json.js";
 export {
     addCLIConfig, getProcessArgs, processCLIConfig
-} from "./utils/get_process_arguments.js";
+} from "./utils/command_processor.js";
 export * from "./utils/traverse_files.js";
 export { Argument };
 
@@ -60,11 +60,11 @@ export const args = {
             `
 Filter the level of messages printed to the console:
 
-+ verbose: All messages will be printed.
+- verbose: All messages will be printed.
 
-+ normal: All messages except verbose "debug" message will be printed.
+- normal (default): All messages except "debug" messages will be printed.
 
-+ errors: Only "warn", "error", and "critical" messages will be printed.
+- errors: Only "warn", "error", and "critical" messages will be printed.
 `,
         accepted_values: ["verbose", "normal", "errors"],
         default: <any>"normal",
