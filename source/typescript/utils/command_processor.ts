@@ -219,7 +219,13 @@ export function addCLIConfig<T, D = any>(...commands: (string | Argument<T, D>)[
 
 
 const showHelpDoc = console.log;
-export async function processCLIConfig(process_arguments: string[] = process.argv.slice(2)): Promise<string> {
+export async function processCLIConfig(
+    /**
+     * Automatically end process if an error is captured 
+     */
+    AUTO_EXIT_ON_FAILURE: boolean = true,
+    process_arguments: string[] = process.argv.slice(2)
+): Promise<string> {
     try {
         let command_block: CommandBlock<any> = configs;
 
@@ -315,8 +321,9 @@ export async function processCLIConfig(process_arguments: string[] = process.arg
 
         if (e && e instanceof Error)
             console.error(e.stack);
-
-        process.exit(-1);
+        if (AUTO_EXIT_ON_FAILURE)
+            process.exit(-1);
+        else throw e;
     }
 }
 

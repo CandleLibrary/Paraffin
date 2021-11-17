@@ -67,23 +67,25 @@ assert_group("Command Path Interface", sequence, () => {
     const handle =
         addCLIConfig("publish", {
             key: "test",
+            accepted_values: ["trees"],
             REQUIRES_VALUE: true,
         }),
 
         multi_handle = addCLIConfig("publish", "npm", {
             key: "test",
-            REQUIRES_VALUE: true,
+            accepted_values: [String],
+            REQUIRES_VALUE: false,
         }),
         throwing_handle = addCLIConfig("publish", "npm", {
             key: "throw",
-            REQUIRES_VALUE: true,
+            REQUIRES_VALUE: false,
             validate: (val) => "This argument cannot exist"
         });
 
     addCLIConfig("publish", {
         key: "publish",
         help_brief: "Test",
-    });
+    }).callback = () => { };
 
     addCLIConfig("publish", "npm", {
         key: "npm",
@@ -91,24 +93,23 @@ assert_group("Command Path Interface", sequence, () => {
     }).callback = () => {
         CALLED = true;
     };
+    await processCLIConfig(false, ["publish", "npm", "--test grass"]);
 
-    processCLIConfig(["publish", "--test trees"]);
+    await processCLIConfig(false, ["publish", "--test trees"]);
 
     assert("Handle is assigned value of argument that captures a value", handle.value == "trees");
 
-    processCLIConfig(["publish", "npm", "--test grass"]);
-
     assert("Handle is assigned value of argument that captures a value, multi command", multi_handle.value == "grass");
 
-    assert("Returns the command path that was taken: help path", processCLIConfig(["publish", "--help"]) == "publish::help");
+    assert("Returns the command path that was taken: help path", await processCLIConfig(false, ["publish", "--help"]) == "publish::help");
 
-    assert("Returns the command path that was taken: root help path", processCLIConfig(["--help"]) == "root::help");
+    assert("Returns the command path that was taken: root help path", await processCLIConfig(false, ["--help"]) == "root::help");
 
-    assert("Returns the command path that was taken: regular command path", processCLIConfig(["publish", "npm"]) == "publish/npm");
+    assert("Returns the command path that was taken: regular command path", await processCLIConfig(false, ["publish", "npm"]) == "publish/npm");
 
-    assert("Returns the command path that was taken: depth 2 help", processCLIConfig(["publish", "npm", "--help"]) == "publish/npm::help");
+    assert("Returns the command path that was taken: depth 2 help", await processCLIConfig(false, ["publish", "npm", "--help"]) == "publish/npm::help");
 
-    assert("Throws if a required value fails validation", !processCLIConfig(["publish", "npm", "--throw"]));
+    assert("Throws if a required value fails validation", !processCLIConfig(false, ["publish", "npm", "--throw"]));
 
     assert("Callback registered on command is called", CALLED == true);
 });
